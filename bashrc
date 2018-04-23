@@ -234,7 +234,13 @@ export PATH=$PATH:.
   }
   PS1='\[\e[;034m\]\u@\h:\w [\d] \e[5m\e[97m$(parse_git_branch)\e[25m\n\e[;034m>\e[39m'
   
-  neofetch --config ~/.neofetch.conf 2> /dev/null
+  if which nms &> /dev/null
+  then
+    neofetch --config ~/.neofetch.conf 2> /dev/null | nms -a
+  elif which neofetch &> /dev/null
+  then
+    neofetch --config ~/.neofetch.conf 2> /dev/null
+  fi
 
 
 # End of Fedora Bash
@@ -300,8 +306,13 @@ elif [[ "$(uname -a | grep ARCH)" != "" ]]; then
 
   # Allows for script.sh instead of ./script.sh
   export PATH=$PATH:.
-
-  neofetch --gtk_shorthand on --disable packages --refresh_rate on --os_arch off --cpu_speed off --cpu_cores logical --cpu_temp C 2> /dev/null
+  if which nms &> /dev/null
+  then
+    neofetch --gtk_shorthand on --disable packages --refresh_rate on --os_arch off --cpu_speed off --cpu_cores logical --cpu_temp C 2> /dev/null | nms -a
+  elif which neofetch &> /dev/null
+  then
+    neofetch --gtk_shorthand on --disable packages --refresh_rate on --os_arch off --cpu_speed off --cpu_cores logical --cpu_temp C 2> /dev/null
+  fi
 
 fi #End of Arch Bash
 
