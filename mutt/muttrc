@@ -39,5 +39,3 @@ color body brightblue black "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
 
 alternative_order text/plain text/enriched text/html
 auto_view text/html
-
-

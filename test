@@ -1,2 +1,4 @@
-hello
-world
+pushd ~/RCFiles/
+pwd
+popd
+pwd

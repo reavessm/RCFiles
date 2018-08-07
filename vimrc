@@ -113,6 +113,9 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
+autocmd FileType markdown set shiftwidth=4
+autocmd FileType markdown set softtabstop=4
+autocmd FileType markdown set tabstop=4
 
 " Textwrap, width based on filetype
 set wrap
@@ -135,6 +138,7 @@ map <F6> :setlocal spell! spelllang=en_us<CR>
 " Insert markdown specific stuff
 autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
 autocmd FileType markdown inoremap :a [](<++>)<Space><++><Esc>F[a
+autocmd FileType markdown inoremap <Space><Space> <Esc>f+ca<
 
 nmap <silent> <F8> <Plug>MarkdownPreview     " for normal mode
 imap <silent> <F8> <Plug>MarkdownPreview     " for insert mode
