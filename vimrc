@@ -1,5 +1,10 @@
 " ~/.vimrc created from vim.wikia.com/wiki/Example_vimrc
 
+autocmd BufNew,BufRead,BufNewFile *.cc set filetype=cc
+autocmd BufNew,BufRead,BufNewFile *.cc set syntax=cpp
+autocmd BufNew,BufRead,BufNewFile *.h set filetype=h
+autocmd BufNew,BufRead,BufNewFile *.h set syntax=cpp
+autocmd BufNew,BufRead,BufNewFile *.md set filetype=markdown
 
 " Set nocompatible to ward off unexpected things
 set nocompatible
@@ -119,7 +124,7 @@ autocmd FileType markdown set tabstop=4
 
 " Textwrap, width based on filetype
 set wrap
-set textwidth=158
+set textwidth=0
 autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,*.css,*.php setlocal textwidth=79
 
 
@@ -144,3 +149,11 @@ nmap <silent> <F8> <Plug>MarkdownPreview     " for normal mode
 imap <silent> <F8> <Plug>MarkdownPreview     " for insert mode
 nmap <silent> <F9> <Plug>StopMarkdownPreview " for normal mode
 imap <silent> <F9> <Plug>StopMarkdownPreview " for insert mode
+
+" Javadoc stuff
+autocmd FileType cc  map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR>:read !echo \* @returns <CR>:read !echo \*\/<CR>kkkA<Space>
+
+autocmd FileType cc  map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @file  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \* @brief<CR>:read !echo \*\/<CR>kA<Space>
+
+autocmd FileType h map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @headerfile  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \*\/<CR>
+

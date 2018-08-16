@@ -2,6 +2,8 @@
 # Stephen's Bash Runtime Configuration #
 ########################################
 
+[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/reavessm/.screenlayout/default.sh
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -60,9 +62,7 @@ set -o vi
 [[ `which tmux` && -z $TMUX ]] && tmux
 
 # Cool stuff on login
-[[ -f ~/.neofetch.conf ]] && neofetch --config ~/.neofetch.conf 2> /dev/null \
-  || neofetch --gtk_shorthand on --disable packages --refresh_rate on \
-  --os_arch off --cpu_speed off --cpu_cores logical --cpu_temp C 2> /dev/null
+neofetch --config .neofetch.conf 2> /dev/null
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options

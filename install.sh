@@ -2,7 +2,7 @@
 # This creates symlinks for these config files.  
 # We use symlinks to enable us to update with a simple git pull.
 
-pushd ~/RCFiles/
+pushd ~/.RCFiles/
 
 mkdir -p ~/.mutt
 
