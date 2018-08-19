@@ -31,6 +31,9 @@ Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTree' }
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 
+" File Completion
+Plug 'https://github.com/Valloric/YouCompleteMe'
+
 call plug#end()
 
 
@@ -156,4 +159,10 @@ autocmd FileType cc  map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR
 autocmd FileType cc  map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @file  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \* @brief<CR>:read !echo \*\/<CR>kA<Space>
 
 autocmd FileType h map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @headerfile  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \*\/<CR>
+
+" Copy to buffer
+vmap <C-c> :'<'>w! ~/.vimbuffer<CR>
+nmap <C-c> :'<'>w! ~/.vimbuffer<CR>
+" Paste from buffer
+map <C-v> :r ~/.vimbuffer<CR>
 
