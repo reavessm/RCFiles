@@ -1,4 +1,0 @@
-pushd ~/RCFiles/
-pwd
-popd
-pwd
