@@ -12,8 +12,9 @@ EDITOR=vim
 
 MY_OS=`awk -F "=" '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release`
 DEF_COLOR='\e[39m'
-DEF_BLINK='\e[5m\e[39m'
+BLINK='\e[5m'
 RES='\e[0m'
+GIT='\e[0m'
 
 # Source aliases and functions
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
@@ -43,11 +44,31 @@ parse_git_branch() {
 error_test() {
   [[ $? != "0" ]] && ERR=' \e[91mX' || ERR=''
 }
+  
+git_color() {
+  local git_status=`git status 2> /dev/null`
+  if [[ "`echo $git_status | grep 'Your branch is ahead'`" ]]
+  then
+    GIT='\e[91m' # Light Red
+  elif [[ "`echo $git_status | grep 'Changes to be committed:'`" ]]
+  then
+    GIT='\e[92m' # Light Green
+  elif [[ "`echo $git_status | grep 'Untracked files:'`" ]]
+  then
+    GIT='\e[96m' # Cyan
+  elif [[ "`echo $git_status | grep 'nothing to commit'`" ]]
+  then
+    GIT='\e[97m' # White 
+  else
+    GIT='\e[0m'
+  fi
+}
 
 set_bash_prompt() {
   error_test
   parse_git_branch
-  PS1="$OS_COLOR\u@\h:\w[\d]$DEF_BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  git_color
+  PS1="$OS_COLOR\u@\h:\w[\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 }
 
 PROMPT_COMMAND=set_bash_prompt
@@ -62,7 +83,7 @@ set -o vi
 [[ `which tmux` && -z $TMUX ]] && tmux
 
 # Cool stuff on login
-neofetch --config .neofetch.conf 2> /dev/null
+/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
