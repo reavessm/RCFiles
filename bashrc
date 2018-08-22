@@ -53,7 +53,7 @@ git_color() {
   elif [[ "`echo $git_status | grep 'Changes to be committed:'`" ]]
   then
     GIT='\e[92m' # Light Green
-  elif [[ "`echo $git_status | grep 'Untracked files:'`" ]]
+  elif [[ "`echo $git_status | grep 'Untracked files:'`" || "`echo $git_status | grep 'Changes not staged for commit:'`" ]]
   then
     GIT='\e[96m' # Cyan
   elif [[ "`echo $git_status | grep 'nothing to commit'`" ]]
