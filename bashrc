@@ -68,7 +68,7 @@ set_bash_prompt() {
   error_test
   parse_git_branch
   git_color
-  PS1="$OS_COLOR\u@\h:\w[\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  PS1="$OS_COLOR\u@\h:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 }
 
 PROMPT_COMMAND=set_bash_prompt
@@ -83,7 +83,7 @@ set -o vi
 [[ `which tmux` && -z $TMUX ]] && tmux
 
 # Cool stuff on login
-/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
+#/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
