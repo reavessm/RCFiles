@@ -31,7 +31,10 @@ case $MY_OS in
     OS_COLOR='\e[31m'  # Red
     ;;
   *BSD)
-    OS_COLOR='\e[33m'  # Yellow
+    OS_COLOR='\e[93m'  # Light Yellow
+    ;;
+  *SUSE*)
+    OS_COLOR='\e[95m'  # Light Magenta
     ;;
   *) ;;
 esac
