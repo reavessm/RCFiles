@@ -31,7 +31,10 @@ case $MY_OS in
     OS_COLOR='\e[31m'  # Red
     ;;
   *BSD)
-    OS_COLOR='\e[33m'  # Yellow
+    OS_COLOR='\e[93m'  # Light Yellow
+    ;;
+  *SUSE*)
+    OS_COLOR='\e[95m'  # Light Magenta
     ;;
   *) ;;
 esac
@@ -50,10 +53,13 @@ git_color() {
   if [[ "`echo $git_status | grep 'Your branch is ahead'`" ]]
   then
     GIT='\e[91m' # Light Red
+  elif [[ "`echo $git_status | grep 'Your branch is behind'`" ]]
+  then
+    GIT='\e[91m X'
   elif [[ "`echo $git_status | grep 'Changes to be committed:'`" ]]
   then
     GIT='\e[92m' # Light Green
-  elif [[ "`echo $git_status | grep 'Untracked files:'`" || "`echo $git_status | grep 'Changes not staged for commit:'`" ]]
+  elif [[ "`echo $git_status | grep 'Untracked files:'`" || "`echo $git_status | grep 'Changes not staged for commit:'`" || "`echo $git_status | grep 'modified'`" ]]
   then
     GIT='\e[96m' # Cyan
   elif [[ "`echo $git_status | grep 'nothing to commit'`" ]]
