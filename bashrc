@@ -25,7 +25,7 @@ case $MY_OS in
     OS_COLOR='\e[032m' # Green
     ;;
   Fedora)
-    OS_COLOR='\e[034m' # Blue
+    OS_COLOR='\e[094m' # Blue
     ;;
   Arch)
     OS_COLOR='\e[31m'  # Red
