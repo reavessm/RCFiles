@@ -34,7 +34,12 @@ Plug 'iamcco/markdown-preview.vim'
 " File Completion
 Plug 'https://github.com/Valloric/YouCompleteMe'
 
+" Colors
+Plug 'flazz/vim-colorschemes'
+
 call plug#end()
+
+let g:ycm_global_ycm_extra_conf = "~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
 
 
 
@@ -124,6 +129,7 @@ set expandtab
 autocmd FileType markdown set shiftwidth=4
 autocmd FileType markdown set softtabstop=4
 autocmd FileType markdown set tabstop=4
+autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
 
 " Textwrap, width based on filetype
 set wrap
@@ -137,11 +143,36 @@ autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,
 " Color Scheme
 set t_Co=256
 set background=dark
+"silent! colorscheme monokai
+"silent! colorscheme Revolution
+"silent! colorscheme Tomorrow-Night
+"silent! colorscheme antares
+"silent! colorscheme asu1dark
+"silent! colorscheme behelit
+"silent! colorscheme blaquemagick
+"silent! colorscheme blueprint
+"silent! colorscheme cabin
+"silent! colorscheme detailed
+"silent! colorscheme dracula
+"silent! colorscheme dual
+"silent! colorscheme elda
+"silent! colorscheme hybrid
+"silent! colorscheme luna-term
+"silent! colorscheme radicalgoodspeed
+"silent! colorscheme skittles_dark
+"silent! colorscheme up
+"silent! colorscheme vj
+silent! colorscheme random
+
 
 "-------------------------------------------------------------------------------
 " Custom Keybindings
 
 map <F6> :setlocal spell! spelllang=en_us<CR>
+
+inoremap {{ {<CR>}<Esc>ko
+inoremap (( ()<++><Esc>F)i
+inoremap <Space><Tab> <Esc>f+ca<
 
 " Insert markdown specific stuff
 autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
@@ -166,4 +197,3 @@ vmap <C-c> :'<'>w! ~/.vimbuffer<CR>
 nmap <C-c> :'<'>w! ~/.vimbuffer<CR>
 " Paste from buffer
 map <C-v> :r ~/.vimbuffer<CR>
-
