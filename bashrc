@@ -11,6 +11,7 @@ VISUAL=vim
 EDITOR=vim
 
 MY_OS=`awk -F "=" '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release`
+[ -z "$MY_OS" ] && MY_OS=`uname`
 DEF_COLOR='\e[39m'
 BLINK='\e[5m'
 RES='\e[0m'
