@@ -30,4 +30,5 @@ ln -s `pwd`/mutt/muttrc ~/.mutt/muttrc
 ln -s `pwd`/vimrc ~/.vimrc
 ln -s `pwd`/neofetch.conf ~/.neofetch.conf
 ln -s `pwd`/vim ~/.vim
+ln -s `pwd`/signature ~/.mutt/signature
 popd
