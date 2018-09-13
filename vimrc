@@ -37,9 +37,66 @@ Plug 'https://github.com/Valloric/YouCompleteMe'
 " Colors
 Plug 'flazz/vim-colorschemes'
 
+" Tab Completion
+Plug 'ervandew/supertab'
+
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" Fuzzy Finder
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+
+" Lineup things
+" Useful for markdown
+Plug 'godlygeek/tabular'
+
+" Comment blocks
+Plug 'tomtom/tcomment_vim'
+
+" Test Suites
+Plug 'janko-m/vim-test'
+
+" Icons
+Plug 'ryanoasis/vim-devicons'
+
+" Status Line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Grammer check
+Plug 'vim-scripts/LanguageTool'
+
+" Git
+Plug 'gregsexton/gitv', {'on': ['Gitv']}
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Emojis
+Plug 'junegunn/vim-emoji'
+
+" Comment out blocks
+Plug 'scrooloose/nerdcommenter'
+
 call plug#end()
 
-let g:ycm_global_ycm_extra_conf = "~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+let g:SuperTabeDefaultCompletionType="context"
+let g:UltiSnipsExpandTrigger="<F2>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:gitgutter_highlight_lines=0
+let g:gitgutter_sign_added=emoji#for('small_blue_diamond')
+let g:gitgutter_sign_modified=emoji#for('small_orange_diamond')
+let g:gitgutter_sign_removed=emoji#for('small_red_triangle')
+let g:gitgutter_sign_modified_removed=emoji#for('collision')
+let g:NERDSpaceDelims=1
+let g:NERDCompactSexyComs=0
+let g:NERDCommentEmptyLines=1
+let g:NERDTrimTrailingWhitespace=1
+
+set completefunc=emoji#complete
 
 
 
@@ -145,7 +202,7 @@ set t_Co=256
 set background=dark
 "silent! colorscheme monokai
 "silent! colorscheme Revolution
-"silent! colorscheme Tomorrow-Night
+silent! colorscheme Tomorrow-Night
 "silent! colorscheme antares
 "silent! colorscheme asu1dark
 "silent! colorscheme behelit
@@ -162,8 +219,9 @@ set background=dark
 "silent! colorscheme skittles_dark
 "silent! colorscheme up
 "silent! colorscheme vj
-silent! colorscheme random
+"silent! colorscheme random
 
+let g:airline_theme='bubblegum'
 
 "-------------------------------------------------------------------------------
 " Custom Keybindings
@@ -196,4 +254,16 @@ autocmd FileType h map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR
 vmap <C-c> :'<'>w! ~/.vimbuffer<CR>
 nmap <C-c> :'<'>w! ~/.vimbuffer<CR>
 " Paste from buffer
-map <C-v> :r ~/.vimbuffer<CR>
+map <C-v> :~/.vimbuffer<CR>
+
+" git add current file
+nnoremap ga :silent Git add %<CR>
+
+set updatetime=100
+
+" Move lines up and down
+nnoremap <c-j> ddp 
+nnoremap <c-k> ddkP
+
+" Line up eqaul signs ('=')
+vnoremap <c-t> :'<,'>Tabularize /=<CR>
