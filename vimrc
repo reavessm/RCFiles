@@ -59,7 +59,9 @@ Plug 'tomtom/tcomment_vim'
 Plug 'janko-m/vim-test'
 
 " Icons
+Plug 'ryanoasis/nerd-fonts'
 Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Status Line
 Plug 'vim-airline/vim-airline'
@@ -87,10 +89,10 @@ let g:UltiSnipsExpandTrigger="<F2>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:gitgutter_highlight_lines=0
-let g:gitgutter_sign_added=emoji#for('small_blue_diamond')
-let g:gitgutter_sign_modified=emoji#for('small_orange_diamond')
-let g:gitgutter_sign_removed=emoji#for('small_red_triangle')
-let g:gitgutter_sign_modified_removed=emoji#for('collision')
+"let g:gitgutter_sign_added=emoji#for('small_blue_diamond')
+"let g:gitgutter_sign_modified=emoji#for('small_orange_diamond')
+"let g:gitgutter_sign_removed=emoji#for('small_red_triangle')
+"let g:gitgutter_sign_modified_removed=emoji#for('collision')
 let g:NERDSpaceDelims=1
 let g:NERDCompactSexyComs=0
 let g:NERDCommentEmptyLines=1
@@ -230,7 +232,8 @@ map <F6> :setlocal spell! spelllang=en_us<CR>
 
 inoremap {{ {<CR>}<Esc>ko
 inoremap (( ()<++><Esc>F)i
-inoremap <Space><Tab> <Esc>f+ca<
+"inoremap <Space><Tab> <Esc>f+ca<
+inoremap <c-l> <Esc>f+ca<
 
 " Insert markdown specific stuff
 autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
@@ -244,9 +247,9 @@ nmap <silent> <F9> <Plug>StopMarkdownPreview " for normal mode
 imap <silent> <F9> <Plug>StopMarkdownPreview " for insert mode
 
 " Javadoc stuff
-autocmd FileType cc  map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR>:read !echo \* @returns \<++\><CR>:read !echo \* @brief \<++\><CR>:read !echo \* @detail \<++\><CR>:read !echo \*\/<CR>j2f:lviwykkkkkp0li<Space><Esc>jA<Space>
+autocmd FileType cc map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR>:read !echo \* @returns \<++\><CR>:read !echo \* @brief \<++\><CR>:read !echo \* @detail \<++\><CR>:read !echo \*\/<CR>j2f:lviwykkkkkp0li<Space><Esc>jA<Space>
 
-autocmd FileType cc  map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @file  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \* @brief<CR>:read !echo \*\/<CR>kA<Space>
+autocmd FileType cc map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @file  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \* @brief<CR>:read !echo \*\/<CR>kA<Space>
 
 autocmd FileType h map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @headerfile  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \*\/<CR>
 
@@ -254,7 +257,7 @@ autocmd FileType h map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR
 vmap <C-c> :'<'>w! ~/.vimbuffer<CR>
 nmap <C-c> :'<'>w! ~/.vimbuffer<CR>
 " Paste from buffer
-map <C-v> :~/.vimbuffer<CR>
+map <C-v> :read !cat ~/.vimbuffer<CR>
 
 " git add current file
 nnoremap ga :silent Git add %<CR>
