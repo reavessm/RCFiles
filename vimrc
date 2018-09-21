@@ -97,6 +97,7 @@ let g:NERDSpaceDelims=1
 let g:NERDCompactSexyComs=0
 let g:NERDCommentEmptyLines=1
 let g:NERDTrimTrailingWhitespace=1
+let NERDTreeShowHidden=1
 
 set completefunc=emoji#complete
 
