@@ -31,4 +31,10 @@ ln -s `pwd`/vimrc ~/.vimrc
 ln -s `pwd`/neofetch.conf ~/.neofetch.conf
 ln -s `pwd`/vim ~/.vim
 ln -s `pwd`/signature ~/.mutt/signature
+
+vim +PlugClean +PlugInstall +PlugUpdate +qa
+
+echo "extends markdown" >  ~/.vim/plugInDir/vim-snippets/UltiSnips/md.snippets
+echo "extends cpp" > ~/.vim/plugInDir/vim-snippets/UltiSnips/cc.snippets
+
 popd
