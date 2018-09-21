@@ -81,7 +81,7 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Allows script.sh instead of ./script.sh
-export PATH=$PATH:.
+export PATH=.:$PATH
 
 # vi mode
 set -o vi
