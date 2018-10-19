@@ -52,9 +52,10 @@ if [[ "$(uname -a | grep ARCH)" != "" ]]; then
 fi
 
 alias vi='vim'
+alias ls='ls --color --group-directories-first'
 alias lsl='ls -l'
 alias lsa='ls -a'
-alias all='ls -gAhs --color | more'
+alias all='ls -gAhs | more'
 alias cdu='cd ..'
 alias pretty='fortune | cowsay | lolcat'
 alias sl='sl -aFe'

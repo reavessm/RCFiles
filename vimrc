@@ -31,6 +31,9 @@ Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTree' }
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 
+" LaTeX Previewer
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
 " File Completion
 Plug 'https://github.com/Valloric/YouCompleteMe'
 

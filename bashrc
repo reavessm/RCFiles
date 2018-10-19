@@ -86,6 +86,9 @@ export PATH=$PATH:.
 # vi mode
 set -o vi
 
+# Allows you to cd by just typing the directory name
+shopt -s autocd
+
 # Run tmux only if tmux is installed and not currently running
 [[ `which tmux` && -z $TMUX ]] && tmux
 
