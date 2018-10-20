@@ -37,6 +37,9 @@ case $MY_OS in
   *SUSE*)
     OS_COLOR='\e[95m'  # Light Magenta
     ;;
+  Gentoo)
+    OS_COLOR='\e[96m'  # Light Cyan
+    ;;
   *) ;;
 esac
 
@@ -115,7 +118,7 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
