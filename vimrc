@@ -84,6 +84,8 @@ Plug 'junegunn/vim-emoji'
 " Comment out blocks
 Plug 'scrooloose/nerdcommenter'
 
+Plug 'reavessm/vimtodo'
+
 call plug#end()
 
 let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
@@ -103,8 +105,6 @@ let g:NERDTrimTrailingWhitespace=1
 let NERDTreeShowHidden=1
 
 set completefunc=emoji#complete
-
-
 
 "------------------------------------------------------------------------------
 " MUST HAVES
