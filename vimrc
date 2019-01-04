@@ -274,3 +274,7 @@ nnoremap <c-k> ddkP
 
 " Line up eqaul signs ('=')
 vnoremap <c-t> :'<,'>Tabularize /=<CR>
+
+" Minimize
+vnoremap <c-m> :'<,'>join<CR>
+nnoremap <c-m> :0,$join<CR>
