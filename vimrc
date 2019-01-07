@@ -84,6 +84,7 @@ Plug 'junegunn/vim-emoji'
 " Comment out blocks
 Plug 'scrooloose/nerdcommenter'
 
+" Simple todo list in side bar
 Plug 'reavessm/vimtodo'
 
 call plug#end()
@@ -278,3 +279,8 @@ vnoremap <c-t> :'<,'>Tabularize /=<CR>
 " Minimize
 vnoremap <c-m> :'<,'>join<CR>
 nnoremap <c-m> :0,$join<CR>
+
+" Query-based code snippets from Stack Overflow
+vnoremap <c-h> :'<,'>!howdoi `cat`<CR>
+nnoremap <c-h> V:'<,'>!howdoi `cat`<CR>
+inoremap <c-h> <Esc>V:'<,'>!howdoi `cat`<CR>
