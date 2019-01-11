@@ -82,7 +82,7 @@ alias newGit='git init'
 alias pushGit='git push origin master'
 alias pdftotext='pdftotext -layout'
 alias findLargestFiles='find -type f -exec du -Sh {} + | sort -rh | less '
-alias mdtopdf='function _mdtopdf(){ pandoc -V geometry:margin=1in -f markdown "$1" -o "$(echo $1 | cut -d "." -f1 )".pdf; };_mdtopdf'
+#alias mdtopdf='function _mdtopdf(){ pandoc -V geometry:margin=1in -f markdown "$1" -o "$(echo $1 | cut -d "." -f1 )".pdf; };_mdtopdf'
 alias showRecentFolder='ls -lt | less'
 alias view='vim -R'
 alias compile='g++ -O3 -Wall -std=c++11'
@@ -110,3 +110,4 @@ then
   alias newmake='cp ~/.makefile ./makefile'
 fi
 
+alias gp='while (! git push); do sleep 1; done'
