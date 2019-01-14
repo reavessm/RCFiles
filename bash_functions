@@ -39,3 +39,17 @@ fi
 curl ipinfo.io/`dig +short "$1"`
 echo # Needed to add blank line
 }
+
+function sshmount() {
+  # Must have one additional argument
+  if [[ "$#" != "1" ]]
+  then
+    echo "Usage: sshmount <remoteHost>"
+  fi
+  # Make sure dir exists
+  mkdir -p /mnt/sshmount
+  # dmenu prompt to select which drive to mount and auto mount it
+  sudo mount `ls /dev/sd* | dmenu` /mnt/sshmount
+  # Connect to remote machine and mount local drive
+  ssh $1 "mkdir -p /mnt/sshmount && sshfs kvm:/mnt/sshmount /mnt/sshmount && bash"
+}
