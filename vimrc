@@ -84,7 +84,6 @@ Plug 'junegunn/vim-emoji'
 " Comment out blocks
 Plug 'scrooloose/nerdcommenter'
 
-<<<<<<< HEAD
 " Center text
 Plug 'junegunn/goyo.vim'
 
@@ -96,9 +95,7 @@ Plug 'terryma/vim-multiple-cursors'
 
 Plug 'vim-scripts/Conque-GDB'
 
-=======
 " Simple todo list in side bar
->>>>>>> d3c10a5408f47ede1116fd640a669d9b42f99553
 Plug 'reavessm/vimtodo'
 
 call plug#end()
