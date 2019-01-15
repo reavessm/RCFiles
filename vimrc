@@ -84,6 +84,7 @@ Plug 'junegunn/vim-emoji'
 " Comment out blocks
 Plug 'scrooloose/nerdcommenter'
 
+<<<<<<< HEAD
 " Center text
 Plug 'junegunn/goyo.vim'
 
@@ -95,6 +96,9 @@ Plug 'terryma/vim-multiple-cursors'
 
 Plug 'vim-scripts/Conque-GDB'
 
+=======
+" Simple todo list in side bar
+>>>>>>> d3c10a5408f47ede1116fd640a669d9b42f99553
 Plug 'reavessm/vimtodo'
 
 call plug#end()
@@ -119,8 +123,6 @@ let g:ConqueTerm_CloseOnEnd = 1 " Close Conque when program ends
 let g:ConqueTerm_StartMessage = 0
 
 set completefunc=emoji#complete
-
-
 
 "------------------------------------------------------------------------------
 " MUST HAVES
@@ -297,3 +299,12 @@ command! -nargs=* RunSilent
       \ | execute ':redraw!'
 nnoremap <c-p> :RunSilent pandoc -o /tmp/vim-pandoc-out.pdf %<CR>
 nnoremap <c-z> :RunSilent pdfToggle  /tmp/vim-pandoc-out.pdf &<CR>
+
+" Minimize
+vnoremap <c-m> :'<,'>join<CR>
+nnoremap <c-m> :0,$join<CR>
+
+" Query-based code snippets from Stack Overflow
+vnoremap <c-h> :'<,'>!howdoi `cat`<CR>
+nnoremap <c-h> V:'<,'>!howdoi `cat`<CR>
+inoremap <c-h> <Esc>V:'<,'>!howdoi `cat`<CR>
