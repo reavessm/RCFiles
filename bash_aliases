@@ -5,11 +5,6 @@
 # Make Sure to source this in ~/.bashrc
 ###############################################################################
 
-# Variables
-Leviathan=XXX.XXX.XXX.XXX
-Lab=XXX.XXX.XXX.XXX
-Laptop=XXX.XXX.XXX.XXX
-LaptopWifi=XXX.XXX.XXX.XXX
 Username=$(whoami)
 
 
