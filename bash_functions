@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function reader() {
+reader() {
   if [ $# -eq 0 ]
     then
       echo "No arguments supplied"
@@ -21,15 +21,15 @@ function reader() {
   view $DIR/allinone.txt
 }
 
-function mvcd() {
+mvcd() {
   mv $1 $2 && cd $2;
 }
 
-function mdtopdf() {
+mdtopdf() {
   pandoc -V geometry:margin=1in -f markdown "$1" -o "`echo $1 | cut -d "." -f1`".pdf
 }
 
-function geolocate() {
+geolocate() {
 if [[ "$#" != "1" ]]
 then
   echo "Usage: geolocate <domain.ext>" 
@@ -40,7 +40,7 @@ curl ipinfo.io/`dig +short "$1"`
 echo # Needed to add blank line
 }
 
-function sshmount() {
+sshmount() {
   # Must have one additional argument
   if [[ "$#" != "1" ]]
   then
