@@ -29,7 +29,7 @@ Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTree' }
 
 " Markdown Previewer
 Plug 'iamcco/mathjax-support-for-mkdp'
-Plug 'iamcco/markdown-preview.vim'
+"Plug 'iamcco/markdown-preview.vim'
 
 " LaTeX Previewer
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
@@ -84,6 +84,17 @@ Plug 'junegunn/vim-emoji'
 " Comment out blocks
 Plug 'scrooloose/nerdcommenter'
 
+" Center text
+Plug 'junegunn/goyo.vim'
+
+" i3 syntax
+Plug 'PotatoesMaster/i3-vim-syntax'
+
+" Multiple cursors
+Plug 'terryma/vim-multiple-cursors'
+
+Plug 'vim-scripts/Conque-GDB'
+
 " Simple todo list in side bar
 Plug 'reavessm/vimtodo'
 
@@ -107,6 +118,9 @@ let g:NERDCompactSexyComs=0
 let g:NERDCommentEmptyLines=1
 let g:NERDTrimTrailingWhitespace=1
 let NERDTreeShowHidden=1
+let g:ConqueTerm_Color = 2 " 1 -> Strip color after 200 lines, 2 -> always with color
+let g:ConqueTerm_CloseOnEnd = 1 " Close Conque when program ends
+let g:ConqueTerm_StartMessage = 0
 
 set completefunc=emoji#complete
 
@@ -240,14 +254,15 @@ map <F6> :setlocal spell! spelllang=en_us<CR>
 
 inoremap {{ {<CR>}<Esc>ko
 inoremap (( ()<++><Esc>F)i
-"inoremap <Space><Tab> <Esc>f+ca<
-inoremap <c-l> <Esc>f+ca<
+inoremap <c-l> <Esc>/<++><CR>:noh<CR>ca<
 
 " Insert markdown specific stuff
 autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
+autocmd FileType markdown inoremap <c-i> <Esc>Bi![<Esc>Ea]()<Esc>i
 autocmd FileType markdown inoremap :a [](<++>)<Space><++><Esc>F[a
-autocmd FileType markdown inoremap <Space><Esc> <Esc>f+ca<
-autocmd FileType cc inoremap <Space><Esc> <Esc>jf+ca<
+autocmd FileType markdown inoremap <c-a> <Esc>Bi[<Esc>Ea]()<Esc>i
+"autocmd FileType markdown inoremap <Space><Esc> <Esc>f+ca<
+"autocmd FileType cc inoremap <Space><Esc> <Esc>j0f+ca<
 
 nmap <silent> <F8> <Plug>MarkdownPreview     " for normal mode
 imap <silent> <F8> <Plug>MarkdownPreview     " for insert mode
@@ -278,6 +293,12 @@ nnoremap <c-k> ddkP
 
 " Line up eqaul signs ('=')
 vnoremap <c-t> :'<,'>Tabularize /=<CR>
+
+command! -nargs=* RunSilent
+      \ | execute ':silent !'.'<args>'
+      \ | execute ':redraw!'
+nnoremap <c-p> :RunSilent pandoc -o /tmp/vim-pandoc-out.pdf %<CR>
+nnoremap <c-z> :RunSilent pdfToggle  /tmp/vim-pandoc-out.pdf &<CR>
 
 " Minimize
 vnoremap <c-m> :'<,'>join<CR>

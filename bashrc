@@ -2,7 +2,7 @@
 # Stephen's Bash Runtime Configuration #
 ########################################
 
-[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/reavessm/.screenlayout/default.sh
+#[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/reavessm/.screenlayout/default.sh
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -96,7 +96,7 @@ shopt -s autocd
 [[ `which tmux` && -z $TMUX ]] && tmux
 
 # Cool stuff on login
-#/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
+/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
