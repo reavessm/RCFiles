@@ -53,3 +53,27 @@ sshmount() {
   # Connect to remote machine and mount local drive
   ssh $1 "mkdir -p /mnt/sshmount && sshfs kvm:/mnt/sshmount /mnt/sshmount && bash"
 }
+
+htmldiff() {
+  if [[ $# != 2 ]]
+  then
+    echo "Usage: htmldiff <file> <file>"
+    return 1
+  fi
+  vimdiff -c TOhtml -c "w $1.$2.diff.html | qall\!" $1 $2 &> /dev/null
+  vivaldi $1.$2.diff.html
+}
+
+# Handle WSL specific functions
+if [[ `uname -r | grep Microsoft` ]]
+then
+  linuxfs='C:\Users\sreaves\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs'
+  vivaldi() {
+    /mnt/c/Users/sreaves/AppData/Local/Vivaldi/Application/vivaldi.exe $linuxfs`l2w $(pwd)`\\`l2w $1`
+  }
+
+  # Converts linux slashes to windoze slashes
+  l2w() {
+    echo $1 | sed 's#\/#\\#g'
+  }
+fi
