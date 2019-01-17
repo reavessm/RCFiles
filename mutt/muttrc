@@ -40,7 +40,7 @@ color body brightblue black "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
 alternative_order text/plain text/enriched text/html
 auto_view text/html
 
-macro compose \e5 "F pandoc -s -f markdown -t html \ny^T^Utext/html"
+macro compose H "F pandoc -s -f markdown -t html \ny^T^Utext/html"
 set wait_key = no
 
 set signature = "~/.mutt/signature"
