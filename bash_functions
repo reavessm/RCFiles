@@ -60,8 +60,18 @@ htmldiff() {
     echo "Usage: htmldiff <file> <file>"
     return 1
   fi
-  vimdiff -c TOhtml -c "w $1.$2.diff.html | qall\!" $1 $2 &> /dev/null
-  vivaldi $1.$2.diff.html
+  vimdiff +TOhtml +xa! $1 $2 #&> /dev/null
+  vivaldi Diff.html
+}
+
+htmlvim() {
+  if [[ $# != 1 ]]
+  then
+    echo "Usage: htmlvim <file>"
+    return 1
+  fi
+  vim +TOhtml +xa $1
+  vivaldi "$1.html"
 }
 
 # Handle WSL specific functions
