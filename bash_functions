@@ -64,6 +64,33 @@ htmldiff() {
   vivaldi $1.$2.diff.html
 }
 
+virt() {
+  echo This has not been implemented yet.  Wait till the virt-server and KVM are installed
+  return 1
+  #if [[ $# != 1 ]]
+  #then
+    #echo "Usage: virt <vm>"
+    #return 1
+  #fi
+  #ssh -X kvm virt-viwer $1
+}
+
+kubemanage() {
+  echo This has not been implemented yet.  Wait until Kubernetes is installed on hydra0
+  sudo scp reavessm@hydra0:/etc/kubernetes/admin.conf /etc/kubernetes/admin.conf
+  kubectl get nodes
+  #kubectl --kubeconfig /etc/kubernetes/admin.conf get nodes
+}
+
+kubejoin() {
+  echo This has not been implemented yet.  Wait until Kubernetes is installed on hydra0
+  return 1
+  which kubeadm || sudo emerge -a kubeadm
+  kubeadm join --token `ssh reavessm@hydra0 "kubeadm token list"` --discovery-token-ca-cert-hash \
+    sha256:`ssh reavessm@hydra0 "openssl x509 -pubkey -in /etc/kubernetes/pki.ca.crt | openssl rsa -pubin \
+    -outform der 2> /dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"`
+}
+
 # Handle WSL specific functions
 if [[ `uname -r | grep Microsoft` ]]
 then
