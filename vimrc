@@ -5,6 +5,7 @@ autocmd BufNew,BufRead,BufNewFile *.cc set syntax=cpp
 autocmd BufNew,BufRead,BufNewFile *.h set filetype=h
 autocmd BufNew,BufRead,BufNewFile *.h set syntax=cpp
 autocmd BufNew,BufRead,BufNewFile *.md set filetype=markdown
+autocmd BufNew,BufRead,BufNewFile *.service set filetype=systemd
 
 " Set nocompatible to ward off unexpected things
 set nocompatible
@@ -100,6 +101,9 @@ Plug 'reavessm/vimtodo'
 
 " Git add, commit, and push all in one
 Plug 'peterhurford/send.vim'
+
+" Nginx syntax
+Plug 'chase/nginx.vim'
 
 call plug#end()
 
@@ -254,6 +258,7 @@ map <F6> :setlocal spell! spelllang=en_us<CR>
 
 inoremap {{ {<CR>}<Esc>ko
 inoremap (( ()<++><Esc>F)i
+inoremap [[ []<++><Esc>F]i
 inoremap <c-l> <Esc>/<++><CR>:noh<CR>ca<
 
 " Insert markdown specific stuff
@@ -301,10 +306,10 @@ nnoremap <c-p> :RunSilent pandoc -o /tmp/vim-pandoc-out.pdf %<CR>
 nnoremap <c-z> :RunSilent pdfToggle  /tmp/vim-pandoc-out.pdf &<CR>
 
 " Minimize
-vnoremap <c-m> :'<,'>join<CR>
-nnoremap <c-m> :0,$join<CR>
+"vnoremap <c-m> :'<,'>join<CR>
+"nnoremap <c-m> :0,$join<CR>
 
 " Query-based code snippets from Stack Overflow
-vnoremap <c-h> :'<,'>!howdoi `cat`<CR>
-nnoremap <c-h> V:'<,'>!howdoi `cat`<CR>
-inoremap <c-h> <Esc>V:'<,'>!howdoi `cat`<CR>
+"vnoremap <c-h> :'<,'>!howdoi `cat`<CR>
+"nnoremap <c-h> V:'<,'>!howdoi `cat`<CR>
+"inoremap <c-h> <Esc>V:'<,'>!howdoi `cat`<CR>

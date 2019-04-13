@@ -9,6 +9,7 @@
 
 VISUAL=vim
 EDITOR=vim
+TERM=xterm
 
 MY_OS=`awk -F "=" '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release 2> /dev/null`
 [ -z "$MY_OS" ] && MY_OS=`uname`
@@ -18,8 +19,8 @@ RES='\e[0m'
 GIT='\e[0m'
 
 # Source aliases and functions
-[ -f ~/.bash_aliases ] && source ~/.bash_aliases
-[ -f ~/.bash_functions ] && source ~/.bash_functions
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+[ -f ~/.bash_functions ] && . ~/.bash_functions
 
 case $MY_OS in
   Ubuntu) 
@@ -93,7 +94,7 @@ set -o vi
 shopt -s autocd
 
 # Run tmux only if tmux is installed and not currently running
-[[ `which tmux` && -z $TMUX ]] && tmux
+[[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
 
 # Cool stuff on login
 /usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
