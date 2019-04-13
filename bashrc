@@ -1,5 +1,5 @@
-########################################
 # Stephen's Bash Runtime Configuration #
+########################################
 ########################################
 
 #[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/reavessm/.screenlayout/default.sh
@@ -89,6 +89,7 @@ export PATH=.:$PATH
 
 # vi mode
 set -o vi
+set editing-mode vi
 
 # Allows you to cd by just typing the directory name
 shopt -s autocd
