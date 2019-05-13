@@ -1,5 +1,5 @@
-# Stephen's Bash Runtime Configuration #
 ########################################
+# Stephen's Bash Runtime Configuration #
 ########################################
 
 #[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/reavessm/.screenlayout/default.sh
