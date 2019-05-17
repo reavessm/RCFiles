@@ -41,6 +41,9 @@ case $MY_OS in
   Gentoo)
     OS_COLOR='\e[96m'  # Light Cyan
     ;;
+  Alpine*)
+    OS_COLOR='\e[91m'
+    ;;
   *) ;;
 esac
 
