@@ -36,7 +36,7 @@ Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 " File Completion
-Plug 'https://github.com/Valloric/YouCompleteMe'
+"Plug 'https://github.com/Valloric/YouCompleteMe'
 
 " Colors
 Plug 'flazz/vim-colorschemes'
@@ -45,7 +45,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'ervandew/supertab'
 
 " Snippets
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Fuzzy Finder
