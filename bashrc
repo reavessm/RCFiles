@@ -58,6 +58,33 @@ case $MY_OS in
 esac
 # }}}
 
+parse_num_cpu() {
+# {{{
+  awk '/^processor/ {a=} END{print a}' /proc/cpuinfo 
+# }}}
+}
+
+parse_load_average() {
+  AVG=$(awk '{print $1}' /proc/loadavg)
+
+  if [[ ${AVG} < "1" ]]
+  then
+    # Gray
+    LOAD_COLOR='\033[1;30m'
+  elif [[ ${AVG} < "$(parse_num_cpu)" ]]
+  then
+    # Green
+    LOAD_COLOR='\033[40;1;32m'
+  elif [[ ${AVG} < $(( $(parse_num_cpu) * 2)) ]]
+  then
+    # Yellow
+    LOAD_COLOR='\033[1;33m'
+  else
+    # Red
+    LOAD_COLOR='\033[1;31m'
+  fi
+}
+
 parse_git_branch() {
 # {{{
   BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' | xargs`
@@ -100,7 +127,8 @@ set_bash_prompt() {
   error_test
   parse_git_branch
   git_color
-  PS1="$OS_COLOR\u@\h:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  parse_load_average
+  PS1="$LOAD_COLOR\u$OS_COLOR@\h:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
 } 
 
@@ -109,7 +137,7 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Run tmux only if tmux is installed and not currently running
-[[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
+#[[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
 
 # Cool stuff on login
 /usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
@@ -121,6 +149,10 @@ PROMPT_COMMAND=set_bash_prompt
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 # Allows script.sh instead of ./script.sh
 export PATH=.:$PATH
@@ -145,13 +177,12 @@ shopt -s hostcomplete
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
+
+# Include filenames beginning with a `.' in the results of filename expansion
+shopt -s dotglob
 # }}}
 
 # Make less more friendly for non-text input files, see lesspipe(1)
