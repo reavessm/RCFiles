@@ -16,6 +16,7 @@ TERM=xterm
 MY_OS=`awk -F "=" '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release 2> /dev/null`
 [ -z "$MY_OS" ] && MY_OS=`uname`
 DEF_COLOR='\e[39m'
+NORM_COLOR='\033[1;30m'
 BLINK='\e[5m'
 RES='\e[0m'
 GIT='\e[0m'
@@ -65,6 +66,7 @@ parse_num_cpu() {
 }
 
 parse_load_average() {
+# {{{
   AVG=$(awk '{print $1}' /proc/loadavg)
 
   if [[ ${AVG} < "1" ]]
@@ -83,6 +85,7 @@ parse_load_average() {
     # Red
     LOAD_COLOR='\033[1;31m'
   fi
+# }}}
 }
 
 parse_git_branch() {
@@ -128,7 +131,7 @@ set_bash_prompt() {
   parse_git_branch
   git_color
   parse_load_average
-  PS1="$LOAD_COLOR\u$OS_COLOR@\h:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  PS1="$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
 } 
 
