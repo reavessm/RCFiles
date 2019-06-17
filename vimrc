@@ -40,7 +40,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'ervandew/supertab'
 
 " Snippets
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Fuzzy Finder
