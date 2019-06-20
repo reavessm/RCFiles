@@ -59,12 +59,6 @@ case $MY_OS in
 esac
 # }}}
 
-parse_num_cpu() {
-# {{{
-  awk '/^processor/ {a=} END{print a}' /proc/cpuinfo 
-# }}}
-}
-
 parse_load_average() {
 # {{{
   AVG=$(awk '{print $1}' /proc/loadavg)
@@ -73,11 +67,11 @@ parse_load_average() {
   then
     # Gray
     LOAD_COLOR='\033[1;30m'
-  elif [[ ${AVG} < "$(parse_num_cpu)" ]]
+  elif [[ ${AVG} < "$(($(nproc)/4))" ]]
   then
     # Green
     LOAD_COLOR='\033[40;1;32m'
-  elif [[ ${AVG} < $(( $(parse_num_cpu) * 2)) ]]
+  elif [[ ${AVG} < $(( $(nproc)/2)) ]]
   then
     # Yellow
     LOAD_COLOR='\033[1;33m'
@@ -140,7 +134,7 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Run tmux only if tmux is installed and not currently running
-#[[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
+[[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
 
 # Cool stuff on login
 /usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
