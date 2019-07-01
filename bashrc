@@ -63,15 +63,15 @@ parse_load_average() {
 # {{{
   AVG=$(awk '{print $1}' /proc/loadavg)
 
-  if [[ ${AVG} < "1" ]]
+  if [[ ${AVG} < "$(( $(nproc) / 4 ))" ]]
   then
     # Gray
     LOAD_COLOR='\033[1;30m'
-  elif [[ ${AVG} < "$(($(nproc)/4))" ]]
+  elif [[ ${AVG} < "$(( $(nproc) / 2 ))" ]]
   then
     # Green
     LOAD_COLOR='\033[40;1;32m'
-  elif [[ ${AVG} < $(( $(nproc)/2)) ]]
+  elif [[ ${AVG} < $(( 3 * $(nproc) / 4)) ]]
   then
     # Yellow
     LOAD_COLOR='\033[1;33m'
