@@ -30,7 +30,7 @@ Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTree' }
 
 " Markdown Previewer
 Plug 'iamcco/mathjax-support-for-mkdp'
-"Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.vim'
 
 " LaTeX Previewer
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
@@ -108,6 +108,7 @@ Plug 'chase/nginx.vim'
 call plug#end()
 
 let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+let g:ycm_max_diagnostics_to_display=0
 let g:SuperTabeDefaultCompletionType="context"
 let g:UltiSnipsExpandTrigger="<F2>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
