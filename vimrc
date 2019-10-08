@@ -1,5 +1,9 @@
-" ~/.vimrc created from vim.wikia.com/wiki/Example_vimrc
+"""""""""""""""""""""""""""""""""""""""
+" Stephen's Vim Runtime Configuration "
+"""""""""""""""""""""""""""""""""""""""
 
+" Filetypes
+" {{{
 autocmd BufNew,BufRead,BufNewFile *.cc set filetype=cc
 autocmd BufNew,BufRead,BufNewFile *.cc set syntax=cpp
 autocmd BufNew,BufRead,BufNewFile *.h set filetype=h
@@ -7,19 +11,10 @@ autocmd BufNew,BufRead,BufNewFile *.h set syntax=cpp
 autocmd BufNew,BufRead,BufNewFile *.md set filetype=markdown
 autocmd BufNew,BufRead,BufNewFile *.service set filetype=systemd
 
-" Set nocompatible to ward off unexpected things
-set nocompatible
+" }}}
 
-" Attempts to determine the type of a file based on its name and possibly its
-" contents.  Use this to allow intelligent auto-indenting for each filetype,
-" and for plugins that are filetype specific
-filetype indent plugin on
-
-" Enable Syntax Highlighting
-syntax on
-
-"------------------------------------------------------------------------------
-"Plugins
+" Plugins
+" {{{
 
 call plug#begin('~/.vim/plugInDir')
 
@@ -36,7 +31,7 @@ Plug 'iamcco/markdown-preview.vim'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 " File Completion
-Plug 'https://github.com/Valloric/YouCompleteMe'
+"Plug 'https://github.com/Valloric/YouCompleteMe'
 
 " Colors
 Plug 'flazz/vim-colorschemes'
@@ -45,7 +40,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'ervandew/supertab'
 
 " Snippets
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Fuzzy Finder
@@ -129,9 +124,10 @@ let g:ConqueTerm_StartMessage = 0
 
 set completefunc=emoji#complete
 
-"------------------------------------------------------------------------------
-" MUST HAVES
+" }}}
 
+" MUST HAVES
+" {{{
 
 set hidden
 "set confirm
@@ -150,8 +146,21 @@ set incsearch
 " Increased security
 set nomodeline
 
-"------------------------------------------------------------------------------
+" Set nocompatible to ward off unexpected things
+set nocompatible
+
+" Attempts to determine the type of a file based on its name and possibly its
+" contents.  Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific
+filetype indent plugin on
+
+" Enable Syntax Highlighting
+syntax on
+
+" }}}
+
 "Usability Options
+" {{{
 
 
 " Use case insensitive search, except when using capital letters
@@ -204,9 +213,10 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-"------------------------------------------------------------------------------
+" }}}
+
 " Indentation Options
-"
+" {{{
 " Change tab to 2 spaces
 set shiftwidth=2
 set softtabstop=2
@@ -222,10 +232,13 @@ set wrap
 set textwidth=0
 autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,*.css,*.php setlocal textwidth=79
 
+" Folding
+set foldmethod=marker
 
-"------------------------------------------------------------------------------
+" }}}
+
 " Colors
-"
+" {{{
 " Color Scheme
 set t_Co=256
 set background=dark
@@ -251,9 +264,10 @@ silent! colorscheme Tomorrow-Night
 "silent! colorscheme random
 
 let g:airline_theme='bubblegum'
+" }}}
 
-"-------------------------------------------------------------------------------
 " Custom Keybindings
+" {{{
 
 map <F6> :setlocal spell! spelllang=en_us<CR>
 
@@ -314,3 +328,5 @@ nnoremap <c-z> :RunSilent pdfToggle  /tmp/vim-pandoc-out.pdf &<CR>
 "vnoremap <c-h> :'<,'>!howdoi `cat`<CR>
 "nnoremap <c-h> V:'<,'>!howdoi `cat`<CR>
 "inoremap <c-h> <Esc>V:'<,'>!howdoi `cat`<CR>
+
+" }}}

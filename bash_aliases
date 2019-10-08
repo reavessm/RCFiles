@@ -1,14 +1,14 @@
-###############################################################################
-# Custom aliases
-# Will Decide on aliases based on OS
-# Has Variables based for DHCP SSH stuff
-# Make Sure to source this in ~/.bashrc
-###############################################################################
+##########################################
+# Custom aliases                         #
+# Will Decide on aliases based on OS     #
+# Has Variables based for DHCP SSH stuff #
+# Make Sure to source this in ~/.bashrc  #
+##########################################
 
 Username=$(whoami)
 
-
 # Check for OS
+# {{{
 if [[ "$(uname -a | grep Ubuntu)" != "" ]]; then
 	alias install='sudo apt -y install'
 	alias updateUpgrade='sudo apt -y update && sudo apt -y upgrade'
@@ -45,7 +45,10 @@ if [[ "$(uname -a | grep ARCH)" != "" ]]; then
   alias silver-search='ag'
   alias shutdown='sudo -v && /home/'$Username'/.exit.sh && sudo shutdown 0'
 fi
+# }}}
 
+# Main Aliases
+# {{{
 alias vi='vim'
 alias ls='ls --color --group-directories-first'
 alias lsl='ls -l'
@@ -77,14 +80,16 @@ alias newGit='git init'
 alias pushGit='git push origin master'
 alias pdftotext='pdftotext -layout'
 alias findLargestFiles='find -type f -exec du -Sh {} + | sort -rh | less '
-#alias mdtopdf='function _mdtopdf(){ pandoc -V geometry:margin=1in -f markdown "$1" -o "$(echo $1 | cut -d "." -f1 )".pdf; };_mdtopdf'
 alias showRecentFolder='ls -lt | less'
 alias view='vim -R'
 alias compile='g++ -O3 -Wall -std=c++11'
 alias numOfCPU='lscpu | grep "CPU(s):" | grep -v NUMA | cut -d " " -f15'
 alias makeWithCPU='make -j numOfCPU'
+alias gp='while (! git push); do sleep 1; done'
+# }}}
 
 # C++ stuff
+# {{{
 if [ -f ~/.example.cc ]
 then
   alias newc='cp ~/.example.cc ./example.cc'
@@ -104,5 +109,4 @@ if [ -f ~/.makefile ]
 then 
   alias newmake='cp ~/.makefile ./makefile'
 fi
-
-alias gp='while (! git push); do sleep 1; done'
+# }}}
