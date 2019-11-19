@@ -60,4 +60,4 @@ nnoremap <c-j> ddp
 nnoremap <c-k> ddkP
 
 " Create extension stuffs
-nnoremap <c-e> I<CR><Esc>kI[ExtensionOf[<Esc>j0yiWk$paStr(<Esc>j$yiWk$pa)]<Esc>jIfinal <Esc>ggI<CR><Esc>kI
+nnoremap <c-e> I<CR><Esc>kI[ExtensionOf[tableStr(<Esc>j$yiWk$pa)]<Esc>jIfinal <Esc>ggI<CR><Esc>kI
