@@ -4,6 +4,9 @@
 " NOTE: Remove the '.txt' extension or this will not be sourced automatically "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Display line numbers to the left
+set number
+
 " Complete enclosures
 " Allman brace style
 inoremap {{ <CR>{<CR>}<Esc>ko
@@ -56,5 +59,5 @@ inoremap <c-h> <Esc>?<++><CR>:noh<CR>ca<
 nnoremap <c-j> ddp 
 nnoremap <c-k> ddkP
 
-" Display line numbers to the left
-set number
+" Create extension stuffs
+nnoremap <c-e> I<CR><Esc>kI[ExtensionOf[tableStr(<Esc>j$yiWk$pa)]<Esc>jIfinal <Esc>ggI<CR><Esc>kI
