@@ -20,6 +20,7 @@ NORM_COLOR='\033[1;30m'
 BLINK='\e[5m'
 RES='\e[0m'
 GIT='\e[0m'
+BACK='\e[49m'
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -66,18 +67,22 @@ parse_load_average() {
   if [[ ${AVG} < "$(( $(nproc) / 4 ))" ]]
   then
     # Gray
-    LOAD_COLOR='\033[1;30m'
+    #LOAD_COLOR='\033[1;30m'
+    LOAD_COLOR='\e[90m'
   elif [[ ${AVG} < "$(( $(nproc) / 2 ))" ]]
   then
     # Green
-    LOAD_COLOR='\033[40;1;32m'
+    #LOAD_COLOR='\033[40;1;32m'
+    LOAD_COLOR='\e[49m\e[92m'
   elif [[ ${AVG} < $(( 3 * $(nproc) / 4)) ]]
   then
     # Yellow
-    LOAD_COLOR='\033[1;33m'
+    #LOAD_COLOR='\033[1;33m'
+    LOAD_COLOR='\e[93m'
   else
     # Red
-    LOAD_COLOR='\033[1;31m'
+    #LOAD_COLOR='\033[1;31m'
+    LOAD_COLOR='\e[91m'
   fi
 # }}}
 }
@@ -125,7 +130,7 @@ set_bash_prompt() {
   parse_git_branch
   git_color
   parse_load_average
-  PS1="$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
 } 
 
