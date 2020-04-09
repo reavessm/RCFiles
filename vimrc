@@ -243,6 +243,7 @@ set foldmethod=marker
 set t_Co=256
 set background=dark
 "silent! colorscheme monokai
+"silent! colorscheme molokai
 "silent! colorscheme Revolution
 silent! colorscheme Tomorrow-Night
 "silent! colorscheme antares
@@ -262,6 +263,9 @@ silent! colorscheme Tomorrow-Night
 "silent! colorscheme up
 "silent! colorscheme vj
 "silent! colorscheme random
+
+hi Normal ctermfg=Gray ctermbg=NONE guifg=Gray guibg=#00002A
+hi Folded ctermfg=Black ctermbg=NONE
 
 let g:airline_theme='bubblegum'
 " }}}
