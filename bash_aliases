@@ -86,6 +86,8 @@ alias compile='g++ -O3 -Wall -std=c++11'
 alias numOfCPU='lscpu | grep "CPU(s):" | grep -v NUMA | cut -d " " -f15'
 alias makeWithCPU='make -j numOfCPU'
 alias gp='while (! git push); do sleep 1; done'
+alias tmux='tmux -2' # Allow 256-bit color
+alias haste="HASTE_SERVER=https://hastebin.reaves.dev haste"
 # }}}
 
 # C++ stuff
