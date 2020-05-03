@@ -100,6 +100,15 @@ Plug 'peterhurford/send.vim'
 " Nginx syntax
 Plug 'chase/nginx.vim'
 
+" Syntax
+Plug 'vim-syntastic/syntastic'
+
+" Rust
+Plug 'rust-lang/rust'
+
+" Tags
+Plug 'majutsushi/tagbar'
+
 call plug#end()
 
 let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
