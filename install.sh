@@ -2,6 +2,9 @@
 # This creates symlinks for these config files.  
 # We use symlinks to enable us to update with a simple git pull.
 
+# TODO: Make list of normal packages (git, vim, alacritty, rofi, i3-gaps)
+#       and make the installable regardless of distro/packagemanager
+
 pushd ~/.RCFiles/
 
 mkdir -p ~/.mutt
@@ -25,6 +28,9 @@ mkdir -p ~/.mutt
 [[ -f ~/.bash_functions && ! -L ~/.bash_functions && -n "`diff \
   ~/.bash_functions bash_functions`" ]] && mv ~/.bash_functions \
   ~/.bash_functions.orig
+[[ -f ~/.config/i3/config && ! -L ~/.config/i3/config && -n "`diff \
+  ~/.config/i3/config i3config`" ]] && mv ~/.config/i3/config \
+  ~/.config/i3/config.orig
 
 ln -s `pwd`/bashrc ~/.bashrc
 ln -s `pwd`/bash_aliases ~/.bash_aliases
@@ -35,6 +41,7 @@ ln -s `pwd`/neofetch.conf ~/.neofetch.conf
 ln -s `pwd`/vim ~/.vim
 ln -s `pwd`/signature ~/.mutt/signature
 ln -s `pwd`/bash_functions ~/.bash_functions
+ln -s `pwd`/config ~/.config/i3/config # After installing rofi and alacritty
 
 vim +PlugClean +PlugInstall +PlugUpdate +qa
 
