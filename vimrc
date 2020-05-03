@@ -10,7 +10,7 @@ autocmd BufNew,BufRead,BufNewFile *.h set filetype=h
 autocmd BufNew,BufRead,BufNewFile *.h set syntax=cpp
 autocmd BufNew,BufRead,BufNewFile *.md set filetype=markdown
 autocmd BufNew,BufRead,BufNewFile *.service set filetype=systemd
-
+autocmd BufNew,BufRead,BufNewFile *.sh set filetype=sh
 " }}}
 
 " Plugins
@@ -109,6 +109,18 @@ Plug 'rust-lang/rust'
 " Tags
 Plug 'majutsushi/tagbar'
 
+" HTML Tags
+Plug 'sukima/xmledit'
+
+" Golang
+Plug 'fatih/vim-go'
+
+" Spooky Skeletons
+Plug 'reavessm/vim-skeleton'
+
+" Beautify
+Plug 'zeekay/vim-beautify'
+
 call plug#end()
 
 let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
@@ -130,6 +142,7 @@ let NERDTreeShowHidden=1
 let g:ConqueTerm_Color = 2 " 1 -> Strip color after 200 lines, 2 -> always with color
 let g:ConqueTerm_CloseOnEnd = 1 " Close Conque when program ends
 let g:ConqueTerm_StartMessage = 0
+let g:go_template_autocreate=0 " We don't need this with vim-skeleton
 
 set completefunc=emoji#complete
 
@@ -274,13 +287,24 @@ silent! colorscheme Tomorrow-Night
 "silent! colorscheme random
 
 hi Normal ctermfg=Gray ctermbg=NONE guifg=Gray guibg=#00002A
-hi Folded ctermfg=Black ctermbg=NONE
+hi Folded ctermfg=Black ctermbg=NONE 
 
 let g:airline_theme='bubblegum'
 " }}}
 
 " Custom Keybindings
 " {{{
+
+function! s:align()
+  let p = '^\s*|\s.*|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|', column).'\s\{-\}'.repeat('.', position),'ce',line('.'))
+  endif
+endfunction
 
 map <F6> :setlocal spell! spelllang=en_us<CR>
 
@@ -294,6 +318,10 @@ autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
 autocmd FileType markdown inoremap <c-i> <Esc>Bi![<Esc>Ea]()<Esc>i
 autocmd FileType markdown inoremap :a [](<++>)<Space><++><Esc>F[a
 autocmd FileType markdown inoremap <c-a> <Esc>Bi[<Esc>Ea]()<Esc>i
+autocmd FileType markdown inoremap <silent> <Bar> <Bar><Esc>:call <SID>align()<CR>a
+
+" Un-fuck stuff
+autocmd FileType markdown inoremap <Tab> <Tab>
 "autocmd FileType markdown inoremap <Space><Esc> <Esc>f+ca<
 "autocmd FileType cc inoremap <Space><Esc> <Esc>j0f+ca<
 
@@ -342,4 +370,8 @@ nnoremap <c-z> :RunSilent pdfToggle  /tmp/vim-pandoc-out.pdf &<CR>
 "nnoremap <c-h> V:'<,'>!howdoi `cat`<CR>
 "inoremap <c-h> <Esc>V:'<,'>!howdoi `cat`<CR>
 
+" Bash vim closing
+autocmd FileType sh inoremap zi <Esc>0i#{{{<CR>#}}}<Esc>kA<CR>
+
+autocmd FileType sh inoremap {{ ${}<++><Esc>F{a
 " }}}

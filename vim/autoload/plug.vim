@@ -864,6 +864,7 @@ endfunction
 
 function! s:chsh(swap)
   let prev = [&shell, &shellcmdflag, &shellredir]
+<<<<<<< HEAD
   if !s:is_win
     set shell=sh
   endif
@@ -873,6 +874,10 @@ function! s:chsh(swap)
     elseif &shell =~# 'sh' || &shell =~# 'cmd\.exe'
       set shellredir=>%s\ 2>&1
     endif
+=======
+  if !s:is_win && a:swap
+    set shell=sh shellredir=>%s\ 2>&1
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
   endif
   return prev
 endfunction
@@ -1095,7 +1100,11 @@ function! s:update_impl(pull, force, args) abort
   endif
 
   if has('win32unix') || has('wsl')
+<<<<<<< HEAD
     call extend(s:clone_opt, ['-c', 'core.eol=lf', '-c', 'core.autocrlf=input'])
+=======
+    let s:clone_opt .= ' -c core.eol=lf -c core.autocrlf=input'
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
   endif
 
   let s:submodule_opt = s:git_version_requirement(2, 8) ? ' --jobs='.threads : ''
@@ -1285,6 +1294,11 @@ function! s:spawn(name, cmd, opts)
   let job = { 'name': a:name, 'running': 1, 'error': 0, 'lines': [''],
             \ 'new': get(a:opts, 'new', 0) }
   let s:jobs[a:name] = job
+<<<<<<< HEAD
+=======
+  let cmd = has_key(a:opts, 'dir') ? s:with_cd(a:cmd, a:opts.dir, 0) : a:cmd
+  let argv = s:is_win ? ['cmd', '/s', '/c', '"'.cmd.'"'] : ['sh', '-c', cmd]
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
 
   if s:nvim
     if has_key(a:opts, 'dir')
@@ -1438,6 +1452,7 @@ while 1 " Without TCO, Vim stack is bound to explode
       let s:jobs[name] = { 'running': 0, 'lines': s:lines(error), 'error': 1 }
     endif
   else
+<<<<<<< HEAD
     let cmd = ['git', 'clone']
     if !has_tag
       call extend(cmd, s:clone_opt)
@@ -1446,6 +1461,14 @@ while 1 " Without TCO, Vim stack is bound to explode
       call add(cmd, prog)
     endif
     call s:spawn(name, extend(cmd, [spec.uri, s:trim(spec.dir)]), { 'new': 1 })
+=======
+    call s:spawn(name,
+          \ printf('git clone %s %s %s %s 2>&1',
+          \ has_tag ? '' : s:clone_opt,
+          \ prog,
+          \ plug#shellescape(spec.uri, {'script': 0}),
+          \ plug#shellescape(s:trim(spec.dir), {'script': 0})), { 'new': 1 })
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
   endif
 
   if !s:jobs[name].running
@@ -2079,6 +2102,7 @@ endfunction
 
 function! s:shellesc_ps1(arg)
   return "'".substitute(escape(a:arg, '\"'), "'", "''", 'g')."'"
+<<<<<<< HEAD
 endfunction
 
 function! s:shellesc_sh(arg)
@@ -2110,6 +2134,23 @@ function! plug#shellescape(arg, ...)
   elseif shell =~# 'powershell\.exe' || shell =~# 'pwsh$'
     return s:shellesc_ps1(a:arg)
   endif
+=======
+endfunction
+
+function! s:shellesc_sh(arg)
+  return "'".substitute(a:arg, "'", "'\\\\''", 'g')."'"
+endfunction
+
+function! plug#shellescape(arg, ...)
+  let opts = a:0 > 0 && type(a:1) == s:TYPE.dict ? a:1 : {}
+  let shell = get(opts, 'shell', s:is_win ? 'cmd.exe' : 'sh')
+  let script = get(opts, 'script', 1)
+  if shell =~# 'cmd\.exe'
+    return s:shellesc_cmd(a:arg, script)
+  elseif shell =~# 'powershell\.exe' || shell =~# 'pwsh$'
+    return s:shellesc_ps1(a:arg)
+  endif
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
   return s:shellesc_sh(a:arg)
 endfunction
 
@@ -2151,6 +2192,7 @@ function! s:system(cmd, ...)
   let batchfile = ''
   try
     let [sh, shellcmdflag, shrd] = s:chsh(1)
+<<<<<<< HEAD
     if type(a:cmd) == s:TYPE.list
       " Neovim's system() supports list argument to bypass the shell
       " but it cannot set the working directory for the command.
@@ -2171,6 +2213,12 @@ function! s:system(cmd, ...)
     if s:is_win && type(a:cmd) != s:TYPE.list
       let [batchfile, cmd] = s:batchfile(cmd)
     endif
+=======
+    let cmd = a:0 > 0 ? s:with_cd(a:cmd, a:1) : a:cmd
+    if s:is_win
+      let [batchfile, cmd] = s:batchfile(cmd)
+    endif
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
     return system(cmd)
   finally
     let [&shell, &shellcmdflag, &shellredir] = [sh, shellcmdflag, shrd]
@@ -2248,9 +2296,13 @@ endfunction
 
 function! s:rm_rf(dir)
   if isdirectory(a:dir)
+<<<<<<< HEAD
     call s:system(s:is_win
     \ ? 'rmdir /S /Q '.plug#shellescape(a:dir)
     \ : ['rm', '-rf', a:dir])
+=======
+    call s:system((s:is_win ? 'rmdir /S /Q ' : 'rm -rf ') . plug#shellescape(a:dir))
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
   endif
 endfunction
 
@@ -2359,7 +2411,11 @@ function! s:upgrade()
   let new = tmp . '/plug.vim'
 
   try
+<<<<<<< HEAD
     let out = s:system(['git', 'clone', '--depth', '1', s:plug_src, tmp])
+=======
+    let out = s:system(printf('git clone --depth 1 %s %s', plug#shellescape(s:plug_src), plug#shellescape(tmp)))
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
     if v:shell_error
       return s:err('Error upgrading vim-plug: '. out)
     endif
@@ -2554,6 +2610,7 @@ function! s:diff()
     call s:append_ul(2, origin ? 'Pending updates:' : 'Last update:')
     for [k, v] in plugs
       let range = origin ? '..origin/'.v.branch : 'HEAD@{1}..'
+<<<<<<< HEAD
       let cmd = ['git', 'log', '--graph', '--color=never']
       if s:git_version_requirement(2, 10, 0)
         call add(cmd, '--no-show-signature')
@@ -2561,6 +2618,13 @@ function! s:diff()
       call extend(cmd, ['--pretty=format:%x01%h%x01%d%x01%s%x01%cr', range])
       if has_key(v, 'rtp')
         call extend(cmd, ['--', v.rtp])
+=======
+      let cmd = 'git log --graph --color=never '
+      \ . (s:git_version_requirement(2, 10, 0) ? '--no-show-signature ' : '')
+      \ . join(map(['--pretty=format:%x01%h%x01%d%x01%s%x01%cr', range], 'plug#shellescape(v:val)'))
+      if has_key(v, 'rtp')
+        let cmd .= ' -- '.plug#shellescape(v.rtp)
+>>>>>>> d00539e72acdfae79f044e92c9429ca4c96b1ca3
       endif
       let diff = s:system_chomp(cmd, v.dir)
       if !empty(diff)
