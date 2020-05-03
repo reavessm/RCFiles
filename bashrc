@@ -202,3 +202,4 @@ if ! shopt -oq posix; then
   fi
 fi
 # }}}
+export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail -n 2 | head -n 1)"
