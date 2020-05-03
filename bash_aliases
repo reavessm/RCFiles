@@ -88,6 +88,8 @@ alias makeWithCPU='make -j numOfCPU'
 alias gp='while (! git push); do sleep 1; done'
 alias tmux='tmux -2' # Allow 256-bit color
 alias haste="HASTE_SERVER=https://hastebin.reaves.dev haste"
+alias mv='mv -i'
+alias rm='rm -i'
 # }}}
 
 # C++ stuff
