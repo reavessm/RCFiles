@@ -50,7 +50,7 @@ case $MY_OS in
   *SUSE*)
     OS_COLOR='\e[95m'  # Light Magenta
     ;;
-  Gentoo)
+  Gentoo|Calculate)
     OS_COLOR='\e[96m'  # Light Cyan
     ;;
   Alpine*)
@@ -142,6 +142,7 @@ PROMPT_COMMAND=set_bash_prompt
 [[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
 
 # Cool stuff on login
+#/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
 /usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
 
 # }}}

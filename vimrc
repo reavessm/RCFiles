@@ -31,7 +31,7 @@ Plug 'iamcco/markdown-preview.vim'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 " File Completion
-Plug 'https://github.com/Valloric/YouCompleteMe'
+"Plug 'https://github.com/Valloric/YouCompleteMe'
 
 " Colors
 Plug 'flazz/vim-colorschemes'
