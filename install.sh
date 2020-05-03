@@ -31,6 +31,9 @@ mkdir -p ~/.mutt
 [[ -f ~/.config/i3/config && ! -L ~/.config/i3/config && -n "`diff \
   ~/.config/i3/config i3config`" ]] && mv ~/.config/i3/config \
   ~/.config/i3/config.orig
+[[ -f ~/.tmux.conf && ! -L ~/.tmux.conf && -n "`diff \
+  ~/.tmux.conf tmux.conf` ]] && mv ~/.tmux.conf \
+  ~/.tmux.conf.orig
 
 ln -s `pwd`/bashrc ~/.bashrc
 ln -s `pwd`/bash_aliases ~/.bash_aliases
@@ -42,6 +45,7 @@ ln -s `pwd`/vim ~/.vim
 ln -s `pwd`/signature ~/.mutt/signature
 ln -s `pwd`/bash_functions ~/.bash_functions
 ln -s `pwd`/config ~/.config/i3/config # After installing rofi and alacritty
+ln -s `pwd`/tmux.conf ~/.tmux.conf
 
 vim +PlugClean +PlugInstall +PlugUpdate +qa
 
