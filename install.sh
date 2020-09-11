@@ -34,6 +34,11 @@ mkdir -p ~/.mutt
 [[ -f ~/.tmux.conf && ! -L ~/.tmux.conf && -n "`diff \
   ~/.tmux.conf tmux.conf` ]] && mv ~/.tmux.conf \
   ~/.tmux.conf.orig
+mkdir -p ~/.config/alacritty && [[ -f ~/.config/alacritty/alacritty.yml && ! \
+  -L ~/.config/alacritty/alacritty.yml && -n "`diff \
+  ~/.config/alacritty/alacritty.yml alacritty.yml ]] \
+  && mv ~/.config/alacritty/alacritty.yml \
+  ~/.config/alacritty/alacritty.yml.orig
 
 ln -s `pwd`/bashrc ~/.bashrc
 ln -s `pwd`/bash_aliases ~/.bash_aliases
@@ -46,6 +51,8 @@ ln -s `pwd`/signature ~/.mutt/signature
 ln -s `pwd`/bash_functions ~/.bash_functions
 ln -s `pwd`/config ~/.config/i3/config # After installing rofi and alacritty
 ln -s `pwd`/tmux.conf ~/.tmux.conf
+ln -s `pwd`/alacritty.yml ~/.config/alacritty/alacritty.yml
+cp -r alacritty-theme ~/.config/alacritty
 
 vim +PlugClean +PlugInstall +PlugUpdate +qa
 
