@@ -89,7 +89,7 @@ Plug 'PotatoesMaster/i3-vim-syntax'
 " Multiple cursors
 Plug 'terryma/vim-multiple-cursors'
 
-Plug 'vim-scripts/Conque-GDB'
+"Plug 'vim-scripts/Conque-GDB'
 
 " Simple todo list in side bar
 Plug 'reavessm/vimtodo'
