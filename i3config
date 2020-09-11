@@ -183,6 +183,7 @@ workspace $ws6 output DisplayPort-2
 # TV
 workspace $ws2 output HDMI-A-0
 workspace $ws5 output HDMI-A-0
+workspace $ws7 output HDMI-A-0
 
 assign [window_role="^browser$"] $ws1
 assign [class="term"] $ws2
@@ -201,12 +202,14 @@ for_window [class="st-256color" instance="floating"] floating enable
 for_window [class="Spotify"] move to workspace $ws3
 for_window [class="Steam"] move to workspace $ws4
 for_window [class="Lutris"] move to workspace $ws4
+for_window [instance="origin.exe"] floating enable
 
 # start a terminal
 bindsym $mod+Return exec alacritty
 
 # Open Vivaldi
-bindsym $mod+Shift+v exec vivaldi
+#bindsym $mod+Shift+v exec vivaldi
+bindsym $mod+Shift+v exec brave-bin
 
 # Get ready for Twitch
 bindsym $mod+Shift+t exec --no-startup-id i3-msg 'workspace $ws3; exec /usr/bin/spotify; workspace $ws4; exec /usr/bin/steam; workspace $ws5; exec /usr/bin/obs'
@@ -255,3 +258,5 @@ exec tilda
 
 # Enable audio loopback with decresed latency to aid streaming
 exec pactl unload-module module-loopback && pactl load-module module-loopback latency_msec=1
+
+exec kdeconnect-indicator
