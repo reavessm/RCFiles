@@ -32,13 +32,12 @@ mkdir -p ~/.mutt
   ~/.config/i3/config i3config`" ]] && mv ~/.config/i3/config \
   ~/.config/i3/config.orig
 [[ -f ~/.tmux.conf && ! -L ~/.tmux.conf && -n "`diff \
-  ~/.tmux.conf tmux.conf` ]] && mv ~/.tmux.conf \
+  ~/.tmux.conf tmux.conf`" ]] && mv ~/.tmux.conf \
   ~/.tmux.conf.orig
 mkdir -p ~/.config/alacritty && [[ -f ~/.config/alacritty/alacritty.yml && ! \
   -L ~/.config/alacritty/alacritty.yml && -n "`diff \
-  ~/.config/alacritty/alacritty.yml alacritty.yml ]] \
-  && mv ~/.config/alacritty/alacritty.yml \
-  ~/.config/alacritty/alacritty.yml.orig
+  ~/.config/alacritty/alacritty.yml alacritty.yml`" ]] \
+  && mv ~/.config/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml.orig
 
 ln -s `pwd`/bashrc ~/.bashrc
 ln -s `pwd`/bash_aliases ~/.bash_aliases
