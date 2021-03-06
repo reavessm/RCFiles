@@ -202,3 +202,6 @@ if ! shopt -oq posix; then
   fi
 fi
 # }}}
+
+[ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
+[ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"
