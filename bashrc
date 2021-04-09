@@ -207,6 +207,8 @@ export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail 
 export GOPATH="/home/reavessm/go"
 export GOBIN="/home/reavessm/go/bin"
 
+[ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
+[ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"
 [ -f ~/Src/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/Src/Openshift/auth/kubeconfig
 [ -d ~/Src/Openshift/bin ] && export PATH=$PATH:~/Src/Openshift/bin
 
