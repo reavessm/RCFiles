@@ -204,3 +204,10 @@ if ! shopt -oq posix; then
 fi
 # }}}
 export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail -n 2 | head -n 1)"
+export GOPATH="/home/reavessm/go"
+export GOBIN="/home/reavessm/go/bin"
+
+[ -f ~/Src/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/Src/Openshift/auth/kubeconfig
+[ -d ~/Src/Openshift/bin ] && export PATH=$PATH:~/Src/Openshift/bin
+
+export PATH=$PATH:$GOBIN
