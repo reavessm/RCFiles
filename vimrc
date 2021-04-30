@@ -58,7 +58,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'janko-m/vim-test'
 
 " Icons
-Plug 'ryanoasis/nerd-fonts'
+"Plug 'ryanoasis/nerd-fonts'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
@@ -122,6 +122,15 @@ Plug 'reavessm/vim-skeleton'
 " Beautify
 Plug 'zeekay/vim-beautify'
 
+" Vim+TMUX
+Plug 'tpope/vim-dispatch'
+
+" Math
+Plug 'nixon/vmath.vim'
+
+" Move stuff
+Plug 'atweiden/vim-dragvisualas'
+
 call plug#end()
 
 let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
@@ -140,11 +149,14 @@ let g:NERDCompactSexyComs=0
 let g:NERDCommentEmptyLines=1
 let g:NERDTrimTrailingWhitespace=1
 let NERDTreeShowHidden=1
+let NERDTreeIgnore=[".*\.swp"]
 "let g:ConqueTerm_Color = 2 " 1 -> Strip color after 200 lines, 2 -> always with color
 "let g:ConqueTerm_CloseOnEnd = 1 " Close Conque when program ends
 "let g:ConqueTerm_StartMessage = 0
 let g:go_template_autocreate=0 " We don't need this with vim-skeleton
 let g:go_def_mapping_enabled=0
+
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'cc=cpp', 'c',]
 
 set completefunc=emoji#complete
 
@@ -237,6 +249,8 @@ else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+autocmd FileType go setlocal makeprg=golint\ %\ &&\ go\ run\ %\ &&\ sleep\ 3
 
 " }}}
 
@@ -504,7 +518,7 @@ nnoremap <c-j> ddp
 nnoremap <c-k> ddkP
 
 " Line up eqaul signs ('=')
-vnoremap <c-t> :'<,'>Tabularize /=<CR>
+autocmd FileType !go vnoremap <c-t> :'<,'>Tabularize /=<CR>
 
 command! -nargs=* RunSilent
       \ | execute ':silent !'.'<args>'
@@ -525,4 +539,34 @@ nnoremap <c-z> :RunSilent pdfToggle  /tmp/vim-pandoc-out.pdf &<CR>
 autocmd FileType sh inoremap zi <Esc>0i#{{{<CR>#}}}<Esc>kA<CR>
 
 autocmd FileType sh inoremap {{ ${}<++><Esc>F{a
+
+" Highlight when going over 80 columns
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" Highlight uneccesary spaces
+set listchars=tab:>~,nbsp:_,trail:.
+set list
+
+" Set Presentation Mode
+autocmd BufNewFile,BufRead *.vpm call SetVimPresentationMode()
+function SetVimPresentationMode()
+  nnoremap <buffer> <Right> :n<CR>
+  nnoremap <buffer> <Left> :N<CR>
+  set nolist
+  set filetype=markdown
+  cnoremap x xa
+  cnoremap w wa
+  cnoremap q qa
+
+  highlight Normal ctermbg=black ctermfg=white
+
+  " Hide stuff
+  set relativenumber! number! showmode! showcmd! hidden! ruler!
+
+  if !exists('#goyo')
+    Goyo
+  endif
+endfunction
+
 " }}}

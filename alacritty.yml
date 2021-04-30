@@ -61,7 +61,8 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  startup_mode: Windowed
+  #startup_mode: Windowed
+  startup_mode: Maximized
 
   # Window title
   title: Alacritty
@@ -1397,7 +1398,7 @@ colors: *challenger_deep
 #   - Linear
 #
 # Specifying a `duration` of `0` will disable the visual bell.
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 100
   color: '0x73000a'
