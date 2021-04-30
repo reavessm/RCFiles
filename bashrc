@@ -130,7 +130,8 @@ set_bash_prompt() {
   parse_git_branch
   git_color
   parse_load_average
-  PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:\w [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  DIR="$(pwd | sed 's#\(/[[:alpha:]]\)[[:print:]]*#\1#g')"
+  PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:${DIR} [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
 } 
 
