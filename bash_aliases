@@ -58,7 +58,7 @@ alias cdu='cd ..'
 alias pretty='fortune | cowsay | lolcat'
 alias sl='sl -aFe'
 alias mvcd='function _mvcd(){ mv $1 $2; cd $2;};_mvcd'
-alias cd='function _cd() { cd $1; [ -f .projectName ] && oc project $(cat .projectName) || true; };_cd'
+#alias cd='function _cd() { cd $1; [ -f .projectName ] && oc project $(cat .projectName) || true; };_cd'
 alias email='mutt'
 alias newalias='vim ~/.bash_aliases'
 alias fuck='sudo'
@@ -91,6 +91,8 @@ alias tmux='tmux -2' # Allow 256-bit color
 alias haste="HASTE_SERVER=https://hastebin.reaves.dev haste"
 alias mv='mv -i'
 alias rm='rm -i'
+alias gitup='git pull && git fetch upstream && git merge upstream/"$(git branch --show-current)" && git push'
+alias clp="xclip -selection clipboard"
 # }}}
 
 # C++ stuff

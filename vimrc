@@ -24,8 +24,9 @@ Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTree' }
 "Plug 'vim-scrips/SpellCheck'
 
 " Markdown Previewer
-Plug 'iamcco/mathjax-support-for-mkdp'
-Plug 'iamcco/markdown-preview.vim'
+"Plug 'iamcco/mathjax-support-for-mkdp'
+"Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 " LaTeX Previewer
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
@@ -58,7 +59,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'janko-m/vim-test'
 
 " Icons
-"Plug 'ryanoasis/nerd-fonts'
+Plug 'ryanoasis/nerd-fonts'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
@@ -110,7 +111,9 @@ Plug 'rust-lang/rust'
 Plug 'majutsushi/tagbar'
 
 " HTML Tags
-Plug 'sukima/xmledit'
+"Plug 'sukima/xmledit'
+"Plug 'othree/html5.vim'
+Plug 'mattn/emmet-vim'
 
 " Golang
 Plug 'fatih/vim-go'
@@ -126,24 +129,25 @@ Plug 'zeekay/vim-beautify'
 Plug 'tpope/vim-dispatch'
 
 " Math
-Plug 'nixon/vmath.vim'
+"Plug 'nixon/vmath.vim'
 
 " Move stuff
-Plug 'atweiden/vim-dragvisualas'
+"Plug 'atweiden/vim-dragvisualas'
 
 call plug#end()
 
-let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
-let g:ycm_max_diagnostics_to_display=0
+"let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+"let g:ycm_max_diagnostics_to_display=0
 "let g:SuperTabeDefaultCompletionType="context"
 let g:UltiSnipsExpandTrigger="<F2>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-let g:gitgutter_highlight_lines=0
+let g:gitgutter_highlight_lines=1
 "let g:gitgutter_sign_added=emoji#for('small_blue_diamond')
 "let g:gitgutter_sign_modified=emoji#for('small_orange_diamond')
 "let g:gitgutter_sign_removed=emoji#for('small_red_triangle')
 "let g:gitgutter_sign_modified_removed=emoji#for('collision')
+let g:gitgutter_highlight_linenrs=1
 let g:NERDSpaceDelims=1
 let g:NERDCompactSexyComs=0
 let g:NERDCommentEmptyLines=1
@@ -155,8 +159,29 @@ let NERDTreeIgnore=[".*\.swp"]
 "let g:ConqueTerm_StartMessage = 0
 let g:go_template_autocreate=0 " We don't need this with vim-skeleton
 let g:go_def_mapping_enabled=0
+let g:go_highlight_types=1
+let g:go_highlight_extra_types=1
+let g:go_highlight_functions=1
+let g:go_highlight_function_calls=1
+let g:go_highlight_fields=1
+let g:go_highlight_operators=1
+let g:go_highlight_build_constraints=1
+let g:go_debug_windows = {
+      \ 'vars': 'rightbelow 60vnew',
+      \ 'stack': 'rightbelow 10new',
+      \ 'out': 'bot 10new',
+      \ }
+let g:go_debug_log_output = 'debugger'
 
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'cc=cpp', 'c',]
+
+function! g:Open_browser(url)
+  exec "Start! firefox --new-window " . a:url
+endfunction
+let g:mkdp_browserfunc = 'g:Open_browser'
+
+
+let g:user_emmet_leader_key=','
 
 set completefunc=emoji#complete
 
@@ -422,6 +447,8 @@ autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,
 " Folding
 set foldmethod=marker
 
+autocmd FileType markdown set foldmarker=<!---,-->
+
 " }}}
 
 " Colors
@@ -454,6 +481,10 @@ silent! colorscheme Tomorrow-Night
 hi Normal ctermfg=Gray ctermbg=NONE guifg=Gray guibg=#00002A
 hi Folded ctermfg=Black ctermbg=NONE 
 
+" Fix GitGutter Highlighting
+hi DiffChange term=bold ctermbg=24 guibg=#2B5B77 ctermfg=Black
+hi DiffAdd term=bold ctermbg=58 guibg=#4C4E39 ctermfg=Black
+
 let g:airline_theme='bubblegum'
 " }}}
 
@@ -478,6 +509,13 @@ inoremap (( ()<++><Esc>F)i
 inoremap [[ []<++><Esc>F]i
 inoremap <c-l> <Esc>/<++><CR>:noh<CR>ca<
 
+autocmd FileType go nnoremap <F5> :GoDebugStart<CR>
+autocmd BufNew,BufNewFile,BufRead *_test.go nnoremap <F5> :GoDebugTest<CR>
+autocmd Filetype go nnoremap <F6> :GoDebugStop<CR>
+autocmd FileType go nnoremap <F9> :GoDebugBreakpoint<CR>
+autocmd FileType go nnoremap <F10> :GoDebugStep<CR>
+autocmd FileType go nnoremap <F11> :GoDebugStepOut<CR>
+
 " Insert markdown specific stuff
 autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
 autocmd FileType markdown inoremap <c-i> <Esc>Bi![<Esc>Ea]()<Esc>i
@@ -492,8 +530,8 @@ autocmd FileType markdown inoremap <Tab> <Tab>
 
 nmap <silent> <F8> <Plug>MarkdownPreview     " for normal mode
 imap <silent> <F8> <Plug>MarkdownPreview     " for insert mode
-nmap <silent> <F9> <Plug>StopMarkdownPreview " for normal mode
-imap <silent> <F9> <Plug>StopMarkdownPreview " for insert mode
+nmap <silent> <F9> <Plug>MarkdownPreviewStop " for normal mode
+imap <silent> <F9> <Plug>MarkdownPreviewStop " for insert mode
 
 " Javadoc stuff
 autocmd FileType cc map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR>:read !echo \* @returns \<++\><CR>:read !echo \* @brief \<++\><CR>:read !echo \* @detail \<++\><CR>:read !echo \*\/<CR>j2f:lviwykkkkkp0li<Space><Esc>jA<Space>
@@ -546,6 +584,7 @@ call matchadd('ColorColumn', '\%81v', 100)
 
 " Highlight uneccesary spaces
 set listchars=tab:>~,nbsp:_,trail:.
+"set listchars=tab:    ,nbsp:_,trail:.
 set list
 
 " Set Presentation Mode
@@ -566,7 +605,28 @@ function SetVimPresentationMode()
 
   if !exists('#goyo')
     Goyo
+  endif " Test
+endfunction     
+
+
+
+" Toggle GitGutter Highlighting
+nnoremap <C-h> :GitGutterLineHighlightsToggle<CR>
+inoremap <C-h> <Esc>:GitGutterLineHighlightsToggle<CR>i
+
+let g:transparency=1
+" Toggle transparency
+function ToggleTransparency()
+  let g:transparency = !g:transparency
+  if g:transparency
+    hi Normal ctermbg=NONE
+    hi Folded ctermfg=Black ctermbg=NONE
+  else
+    hi Normal ctermbg=Black
+    hi Folded ctermfg=Gray ctermbg=Black
   endif
 endfunction
+
+nnoremap <c-t> :execute ToggleTransparency()<CR>
 
 " }}}
