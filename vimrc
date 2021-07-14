@@ -402,10 +402,21 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
+function! StatusLineGitBlame() abort
+  let blame = substitute(get(b:, 'coc_git_blame', ''), ").*$", ")", "")
+  return winwidth(0) > 120 ? @% . ' '  . blame : @%
+endfunction
+autocmd User CocGitStatusChange call StatusLineGitBlame()
+
+let g:airline_section_c = "%{StatusLineGitBlame()}"
+
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_git_status','coc_current_function','')}
+"set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{blame}
+"set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{get(b:,'coc_git_blame','')}
+
 
 " Mappings for CoCList
 " Show all diagnostics.
@@ -448,6 +459,7 @@ autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,
 set foldmethod=marker
 
 autocmd FileType markdown set foldmarker=<!---,-->
+autocmd FileType yaml set foldmethod=indent
 
 " }}}
 
@@ -629,4 +641,6 @@ endfunction
 
 nnoremap <c-t> :execute ToggleTransparency()<CR>
 
+
+nnoremap <C-e> "eyiw:GoIfErr<CR>?err<CR>viw"ep:nohls<CR>
 " }}}

@@ -2,7 +2,7 @@
 # Stephen's Bash Runtime Configuration #
 ########################################
 
-#[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/reavessm/.screenlayout/default.sh
+#[[ -n `echo $DESKTOP_SESSION | grep i3` ]] && /home/sreaves/.screenlayout/default.sh
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -130,7 +130,7 @@ set_bash_prompt() {
   parse_git_branch
   git_color
   parse_load_average
-  DIR="$(pwd | sed 's#\(/\.\?[[:alpha:]]\)[[:alnum:][:space:]+_.]*#\1#g')"
+  DIR="$(pwd | sed 's#\(/\.\?[[:alpha:]]\)[[:alnum:][:space:]+_.-]*#\1#g')"
   PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:${DIR} [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
 } 
@@ -140,7 +140,7 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Run tmux only if tmux is installed and not currently running
-[[ `which tmux` && -z $TMUX ]] && (tmux attach || tmux)
+[[ `which tmux` && -z $TMUX ]] && (tmux attach || ( [ -d ~/Src/status-board ] && cd ~/Src/status-board ; tmux) )
 
 # Cool stuff on login
 #/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
@@ -187,6 +187,13 @@ shopt -s globstar
 
 # Include filenames beginning with a `.' in the results of filename expansion
 shopt -s dotglob
+
+if [ -e /usr/share/terminfo/x/xterm-256color ]
+then
+  export TERM='xterm-256color'
+else
+  export TERM='xterm-color'
+fi
 # }}}
 
 # Make less more friendly for non-text input files, see lesspipe(1)
@@ -205,8 +212,9 @@ if ! shopt -oq posix; then
 fi
 # }}}
 export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail -n 2 | head -n 1)"
-export GOPATH="/home/reavessm/go"
-export GOBIN="/home/reavessm/go/bin"
+export GOPATH="/home/sreaves/go"
+export GOBIN="/home/sreaves/go/bin"
+export GOROOT="/usr/local/go"
 
 [ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
 [ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"
@@ -214,3 +222,6 @@ export GOBIN="/home/reavessm/go/bin"
 [ -d ~/Src/Openshift/bin ] && export PATH=$PATH:~/Src/Openshift/bin
 
 export PATH=$PATH:$GOBIN
+export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:/usr/pgsql-13/bin
+export PATH=$PATH:/home/sreaves/bin
