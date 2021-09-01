@@ -157,6 +157,28 @@ curl -s -X POST https://lipsum.com/feed/json -d "amount=$AMOUNT" -d "what=$WHAT"
 #}}}
 }
 
+fixConflicts() {
+  for file in $(git diff --name-only --diff-filter=U)
+  do
+    tmux new-window -n "${file} conflicts" vim ${file}
+  done
+}
+
+gitCleanBeforeMR() {
+  git rebase -i HEAD~$(echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) )) )
+  #echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) ))
+}
+
+populateJiraSecrets() {
+  gpg --decrypt ~/Documents/WebRCA/jira-sa-only-stage.gpg | tee \
+    >(awk '/login/ {print $2}' > secrets/jira.username) \
+    >(awk '/email/ {print $2}' > secrets/jira.email) \
+    >(awk '/password/ {print $2}' > secrets/jira.password) \
+    >(echo "https://issues.stage.redhat.com" > secrets/jira.endpoint) \
+    >/dev/null
+  true
+}
+
 # Handle WSL specific functions
 # {{{
 if [[ `uname -r | grep Microsoft` ]]

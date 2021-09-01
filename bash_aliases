@@ -93,6 +93,9 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias gitup='git pull && git fetch upstream && git merge upstream/"$(git branch --show-current)" && git push'
 alias clp="xclip -selection clipboard"
+alias octx='oc config use-context'
+alias vimpm='vim *.vpm'
+alias showConflicts='git diff --name-only --diff-filter=U'
 # }}}
 
 # C++ stuff

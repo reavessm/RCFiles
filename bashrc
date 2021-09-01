@@ -140,7 +140,8 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Run tmux only if tmux is installed and not currently running
-[[ `which tmux` && -z $TMUX ]] && (tmux attach || ( [ -d ~/Src/status-board ] && cd ~/Src/status-board ; tmux) )
+StartDir="/home/$(whoami)/Src/web-rca"
+[[ `which tmux` && -z $TMUX && -z $TERM_PROGRAM ]] && (tmux attach || ( [ -d "${StartDir}" ] && cd "${StartDir}" ; tmux) )
 
 # Cool stuff on login
 #/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null

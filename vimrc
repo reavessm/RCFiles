@@ -134,6 +134,9 @@ Plug 'tpope/vim-dispatch'
 " Move stuff
 "Plug 'atweiden/vim-dragvisualas'
 
+" C/C++ Debugger
+Plug 'puremourning/vimspector'
+
 call plug#end()
 
 "let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
@@ -276,6 +279,8 @@ else
 endif
 
 autocmd FileType go setlocal makeprg=golint\ %\ &&\ go\ run\ %\ &&\ sleep\ 3
+
+set mmp=2048
 
 " }}}
 
@@ -521,12 +526,28 @@ inoremap (( ()<++><Esc>F)i
 inoremap [[ []<++><Esc>F]i
 inoremap <c-l> <Esc>/<++><CR>:noh<CR>ca<
 
+
+" Debug mappings
+autocmd FileType * nnoremap <F5> :call vimspector#Launch()<CR>
+autocmd FileType * nnoremap <F6> :VimspectorReset<CR>
+autocmd FileType * nnoremap <F7> :call vimspector#Continue()<CR>
+autocmd FileType * nnoremap <F9> :call vimspector#ToggleBreakpoint()<CR>
+autocmd FileType * nnoremap <F10> :call vimspector#StepOver()<CR>
+autocmd FileType * nnoremap <F11> :call vimspector#StepInto()<CR>
+
+" Needs to be below generic mappings to overwrite
 autocmd FileType go nnoremap <F5> :GoDebugStart<CR>
 autocmd BufNew,BufNewFile,BufRead *_test.go nnoremap <F5> :GoDebugTest<CR>
-autocmd Filetype go nnoremap <F6> :GoDebugStop<CR>
+autocmd FileType go nnoremap <F6> :GoDebugStop<CR>
 autocmd FileType go nnoremap <F9> :GoDebugBreakpoint<CR>
 autocmd FileType go nnoremap <F10> :GoDebugStep<CR>
 autocmd FileType go nnoremap <F11> :GoDebugStepOut<CR>
+"autocmd FileType go nnoremap <F5> :GoDebugStart<CR>
+"autocmd BufNew,BufNewFile,BufRead *_test.go nnoremap <F5> :GoDebugTest<CR>
+"autocmd Filetype go nnoremap <F6> :GoDebugStop<CR>
+"autocmd FileType go nnoremap <F9> :GoDebugBreakpoint<CR>
+"autocmd FileType go nnoremap <F10> :GoDebugStep<CR>
+"autocmd FileType go nnoremap <F11> :GoDebugStepOut<CR>
 
 " Insert markdown specific stuff
 autocmd FileType markdown inoremap :i ![](<++>)<Space><++><Esc>F[a
@@ -540,10 +561,12 @@ autocmd FileType markdown inoremap <Tab> <Tab>
 "autocmd FileType markdown inoremap <Space><Esc> <Esc>f+ca<
 "autocmd FileType cc inoremap <Space><Esc> <Esc>j0f+ca<
 
-nmap <silent> <F8> <Plug>MarkdownPreview     " for normal mode
-imap <silent> <F8> <Plug>MarkdownPreview     " for insert mode
-nmap <silent> <F9> <Plug>MarkdownPreviewStop " for normal mode
-imap <silent> <F9> <Plug>MarkdownPreviewStop " for insert mode
+" for insert mode
+imap <silent> <F1> <Plug>MarkdownPreview
+imap <silent> <F2> <Plug>MarkdownPreviewStop
+" for normal mode
+nmap <silent> <F1> <Plug>MarkdownPreview
+nmap <silent> <F2> <Plug>MarkdownPreviewStop
 
 " Javadoc stuff
 autocmd FileType cc map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR>:read !echo \* @returns \<++\><CR>:read !echo \* @brief \<++\><CR>:read !echo \* @detail \<++\><CR>:read !echo \*\/<CR>j2f:lviwykkkkkp0li<Space><Esc>jA<Space>
@@ -603,7 +626,10 @@ set list
 autocmd BufNewFile,BufRead *.vpm call SetVimPresentationMode()
 function SetVimPresentationMode()
   nnoremap <buffer> <Right> :n<CR>
+  nnoremap <buffer> <PageDown> :n<CR>
   nnoremap <buffer> <Left> :N<CR>
+  nnoremap <buffer> <PageUp> :N<CR>
+  nnoremap <buffer> <F5> :qa<CR>
   set nolist
   set filetype=markdown
   cnoremap x xa
@@ -642,5 +668,11 @@ endfunction
 nnoremap <c-t> :execute ToggleTransparency()<CR>
 
 
-nnoremap <C-e> "eyiw:GoIfErr<CR>?err<CR>viw"ep:nohls<CR>
+nnoremap <C-e> "eyiw:GoIfErr<CR>?err<CR>viw"epj$viw"ep:nohls<CR>
+
+nnoremap <C-u> :GitGutterUndoHunk<CR>
+nmap gC <Plug>(coc-git-nextconflict)<CR>
+
+nnoremap gF 100[{0
+nnoremap gD 100[{0z<CR>
 " }}}

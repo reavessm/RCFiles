@@ -1,15 +1,16 @@
-#set ssl_starttls=yes
+set ssl_starttls=yes
 ##set ssl_force_tls=yes
-#set imap_user = 'reaves735@gmail.com'
-#set from='reaves735@gmail.com'
-#set realname='Stephen Reaves'
-#set folder = "imaps://imap.gmail.com:993"
-#set spoolfile = "imaps://imap.gmail.com/INBOX"
-#set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
-#set header_cache = "~/.mutt/cache/headers"
-#set message_cachedir = "~/.mutt/cache/bodies"
-#set certificate_file = "~/.mutt/certificates"
-#set smtp_url = 'smtps://reaves735@gmail.com@smtp.gmail.com:465/'
+set imap_user = 'reaves735@gmail.com'
+set imap_pass = 'emoatbqehhbsynpb'
+set from='reaves735@gmail.com'
+set realname='Stephen Reaves'
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "imaps://imap.gmail.com/INBOX"
+set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
+set header_cache = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
+set certificate_file = "~/.mutt/certificates"
+set smtp_url = 'smtps://reaves735@gmail.com@smtp.gmail.com:465/'
 #set move = no
 #set imap_keepalive = 900
 set use_from=yes
@@ -30,12 +31,12 @@ set sort=reverse-date-received
 #color hdrdefault white black #headers white on black
 	
 #senders name in red
-#color header brightred black ^From
-#color quoted cyan black #quoted text in blue
-#color signature yellow black #signature in yellow
-#color normal brightgreen black
-#color attachment magenta black
-#color body brightblue black "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color header brightred black ^From
+color quoted cyan black #quoted text in blue
+color signature yellow black #signature in yellow
+color normal brightgreen black
+color attachment magenta black
+color body brightblue black "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
 
 alternative_order text/plain text/enriched text/html
 auto_view text/html
