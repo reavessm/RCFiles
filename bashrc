@@ -38,7 +38,7 @@ case $MY_OS in
   Ubuntu) 
     OS_COLOR='\e[032m' # Green
     ;;
-  Fedora)
+  Fedora|'Fedora Linux')
     OS_COLOR='\e[094m' # Blue
     ;;
   Arch)
@@ -105,16 +105,16 @@ git_color() {
   local git_status=`git status 2> /dev/null`
   if [[ "`echo $git_status | grep 'Your branch is ahead'`" ]]
   then
-    GIT='\e[91m' # Light Red
+    GIT='\e[91m committed -' # Light Red
   elif [[ "`echo $git_status | grep 'Your branch is behind'`" ]]
   then
-    GIT='\e[91m X'
+    GIT='\e[91m X needs pull -'
   elif [[ "`echo $git_status | grep 'Changes to be committed:'`" ]]
   then
-    GIT='\e[92m' # Light Green
+    GIT='\e[92m staged -' # Light Green
   elif [[ "`echo $git_status | grep 'Untracked files:'`" || "`echo $git_status | grep 'Changes not staged for commit:'`" || "`echo $git_status | grep 'modified'`" ]]
   then
-    GIT='\e[96m' # Cyan
+    GIT='\e[96m untracked -' # Cyan
   elif [[ "`echo $git_status | grep 'nothing to commit'`" ]]
   then
     GIT='\e[97m' # White 
@@ -215,7 +215,7 @@ fi
 export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail -n 2 | head -n 1)"
 export GOPATH="/home/sreaves/go"
 export GOBIN="/home/sreaves/go/bin"
-export GOROOT="/usr/local/go"
+#export GOROOT="/usr/local/go"
 
 [ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
 [ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"

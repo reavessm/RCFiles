@@ -7,18 +7,18 @@ reader() {
       echo "No arguments supplied"
       return 1
   fi
-  
+
   DIR=/tmp/$1
-  
+
   mkdir -p $DIR
-  
+
   unzip -u $1 -d $DIR 1>/dev/null
-  
+
   pandoc $DIR/chapter*.xhtml -t plain -o $DIR/allinone.txt
-  
+
   # Fix stupid unicode bullshit
   sed -i 's/&[OC];/\"/g' $DIR/allinone.txt
-  
+
   view $DIR/allinone.txt
 # }}}
 }
@@ -39,7 +39,7 @@ geolocate() {
 # {{{
 if [[ "$#" != "1" ]]
 then
-  echo "Usage: geolocate <domain.ext>" 
+  echo "Usage: geolocate <domain.ext>"
   return 1
 fi
 
@@ -160,12 +160,13 @@ curl -s -X POST https://lipsum.com/feed/json -d "amount=$AMOUNT" -d "what=$WHAT"
 fixConflicts() {
   for file in $(git diff --name-only --diff-filter=U)
   do
-    tmux new-window -n "${file} conflicts" vim ${file}
+    grep -i "DO NOT EDIT" ${file} &> /dev/null || tmux new-window -n "${file} conflicts" vim ${file}
   done
 }
 
 gitCleanBeforeMR() {
-  git rebase -i HEAD~$(echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) )) )
+  git rebase -i main
+  #git rebase -i HEAD~$(echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) )) )
   #echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) ))
 }
 
@@ -177,6 +178,45 @@ populateJiraSecrets() {
     >(echo "https://issues.stage.redhat.com" > secrets/jira.endpoint) \
     >/dev/null
   true
+}
+
+# Pulls code exerpts from markdown files
+pullCode() {
+  sed -n '/^`\{3\}'"$2"'/,/^`\{3\}/p' $1 | sed '/^`\{3\}/d'
+}
+
+# Checks git history pre stand up meetings
+whatDidIDo() {
+  val=$(git status &>/dev/null ; echo $?)
+
+  if (( ${val} != 0 ))
+  then
+    echo "Not a git dir"
+    return ${val}
+  fi
+
+  if [[ $(date +%a) == "Mon" ]]
+  then
+    yesterday="$(date -d '-3 day' +%Y-%m-%dT12:00:00-00:00)"
+  else
+    yesterday="$(date -d '-1 day' +%Y-%m-%dT12:00:00-00:00)"
+  fi
+
+  author="$(git config --get user.name)"
+
+  for branch in $(git branch -r --list origin/* | grep -v HEAD)
+  do
+    git log ${branch} --author="${author}" --after="${yesterday}" \
+      --pretty="format:[%cr] %s - %h - ${branch}"
+    echo
+  done \
+    | column -t -s ']' -o ']' \
+    | column -t -s '-' -o '-' \
+    | awk -F '-' 'BEGIN{OFS="-"}{$2="\033[37m"$2"\033[0m"; $3="\033[33m"$3"\033[0m"; print $0}'
+}
+
+function gitBranchLog() {
+  git log main..HEAD --pretty=oneline
 }
 
 # Handle WSL specific functions

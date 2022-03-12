@@ -188,6 +188,8 @@ let g:user_emmet_leader_key=','
 
 set completefunc=emoji#complete
 
+let g:markdown_fold_override_foldtext = 0
+
 " }}}
 
 " MUST HAVES
@@ -463,8 +465,13 @@ autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,
 " Folding
 set foldmethod=marker
 
-autocmd FileType markdown set foldmarker=<!---,-->
+"autocmd FileType markdown set foldmarker=<!---,-->
 autocmd FileType yaml set foldmethod=indent
+autocmd FileType html set foldmethod=indent
+autocmd FileType gohtmltmpl set foldmethod=indent
+autocmd FileType go set foldmethod=syntax
+autocmd FileType markdown set foldmethod=expr
+autocmd FileType markdown set foldexpr=NestedMarkdownFolds()
 
 " }}}
 
@@ -496,7 +503,7 @@ silent! colorscheme Tomorrow-Night
 "silent! colorscheme random
 
 hi Normal ctermfg=Gray ctermbg=NONE guifg=Gray guibg=#00002A
-hi Folded ctermfg=Black ctermbg=NONE 
+hi Folded ctermfg=DarkGray ctermbg=NONE 
 
 " Fix GitGutter Highlighting
 hi DiffChange term=bold ctermbg=24 guibg=#2B5B77 ctermfg=Black
@@ -558,6 +565,7 @@ autocmd FileType markdown inoremap <silent> <Bar> <Bar><Esc>:call <SID>align()<C
 
 " Un-fuck stuff
 autocmd FileType markdown inoremap <Tab> <Tab>
+inoremap ,i ,i
 "autocmd FileType markdown inoremap <Space><Esc> <Esc>f+ca<
 "autocmd FileType cc inoremap <Space><Esc> <Esc>j0f+ca<
 
@@ -576,8 +584,8 @@ autocmd FileType cc map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<C
 autocmd FileType h map ,d  i/**<ESC>:read !echo \* @class % \| cut -d '.' -f1<CR>:read !echo \* @author Stephen M. Reaves<CR>:read !echo \* @headerfile  %<CR>:read !echo \* @date $(date "+\%b \%d, \%Y")<CR>:read !echo \*\/<CR>
 
 " Copy to buffer
-vmap <C-c> :'<'>w! ~/.vimbuffer<CR>
-nmap <C-c> :'<'>w! ~/.vimbuffer<CR>
+vmap <C-c> :w! ~/.vimbuffer<CR>:silent !xclip -selection clipboard ~/.vimbuffer<CR>:redraw!<CR>
+nmap <C-c> :'<,'>w! ~/.vimbuffer<CR>:silent !xclip -selection clipboard ~/.vimbuffer<CR>:redraw!<CR>
 " Paste from buffer
 map <C-v> :read !cat ~/.vimbuffer<CR>
 
@@ -614,7 +622,8 @@ autocmd FileType sh inoremap zi <Esc>0i#{{{<CR>#}}}<Esc>kA<CR>
 autocmd FileType sh inoremap {{ ${}<++><Esc>F{a
 
 " Highlight when going over 80 columns
-highlight ColorColumn ctermbg=magenta
+highlight ColorColumn ctermfg=white ctermbg=darkgray
+autocmd FileType markdown highlight ColorColumn ctermbg=black
 call matchadd('ColorColumn', '\%81v', 100)
 
 " Highlight uneccesary spaces
@@ -675,4 +684,17 @@ nmap gC <Plug>(coc-git-nextconflict)<CR>
 
 nnoremap gF 100[{0
 nnoremap gD 100[{0z<CR>
+
+autocmd FileType markdown nnoremap <C-d> :read !echo -n '\# ' && date -I<CR>
 " }}}
+
+" Defaults
+" {{{
+set foldtext=foldtext() " Reset fold text to default
+" }}}
+
+
+au BufRead,BufNewFile * syntax match myBoldComment '\*\*\w*\*\*'
+highlight myBoldComment cterm=bold gui=bold
+au BufRead,BufNewFile * syntax match myItalicComment '\*\w*\*'
+highlight myItalicComment cterm=italic gui=italic
