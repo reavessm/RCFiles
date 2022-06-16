@@ -35,7 +35,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Determine OS
 # {{{
 case $MY_OS in
-  Ubuntu) 
+  Ubuntu)
     OS_COLOR='\e[032m' # Green
     ;;
   Fedora|'Fedora Linux')
@@ -99,8 +99,8 @@ error_test() {
   [[ $? != "0" ]] && ERR=' \e[91mX' || ERR=''
 # }}}
 }
-  
-git_color() { 
+
+git_color() {
 # {{{
   local git_status=`git status 2> /dev/null`
   if [[ "`echo $git_status | grep 'Your branch is ahead'`" ]]
@@ -117,12 +117,44 @@ git_color() {
     GIT='\e[96m untracked -' # Cyan
   elif [[ "`echo $git_status | grep 'nothing to commit'`" ]]
   then
-    GIT='\e[97m' # White 
+    GIT='\e[97m' # White
   else
     GIT='\e[0m'
   fi
 # }}}
-} 
+}
+
+printOCProjectToFile() {
+  oc whoami 2>/dev/null
+  if [[ $? == 0 ]]
+  then
+    oc_project=$(oc project 2>/dev/null | awk -F'"' '{print $2}')
+    oc_link="https://$(oc get routes -n openshift-console 2>/dev/null \
+      | awk '$1 == "console" {print $2}')"
+    echo "\e[95m ${oc_project}@${oc_link} ffoo" > /tmp/oc-project
+  else
+    rm /tmp/oc-project
+  fi
+}
+
+export -f printOCProjectToFile
+
+getOCProject() {
+# {{{
+  # This can be an expensive check with some setups, so we only check every 5
+  # minutes
+  if [[ ${last_oc_check} == "" ]] \
+    || (( ${last_oc_check} <= $(date +%Y%m%d%H%M) ))
+  then
+    last_oc_check=$(date +%Y%m%d%H%M -d '+5 min')
+
+    nohup 'bash -c printOCProjectToFile' >/dev/null 2>&1 &
+    disown
+
+    [[ -f /tmp/oc-project ]] && oc_ps1="$(cat /tmp/oc-project)"
+  fi
+# }}}
+}
 
 set_bash_prompt() {
 # {{{
@@ -130,10 +162,12 @@ set_bash_prompt() {
   parse_git_branch
   git_color
   parse_load_average
-  DIR="$(pwd | sed 's#\(/\.\?[[:alpha:]]\)[[:alnum:][:space:]+_.-]*#\1#g')"
-  PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:${DIR} [\d]$GIT$BLINK$BRANCH$RES$ERR\n$OS_COLOR> $DEF_COLOR"
+  getOCProject
+  path="$(pwd | sed 's#\(/\.\?[[:alpha:]]\)[[:alnum:][:space:]+_.-]*#\1#g; s#.$##')"
+  dir="$(basename $(pwd))"
+  PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:${path}${dir} [\d]$GIT$BLINK$BRANCH$RES$oc_ps1$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
-} 
+}
 
 # Rice
 # {{{
@@ -200,9 +234,9 @@ fi
 # Make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Enable programmable completion features 
+# Enable programmable completion features
 # {{{
-#(you don't need to enable this, if it's already enabled in /etc/bash.bashrc 
+#(you don't need to enable this, if it's already enabled in /etc/bash.bashrc
 # and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -221,8 +255,11 @@ export GOBIN="/home/sreaves/go/bin"
 [ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"
 [ -f ~/Src/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/Src/Openshift/auth/kubeconfig
 [ -d ~/Src/Openshift/bin ] && export PATH=$PATH:~/Src/Openshift/bin
+[ -f ~/.auth/jira-cli-pat ] && export JIRA_AUTH_TYPE=bearer && export JIRA_API_TOKEN="$(cat ~/.auth/jira-cli-pat)"
 
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/pgsql-13/bin
 export PATH=$PATH:/home/sreaves/bin
+
+complete -C /usr/bin/terraform terraform

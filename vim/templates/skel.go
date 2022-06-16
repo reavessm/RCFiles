@@ -1,15 +1,24 @@
 /**
  * File: @FILENAME@
- * Written by: Stephen M. Reaves
- * Created on: @DATE@
+ * Written by:  Stephen M. Reaves
+ * Created on:  @DATE@
+ * Description: <++>
  */
 
 package @BASENAME@
 
 import (
-  "fmt"
+  "log"
 )
 
 func main() {
-  fmt.Println("Hello World")
+	// Optionally parse flags here
+
+	if err := run(); err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func run() error {
+	return nil
 }

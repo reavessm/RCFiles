@@ -105,7 +105,7 @@ Plug 'chase/nginx.vim'
 Plug 'vim-syntastic/syntastic'
 
 " Rust
-Plug 'rust-lang/rust'
+"Plug 'rust-lang/rust'
 
 " Tags
 Plug 'majutsushi/tagbar'
@@ -137,6 +137,9 @@ Plug 'tpope/vim-dispatch'
 " C/C++ Debugger
 Plug 'puremourning/vimspector'
 
+" Terraform
+Plug 'hashivim/vim-terraform'
+
 call plug#end()
 
 "let g:ycm_global_ycm_extra_conf="~/.vim/plugInDir/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
@@ -145,7 +148,7 @@ call plug#end()
 let g:UltiSnipsExpandTrigger="<F2>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-let g:gitgutter_highlight_lines=1
+let g:gitgutter_highlight_lines=0
 "let g:gitgutter_sign_added=emoji#for('small_blue_diamond')
 "let g:gitgutter_sign_modified=emoji#for('small_orange_diamond')
 "let g:gitgutter_sign_removed=emoji#for('small_red_triangle')
@@ -575,6 +578,7 @@ imap <silent> <F2> <Plug>MarkdownPreviewStop
 " for normal mode
 nmap <silent> <F1> <Plug>MarkdownPreview
 nmap <silent> <F2> <Plug>MarkdownPreviewStop
+nmap <silent> <F3> :%s/\e[[[:digit:]]*m//g<CR>
 
 " Javadoc stuff
 autocmd FileType cc map ,f  i/**<ESC>:read !echo \*<CR>:read !echo \* @param<CR>:read !echo \* @returns \<++\><CR>:read !echo \* @brief \<++\><CR>:read !echo \* @detail \<++\><CR>:read !echo \*\/<CR>j2f:lviwykkkkkp0li<Space><Esc>jA<Space>
@@ -686,6 +690,12 @@ nnoremap gF 100[{0
 nnoremap gD 100[{0z<CR>
 
 autocmd FileType markdown nnoremap <C-d> :read !echo -n '\# ' && date -I<CR>
+
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " }}}
 
 " Defaults

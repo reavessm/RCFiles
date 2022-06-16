@@ -94,7 +94,7 @@ virt() {
   return 1
   #if [[ $# != 1 ]]
   #then
-    #echo "Usage: virt <vm>"
+    #echo "Usage: virt <!-- <vm> -->"
     #return 1
   #fi
   #ssh -X kvm virt-viwer $1
@@ -185,6 +185,10 @@ pullCode() {
   sed -n '/^`\{3\}'"$2"'/,/^`\{3\}/p' $1 | sed '/^`\{3\}/d'
 }
 
+pullFunction() {
+  sed -n '/func.*'"$2"'.*{/,/^}/p' $1
+}
+
 # Checks git history pre stand up meetings
 whatDidIDo() {
   val=$(git status &>/dev/null ; echo $?)
@@ -202,35 +206,43 @@ whatDidIDo() {
     yesterday="$(date -d '-1 day' +%Y-%m-%dT12:00:00-00:00)"
   fi
 
+  [[ $1 == "all" ]] && yesterday="$(date -d '-100 day' +%Y-%m-%dT12:00:00-00:00)"
+
   author="$(git config --get user.name)"
 
+  {
+  echo "| Time | Message | Hash | Branch|"
+  echo "|:---|:---|:---:|:---|"
   for branch in $(git branch -r --list origin/* | grep -v HEAD)
   do
     git log ${branch} --author="${author}" --after="${yesterday}" \
-      --pretty="format:[%cr] %s - %h - ${branch}"
+      --pretty="format:| [%cr] | %s | %h | ${branch} |"
     echo
-  done \
+  done 
+  } \
     | column -t -s ']' -o ']' \
-    | column -t -s '-' -o '-' \
-    | awk -F '-' 'BEGIN{OFS="-"}{$2="\033[37m"$2"\033[0m"; $3="\033[33m"$3"\033[0m"; print $0}'
+    | column -t -s '|' -o '|' \
+    | sed 's/]$//' \
+    | awk -F '|' 'BEGIN{OFS="|"}{$2="\033[37m"$2"\033[0m"; $3="\033[33m"$3"\033[0m"; print $0}'
 }
 
 function gitBranchLog() {
   git log main..HEAD --pretty=oneline
 }
 
-# Handle WSL specific functions
-# {{{
-if [[ `uname -r | grep Microsoft` ]]
-then
-  linuxfs='C:\Users\sreaves\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs'
-  vivaldi() {
-    /mnt/c/Users/sreaves/AppData/Local/Vivaldi/Application/vivaldi.exe $linuxfs`l2w $(pwd)`\\`l2w $1`
-  }
+function lsfuncs() {
+  # TODO: Find max size of each column using something like https://stackoverflow.com/questions/24653785/how-to-get-max-length-of-each-column-in-unix, then align based off that instead of 25 and 110
+  printf "$(tput bold)"'     %-25s %-110s %s\n\e[0m' 'Receiver' 'Method' 'Output'
+  sed -n 's/{//g; s/func \([^(]\)/func\;\;\1/; s/func (\([[:alpha:]] [^)]*\)) /func\;(\1)\;/; s/ (\([^)]*\)) $/\;(\1)/; s/ \([[:alpha:].\*]*[^)]\)$/\;\1/; /^func/p' $1 \
+    | awk -F ';' 'BEGIN {OFS="\t"}; {printf "%s %-25s %-110s %s\n", $1, $2, $3, $4}'
+}
 
-  # Converts linux slashes to windoze slashes
-  l2w() {
-    echo $1 | sed 's#\/#\\#g'
-  }
-fi
-# }}}
+function sshPortForward() {
+  ssh -L $1:127.0.0.1:$1 $2
+}
+
+function sshSocksHomelab() {
+  ssh -fN -D 8123 ssh@reaves.dev
+  echo "To access something run 'PROXYCHAINS_SOCKS5=8123 proxychains <program>'"
+  PROXYCHAINS_SOCKS5=8123 proxychains firefox --new-instance
+}
