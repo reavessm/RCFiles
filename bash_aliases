@@ -97,6 +97,7 @@ alias octx='oc config use-context'
 alias vimpm='vim *.vpm'
 alias showConflicts='git diff --name-only --diff-filter=U'
 alias workVPN='nmcli --ask connection up "1 - Red Hat Global VPN"'
+alias open='xdg-open'
 # }}}
 
 # C++ stuff

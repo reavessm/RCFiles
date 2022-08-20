@@ -9,8 +9,8 @@
 
 # Global Definitions
 # {{{
-VISUAL=vim
-EDITOR=vim
+VISUAL=nvim
+EDITOR=nvim
 TERM=xterm
 
 MY_OS=`awk -F "=" '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release 2> /dev/null`
@@ -179,7 +179,16 @@ StartDir="/home/$(whoami)/Src/web-rca"
 
 # Cool stuff on login
 #/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
-/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
+fileName="${HOME}/.ascii"
+if [ -f "${fileName}" ]
+then
+  /usr/bin/neofetch \
+    --config ~/.neofetch.conf \
+    --ascii "${fileName}" 2> /dev/null
+else
+  /usr/bin/neofetch \
+    --config ~/.neofetch.conf 2> /dev/null
+fi
 
 # }}}
 
@@ -246,9 +255,9 @@ if ! shopt -oq posix; then
   fi
 fi
 # }}}
-export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail -n 2 | head -n 1)"
-export GOPATH="/home/sreaves/go"
-export GOBIN="/home/sreaves/go/bin"
+#export VIMRUNTIME="/usr/share/vim/$(ls --color=no /usr/share/vim/ | sort | tail -n 2 | head -n 1)"
+export GOPATH="/home/$(whoami)/go"
+export GOBIN="/home/$(whoami)/go/bin"
 #export GOROOT="/usr/local/go"
 
 [ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
@@ -260,6 +269,6 @@ export GOBIN="/home/sreaves/go/bin"
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/pgsql-13/bin
-export PATH=$PATH:/home/sreaves/bin
+export PATH=$PATH:/home/$(whoami)/bin
 
 complete -C /usr/bin/terraform terraform

@@ -1,8 +1,0 @@
-xrandr --output HDMI-A-0 --mode 1920x1080 --rate 60.00 --left-of DisplayPort-2
-xrandr --output DisplayPort-2 --primary
-xrandr --output HDMI-A-0 --rotate left
-
-file="`ls --color=none ~/Pictures/Wallpapers/*.{png,jp{,e}g} | sort -R | sed 1q`"
-feh --bg-scale "$file" --bg-scale ~/Pictures/rotated.png
-
-redshift -b 0.7:0.5 -t 4500K:3500K &
