@@ -51,7 +51,9 @@ case $MY_OS in
     OS_COLOR='\e[95m'  # Light Magenta
     ;;
   Gentoo|Calculate)
-    OS_COLOR='\e[96m'  # Light Cyan
+    #OS_COLOR='\e[96m'  # Light Cyan
+    #OS_COLOR='\e[38;2;R;G;Bm'
+    OS_COLOR='\e[38;2;245;194;231m'
     ;;
   Alpine*)
     OS_COLOR='\e[91m'
