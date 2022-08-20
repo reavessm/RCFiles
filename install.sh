@@ -7,22 +7,29 @@
 
 pushd ~/.RCFiles/
 
-mkdir -p ~/.mutt
-
 # Backup files if they are not symbolic links and are different from what we
 # have
 [[ -f ~/.bashrc && ! -L ~/.bashrc && -n "`diff ~/.bashrc ./bashrc`" ]] \
   && mv ~/.bashrc ~/.bashrc.orig
+
 [[ -f ~/.bash_aliases && ! -L ~/.bash_aliases && -n "`diff ~/.bash_aliases bash_aliases`" ]] \
   && mv ~/.bash_aliases ~/.bash_aliases.orig 
+
 [[ -f ~/.neofetch.conf && ! -L ~/.neofetch.conf && -n "`diff ~/.neofetch.conf neofetch.conf`" ]]\
   && mv ~/.neofetch.conf ~/.neofetch.conf.orig 
+
 [[ -f ~/.bash_functions && ! -L ~/.bash_functions && -n "`diff \
   ~/.bash_functions bash_functions`" ]] && mv ~/.bash_functions \
   ~/.bash_functions.orig
+
 [[ -f ~/.tmux.conf && ! -L ~/.tmux.conf && -n "`diff \
   ~/.tmux.conf tmux.conf`" ]] && mv ~/.tmux.conf \
   ~/.tmux.conf.orig
+
+mkdir -p ~/.config/sway/ && [[ -f ~./config/sway/config && ! -L \
+  ~/.config/sway/config && -n "$(diff ~/.config/sway/config sway-config)" ]] \
+  && mv ~/.config/sway/config ~/.config/sway/config.orig
+
 mkdir -p ~/.config/alacritty && [[ -f ~/.config/alacritty/alacritty.yml && ! \
   -L ~/.config/alacritty/alacritty.yml && -n "`diff \
   ~/.config/alacritty/alacritty.yml alacritty.yml`" ]] \
