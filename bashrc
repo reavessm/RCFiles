@@ -274,5 +274,6 @@ export GPG_TTY=$(tty)
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/pgsql-13/bin
 export PATH=$PATH:/home/$(whoami)/bin
+export PATH=$PATH:/home/$(whoami)/.cargo/bin
 
 complete -C /usr/bin/terraform terraform

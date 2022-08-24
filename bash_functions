@@ -201,21 +201,25 @@ whatDidIDo() {
 
   if [[ $(date +%a) == "Mon" ]]
   then
-    yesterday="$(date -d '-3 day' +%Y-%m-%dT12:00:00-00:00)"
+    #yesterday="$(date -d '-3 day' +%Y-%m-%dT12:00:00-00:00)"
+    yesterday="3.days.ago"
   else
-    yesterday="$(date -d '-1 day' +%Y-%m-%dT12:00:00-00:00)"
+    #yesterday="$(date -d '-1 day' +%Y-%m-%dT12:00:00-00:00)"
+    yesterday="1.day.ago"
   fi
 
-  [[ $1 == "all" ]] && yesterday="$(date -d '-100 day' +%Y-%m-%dT12:00:00-00:00)"
+  #[[ $1 == "all" ]] && yesterday="$(date -d '-100 day' +%Y-%m-%dT12:00:00-00:00)"
+  [[ $1 == "all" ]] && yesterday="5000.days.ago"
 
   author="$(git config --get user.name)"
 
+    #git log ${branch} --author="${author}" --after="${yesterday}" \
   {
   echo "| Time | Message | Hash | Branch|"
   echo "|:---|:---|:---:|:---|"
   for branch in $(git branch -r --list origin/* | grep -v HEAD)
   do
-    git log ${branch} --author="${author}" --after="${yesterday}" \
+    git log ${branch} --author="${author}" --since="${yesterday}" \
       --pretty="format:| [%cr] | %s | %h | ${branch} |"
     echo
   done 
@@ -245,4 +249,27 @@ function sshSocksHomelab() {
   ssh -fN -D 8123 ssh@reaves.dev
   echo "To access something run 'PROXYCHAINS_SOCKS5=8123 proxychains <program>'"
   PROXYCHAINS_SOCKS5=8123 proxychains firefox --new-instance
+}
+
+function findSuffix() {
+  if [[ $1 != "" ]]
+  then
+    find . -name *.$1
+  else
+    echo "Please enter a file suffix"
+  fi
+}
+
+function dlvWebRca() {
+  dlv attach "$(ps aux | awk '/web-rca serve/ && !/awk/ {print $2}')"
+}
+
+function cleanAfterPatch() {
+  find . '(' \
+    -name \*-baseline -o \
+    -name \*-original -o \
+    -name \*.orig -o \
+    -name \*.rej \
+    ')' -delete
+    #-name \*-merge -o \
 }

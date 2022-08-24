@@ -10,9 +10,9 @@ Username=$(whoami)
 # Check for OS
 # {{{
 if [[ "$(uname -a | grep Ubuntu)" != "" ]]; then
-	alias install='sudo apt -y install'
-	alias updateUpgrade='sudo apt -y update && sudo apt -y upgrade'
-	alias uninstall='sudo apt remove'
+  alias install='sudo apt -y install'
+  alias updateUpgrade='sudo apt -y update && sudo apt -y upgrade'
+  alias uninstall='sudo apt remove'
   alias shutdown='sudo shutdown 0'
 fi
 if [[ "$(uname -a | grep fc)" != "" || "$(uname -a | grep rawhide)" != "" ]]; then
@@ -44,6 +44,29 @@ if [[ "$(uname -a | grep ARCH)" != "" ]]; then
   alias brightness='sudo tee /sys/class/backlight/radeon_b10/brightness <<< 5'
   alias silver-search='ag'
   alias shutdown='sudo -v && /home/'$Username'/.exit.sh && sudo shutdown 0'
+fi
+# }}}
+
+# C++ stuff
+# {{{
+if [ -f ~/.example.cc ]
+then
+  alias newc='cp ~/.example.cc ./example.cc'
+fi
+
+if [ -f ~/.example.h ]
+then
+  alias newh='cp ~/.example.h ./example.h'
+fi
+
+if [ -f ~/.example.cc ] && [ -f ~/.example.h ]
+then
+  alias newc++='newc && newh'
+fi
+
+if [ -f ~/.makefile ]
+then 
+  alias newmake='cp ~/.makefile ./makefile'
 fi
 # }}}
 
@@ -97,28 +120,7 @@ alias octx='oc config use-context'
 alias vimpm='vim *.vpm'
 alias showConflicts='git diff --name-only --diff-filter=U'
 alias workVPN='nmcli --ask connection up "1 - Red Hat Global VPN"'
+alias stripColors='sed -r "s/[[:cntrl:]]\[[0-9]{1,3}m//g"'
+alias golint='podman run --rm -v '"$(pwd)"':/app -w /app docker.io/golangci/golangci-lint golangci-lint run -v'
 alias open='xdg-open'
-# }}}
-
-# C++ stuff
-# {{{
-if [ -f ~/.example.cc ]
-then
-  alias newc='cp ~/.example.cc ./example.cc'
-fi
-
-if [ -f ~/.example.h ]
-then
-  alias newh='cp ~/.example.h ./example.h'
-fi
-
-if [ -f ~/.example.cc ] && [ -f ~/.example.h ]
-then
-  alias newc++='newc && newh'
-fi
-
-if [ -f ~/.makefile ]
-then 
-  alias newmake='cp ~/.makefile ./makefile'
-fi
 # }}}
