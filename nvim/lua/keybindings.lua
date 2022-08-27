@@ -11,12 +11,12 @@ vim.g.mapleader = " "
 
 -- CoC Explorer
 Map("n", "<leader>ee", ":CocCommand explorer<CR>")
-Map("n",  "<leader>ed", ":CocCommand explorer --root-uri ~/.config/nvim<CR>")
-Map("n",  "<leader>ec", ":CocCommand explorer --root-uri ~/.config/coc<CR>")
-Map("n",  "<leader>ef", ":CocCommand explorer --position floating --open-action-strategy sourceWindow<CR>")
+Map("n", "<leader>ed", ":CocCommand explorer --root-uri ~/.config/nvim<CR>")
+Map("n", "<leader>ec", ":CocCommand explorer --root-uri ~/.config/coc<CR>")
+Map("n", "<leader>ef", ":CocCommand explorer --position floating --open-action-strategy sourceWindow<CR>")
 
 -- List all presets
-Map("n",  "<leader>el", ":CocList explPresets<CR>")
+Map("n", "<leader>el", ":CocList explPresets<CR>")
 
 -- CoC
 Map("n", "gC", "<Plug>(coc-git-nextconflict)<CR>")
@@ -98,3 +98,5 @@ Map("n", "gD", "99[{0z<CR>")
 
 vim.cmd [[inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"]]
 
+
+Map("n", "<leader>lt", "<cmd>LoadTemplate<CR>")

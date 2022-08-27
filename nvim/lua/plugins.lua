@@ -7,13 +7,16 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  -- use 'nvim-lua/plenary.nvim'
+  --use 'nvim-lua/plenary.nvim'
 
   -- requires luajit
-  -- use {
-    -- 'nvim-telescope/telescope.nvim', tag = '0.1.0',
-    -- requires = { { 'nvim-lua/plenary.vim' } }
-  -- }
+   use {
+     'nvim-telescope/telescope.nvim', tag = '0.1.0',
+     requires = {
+       { 'nvim-lua/plenary.nvim' },
+       { 'BurntSushi/ripgrep' }
+     }
+   }
 
    use { 'neoclide/coc.nvim', branch = 'release' }
 

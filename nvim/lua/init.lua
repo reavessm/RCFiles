@@ -22,7 +22,10 @@ require('dapui').setup({
   }
 })
 
+
 --require("telescope").load_extension "packer"
+require("telescope")
+
 
 -- Color
 -- {{{
@@ -47,36 +50,56 @@ vim.cmd [[colorscheme catppuccin]]
 
 -- FileTypes
 -- {{{
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.cc set filetype=cc]]
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.cc set syntax=cpp]]
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.h set filetype=h]]
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.h set syntax=cpp]]
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.md set filetype=markdown]]
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.service set filetype=systemd]]
-vim.cmd [[autocmd BufNew,BufRead,BufNewFile *.sh set filetype=sh]]
+
+-- Sets commands on file opening based on filetype
+-- @param p file type pattern to match on
+local function autocmdOnStart(p, c)
+  vim.api.nvim_create_autocmd(
+    { "BufNew", "BufRead", "BufNewFile" },
+    {
+      pattern = { p }, command = c
+    }
+  )
+end
+
+autocmdOnStart("*.cc", "set filetype=cc syntax=cpp")
+autocmdOnStart("*.h", "set filetype=h syntax=c")
+autocmdOnStart("*.md", "set filetype=markdown")
+autocmdOnStart("*.service", "set filetype=systemd")
+autocmdOnStart("*.sh", "set filetype=sh")
 -- }}}
 
 -- Must Haves
 -- {{{
-vim.cmd [[set hidden]]
+local set = vim.opt
+
+--vim.cmd [[set hidden]]
+set.hidden = true
 
 -- Better command line completion
-vim.cmd [[set wildmenu]]
-vim.cmd [[set wildmode=list:lastused]]
+--vim.cmd [[set wildmenu]]
+--vim.cmd [[set wildmode=list:lastused]]
+set.wildmenu = true
 
+set.wildmode = "list:lastused"
 -- Highlight searches as characters are entered
-vim.cmd [[set hlsearch]]
-vim.cmd [[set incsearch]]
+--vim.cmd [[set hlsearch]]
+--vim.cmd [[set incsearch]]
+set.hlsearch = true
+set.incsearch = true
 
 -- Increased security
-vim.cmd [[set nomodeline]]
-vim.cmd [[set nocompatible]]
+--vim.cmd [[set nomodeline]]
+--vim.cmd [[set nocompatible]]
+set.modeline = false
+set.compatible = false
 
 -- Auto indent based on filetype
 vim.cmd [[filetype indent plugin on]]
 
 -- Syntax highlighting
-vim.cmd [[set syntax=on]]
+--vim.cmd [[set syntax=on]]
+set.syntax = "on"
 -- }}}
 
 -- Usability Options
@@ -120,7 +143,8 @@ vim.cmd [[set number]]
 vim.cmd [[set encoding=utf-8]]
 
 -- Highlight matching [{()}]
-vim.cmd [[set showmatch]]
+--vim.cmd [[set showmatch]]
+set.showmatch = true
 
 -- Allow cursor change in Tmux
 vim.cmd [[
@@ -144,8 +168,6 @@ vim.cmd [[ call matchadd('ColorColumn', '\%81v', 100) ]]
 -- Highlight unneeded spaces
 vim.api.nvim_command("set listchars=tab:>~,nbsp:_,trail:.")
 vim.api.nvim_command("set list")
-
-
 
 -- }}}
 
@@ -173,7 +195,7 @@ vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
 --vim.api.nvim_command("autocmd FileType markdown set foldmethod=NestedMarkdownFolds()")
 vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")
 
-vim.g.transparency=1
+vim.g.transparency = 1
 vim.api.nvim_command("hi Normal ctermbg=NONE guibg=None")
 vim.api.nvim_command("hi Folded ctermfg=Gray ctermbg=None guifg=Gray guibg=None")
 -- Toggle transparency
@@ -200,3 +222,104 @@ vim.cmd [[set signcolumn=yes]]
 -- }}}
 
 vim.cmd [[set shortmess=A]]
+
+-- Templates
+-- {{{
+local function paste_file(fileName)
+  local file = io.open(fileName)
+  if not file then return nil end
+  local contents = file:read "*a"
+  file:close()
+
+  local base = vim.fn.expand('%:t:r') or "__default_file"
+  local headerName = base .. ".h"
+
+  contents = contents:gsub("{{_author_}}", "Stephen M. Reaves")
+  contents = contents:gsub("{{_date_}}", os.date("%b %e, %Y"))
+  contents = contents:gsub("{{_file_name_}}", vim.fn.expand('%:t'))
+  contents = contents:gsub("{{_header_name_}}", headerName)
+  contents = contents:gsub("{{_header_name_caps_}}", string.upper(base))
+
+  vim.api.nvim_paste(contents, true, 1)
+end
+
+local function scandir(directory)
+  local i = 0
+  local t = {}
+  local pFile = io.popen('ls "' .. directory .. '"')
+  if pFile == nil then return t end
+
+  for file in pFile:lines() do
+    i = i + 1
+    t[i] = file
+  end
+  pFile:close()
+
+  return t
+end
+
+vim.api.nvim_create_user_command(
+  "LoadTemplate",
+  function()
+    local actions = require "telescope.actions"
+    local actions_state = require "telescope.actions.state"
+    local pickers = require "telescope.pickers"
+    local finders = require "telescope.finders"
+    local sorters = require "telescope.sorters"
+
+    local templateDir = "/home/reavessm/.config/nvim/Templates"
+    local file_table = {
+      ["c"] = {
+        dir = templateDir .. "/C/",
+        files = scandir(templateDir .. "/C/")
+      },
+      ["h"] = {
+        dir = templateDir .. "/H/",
+        files = scandir(templateDir .. "/H/")
+      },
+      ["go"] = {
+        dir = templateDir .. "/Go/",
+        files = scandir(templateDir .. "/Go/")
+      },
+      ["rust"] = {
+        dir = templateDir .. "/Rust/",
+        files = scandir(templateDir .. "/Rust/")
+      }
+    }
+    local ft = vim.bo.filetype
+
+    local f = file_table[ft]
+    if f == nil
+    then
+      if ft == nil or ft == '' then ft = "N/A" end
+      print("No templates for filetype of: " .. ft)
+      return
+    end
+
+    local function enter(prompt_buf_num)
+      local selected = actions_state.get_selected_entry()
+      actions.close(prompt_buf_num)
+      paste_file(f.dir .. selected[1])
+    end
+
+    local opts = {
+      finder = finders.new_table {
+        results = f.files or { "None" }
+      },
+      results_title = "Template files in " .. f.dir,
+      prompt_title = "Please enter a template name",
+      preview_title = "Template preview",
+      sorter = sorters.get_generic_fuzzy_sorter({}),
+      attach_mappings = function(_, map)
+        map("i", "<CR>", enter)
+        return true
+      end,
+    }
+
+    local test = pickers.new(opts)
+
+    test:find()
+  end,
+  { bang = true, desc = 'Pick and load templates based on filetype' }
+)
+-- }}}
