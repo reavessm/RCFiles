@@ -269,6 +269,8 @@ export GOBIN="/home/$(whoami)/go/bin"
 [ -f ~/.auth/jira-cli-pat ] && export JIRA_AUTH_TYPE=bearer && export JIRA_API_TOKEN="$(cat ~/.auth/jira-cli-pat)"
 
 export PATH=$PATH:$GOBIN
+
+export GPG_TTY=$(tty)
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/pgsql-13/bin
 export PATH=$PATH:/home/$(whoami)/bin
