@@ -41,7 +41,7 @@ ln -s `pwd`/neofetch.conf ~/.neofetch.conf
 ln -s `pwd`/bash_functions ~/.bash_functions
 ln -s `pwd`/tmux.conf ~/.tmux.conf
 ln -s `pwd`/alacritty.yml ~/.config/alacritty/alacritty.yml
-ln -s `pwd`/nvim ~/.config/nvim
+ln -s `pwd`/nvim ~/.config/
 ln -s `pwd`/ascii ~/.ascii
 
 #echo "extends markdown" >  ~/.vim/plugInDir/vim-snippets/UltiSnips/md.snippets
