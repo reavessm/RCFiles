@@ -18,5 +18,9 @@
       "markdown",
       "c",
       "lua"
-  ]
+  ],
+  "git.enableGlobalStatus": true,
+  "git.addGBlameToVirtualText": true,
+  "git.addGBlameToBufferVar": true,
+  "git.enableGutters": true
 }

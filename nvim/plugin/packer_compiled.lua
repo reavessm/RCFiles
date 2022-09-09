@@ -44,6 +44,15 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
+local package_path_str = "/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+if not string.find(package.path, package_path_str, 1, true) then
+  package.path = package.path .. ';' .. package_path_str
+end
+
+if not string.find(package.cpath, install_cpath_pattern, 1, true) then
+  package.cpath = package.cpath .. ';' .. install_cpath_pattern
+end
 
 time([[Luarocks path setup]], false)
 time([[try_loadstring definition]], true)
@@ -62,47 +71,57 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   catppuccin = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/catppuccin",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/catppuccin",
     url = "https://github.com/catppuccin/nvim"
   },
   ["coc.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/coc.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/coc.nvim",
     url = "https://github.com/neoclide/coc.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["nvim-dap"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
   ["nvim-dap-ui"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
     url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
   ripgrep = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/ripgrep",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
   },
   ["telescope.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["vim-markdown-folding"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/vim-markdown-folding",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/vim-markdown-folding",
     url = "https://github.com/masukomi/vim-markdown-folding"
   }
 }

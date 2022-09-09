@@ -1,25 +1,26 @@
+vim.cmd [[command! -range=% -nargs=1 Align lua require'align'.align(<f-args>)]]
 require('keybindings')
 require('dapui').setup({
-  layouts = {
-    {
-      elements = {
-        { id = 'scopes', size = 0.25 },
-        "breakpoints",
-        "stacks",
-        "watches",
-      },
-      size = 40, --columns
-      position = "right",
-    },
-    {
-      elements = {
-        "repl",
-        "console",
-      },
-      size = 0.25, -- 25%
-      position = "bottom",
-    }
-  }
+	layouts = {
+		{
+			elements = {
+				{ id = 'scopes', size = 0.25 },
+				"breakpoints",
+				"stacks",
+				"watches",
+			},
+			size = 40, --columns
+			position = "right",
+		},
+		{
+			elements = {
+				"repl",
+				"console",
+			},
+			size = 0.25, -- 25%
+			position = "bottom",
+		}
+	}
 })
 
 
@@ -31,21 +32,27 @@ require("telescope")
 -- {{{
 vim.g.catpuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 require("catppuccin").setup({
-  transparent_background = true,
-  integrations = {
-    coc_nvim = true,
-    --coc_nvim = false,
-    nvimtree = {
-      enabled = true,
-      show_root = true,
-      transparent_panel = true,
-    },
-    gitgutter = true,
-    markdown = true,
-    notify = true,
-  }
+	transparent_background = true,
+	integrations = {
+		coc_nvim = true,
+		--coc_nvim = false,
+		telescope = true,
+		--    nvimtree = {
+		--      enabled = true,
+		--      show_root = true,
+		--      transparent_panel = true,
+		--    },
+		gitgutter = true,
+		markdown = true,
+		notify = true,
+	}
 })
 vim.cmd [[colorscheme catppuccin]]
+-- }}}
+
+-- Status line
+-- {{{
+require('lualine').setup()
 -- }}}
 
 -- FileTypes
@@ -54,12 +61,12 @@ vim.cmd [[colorscheme catppuccin]]
 -- Sets commands on file opening based on filetype
 -- @param p file type pattern to match on
 local function autocmdOnStart(p, c)
-  vim.api.nvim_create_autocmd(
-    { "BufNew", "BufRead", "BufNewFile" },
-    {
-      pattern = { p }, command = c
-    }
-  )
+	vim.api.nvim_create_autocmd(
+		{ "BufNew", "BufRead", "BufNewFile" },
+		{
+			pattern = { p }, command = c
+		}
+	)
 end
 
 autocmdOnStart("*.cc", "set filetype=cc syntax=cpp")
@@ -192,25 +199,33 @@ vim.api.nvim_command("autocmd FileType html set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType gohtmltmpl set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType go set foldmethod=syntax")
 vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
---vim.api.nvim_command("autocmd FileType markdown set foldmethod=NestedMarkdownFolds()")
 vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")
 
-vim.g.transparency = 1
-vim.api.nvim_command("hi Normal ctermbg=NONE guibg=None")
-vim.api.nvim_command("hi Folded ctermfg=Gray ctermbg=None guifg=Gray guibg=None")
 -- Toggle transparency
-vim.cmd [[
-function! ToggleTransparency()
-  let g:transparency = !g:transparency
-  if g:transparency
-    hi Normal ctermbg=NONE guibg=None
-    hi Folded ctermfg=Black ctermbg=NONE guifg=Gray guibg=None
-  else
-    hi Normal ctermbg=Black guibg=Black
-    hi Folded ctermfg=Gray ctermbg=Black guifg=Gray guibg=Black
-  endif
-endfunction
-]]
+vim.g.transparency = 1
+vim.api.nvim_set_hl(0, "Normal", { bg = None })
+vim.api.nvim_set_hl(0, "Folded", { bg = None, fg = '#45475A' })
+
+vim.api.nvim_create_user_command(
+	"ToggleTransparency",
+	function()
+		if (vim.g.transparency == 0)
+		then
+			vim.g.transparency = 1
+			vim.api.nvim_set_hl(0, "Normal", { bg = None })
+			vim.api.nvim_set_hl(0, "Folded", { bg = None, fg = '#45475A' })
+			-- idk why I need this but I do
+			vim.api.nvim_command("hi Folded ctermbg=None guibg=None")
+			print("Transparency on")
+		else
+			vim.g.transparency = 0
+			vim.api.nvim_set_hl(0, "Normal", { bg = '#11111b' })
+			vim.api.nvim_set_hl(0, "Folded", { bg = '#11111b', fg = '#BAC2DE' })
+			print("Transparency off")
+		end
+	end,
+	{ bang = true, desc = 'Turns transparency on or off' }
+)
 -- }}}
 
 -- Coc Options
@@ -219,6 +234,7 @@ vim.cmd [[set nobackup]]
 vim.cmd [[set nowritebackup]]
 vim.cmd [[set updatetime=300]]
 vim.cmd [[set signcolumn=yes]]
+vim.cmd [[autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')]]
 -- }}}
 
 vim.cmd [[set shortmess=A]]
@@ -226,100 +242,100 @@ vim.cmd [[set shortmess=A]]
 -- Templates
 -- {{{
 local function paste_file(fileName)
-  local file = io.open(fileName)
-  if not file then return nil end
-  local contents = file:read "*a"
-  file:close()
+	local file = io.open(fileName)
+	if not file then return nil end
+	local contents = file:read "*a"
+	file:close()
 
-  local base = vim.fn.expand('%:t:r') or "__default_file"
-  local headerName = base .. ".h"
+	local base = vim.fn.expand('%:t:r') or "__default_file"
+	local headerName = base .. ".h"
 
-  contents = contents:gsub("{{_author_}}", "Stephen M. Reaves")
-  contents = contents:gsub("{{_date_}}", os.date("%b %e, %Y"))
-  contents = contents:gsub("{{_file_name_}}", vim.fn.expand('%:t'))
-  contents = contents:gsub("{{_header_name_}}", headerName)
-  contents = contents:gsub("{{_header_name_caps_}}", string.upper(base))
+	contents = contents:gsub("{{_author_}}", "Stephen M. Reaves")
+	contents = contents:gsub("{{_date_}}", os.date("%b %e, %Y"))
+	contents = contents:gsub("{{_file_name_}}", vim.fn.expand('%:t'))
+	contents = contents:gsub("{{_header_name_}}", headerName)
+	contents = contents:gsub("{{_header_name_caps_}}", string.upper(base))
 
-  vim.api.nvim_paste(contents, true, 1)
+	vim.api.nvim_paste(contents, true, 1)
 end
 
 local function scandir(directory)
-  local i = 0
-  local t = {}
-  local pFile = io.popen('ls "' .. directory .. '"')
-  if pFile == nil then return t end
+	local i = 0
+	local t = {}
+	local pFile = io.popen('ls "' .. directory .. '"')
+	if pFile == nil then return t end
 
-  for file in pFile:lines() do
-    i = i + 1
-    t[i] = file
-  end
-  pFile:close()
+	for file in pFile:lines() do
+		i = i + 1
+		t[i] = file
+	end
+	pFile:close()
 
-  return t
+	return t
 end
 
 vim.api.nvim_create_user_command(
-  "LoadTemplate",
-  function()
-    local actions = require "telescope.actions"
-    local actions_state = require "telescope.actions.state"
-    local pickers = require "telescope.pickers"
-    local finders = require "telescope.finders"
-    local sorters = require "telescope.sorters"
+	"LoadTemplate",
+	function()
+		local actions = require "telescope.actions"
+		local actions_state = require "telescope.actions.state"
+		local pickers = require "telescope.pickers"
+		local finders = require "telescope.finders"
+		local sorters = require "telescope.sorters"
 
-    local templateDir = "/home/reavessm/.config/nvim/Templates"
-    local file_table = {
-      ["c"] = {
-        dir = templateDir .. "/C/",
-        files = scandir(templateDir .. "/C/")
-      },
-      ["h"] = {
-        dir = templateDir .. "/H/",
-        files = scandir(templateDir .. "/H/")
-      },
-      ["go"] = {
-        dir = templateDir .. "/Go/",
-        files = scandir(templateDir .. "/Go/")
-      },
-      ["rust"] = {
-        dir = templateDir .. "/Rust/",
-        files = scandir(templateDir .. "/Rust/")
-      }
-    }
-    local ft = vim.bo.filetype
+		local templateDir = "/home/reavessm/.config/nvim/Templates"
+		local file_table = {
+			["c"] = {
+				dir = templateDir .. "/C/",
+				files = scandir(templateDir .. "/C/")
+			},
+			["h"] = {
+				dir = templateDir .. "/H/",
+				files = scandir(templateDir .. "/H/")
+			},
+			["go"] = {
+				dir = templateDir .. "/Go/",
+				files = scandir(templateDir .. "/Go/")
+			},
+			["rust"] = {
+				dir = templateDir .. "/Rust/",
+				files = scandir(templateDir .. "/Rust/")
+			}
+		}
+		local ft = vim.bo.filetype
 
-    local f = file_table[ft]
-    if f == nil
-    then
-      if ft == nil or ft == '' then ft = "N/A" end
-      print("No templates for filetype of: " .. ft)
-      return
-    end
+		local f = file_table[ft]
+		if f == nil
+		then
+			if ft == nil or ft == '' then ft = "N/A" end
+			print("No templates for filetype of: " .. ft)
+			return
+		end
 
-    local function enter(prompt_buf_num)
-      local selected = actions_state.get_selected_entry()
-      actions.close(prompt_buf_num)
-      paste_file(f.dir .. selected[1])
-    end
+		local function enter(prompt_buf_num)
+			local selected = actions_state.get_selected_entry()
+			actions.close(prompt_buf_num)
+			paste_file(f.dir .. selected[1])
+		end
 
-    local opts = {
-      finder = finders.new_table {
-        results = f.files or { "None" }
-      },
-      results_title = "Template files in " .. f.dir,
-      prompt_title = "Please enter a template name",
-      preview_title = "Template preview",
-      sorter = sorters.get_generic_fuzzy_sorter({}),
-      attach_mappings = function(_, map)
-        map("i", "<CR>", enter)
-        return true
-      end,
-    }
+		local opts = {
+			finder = finders.new_table {
+				results = f.files or { "None" }
+			},
+			results_title = "Template files in " .. f.dir,
+			prompt_title = "Please enter a template name",
+			preview_title = "Template preview",
+			sorter = sorters.get_generic_fuzzy_sorter({}),
+			attach_mappings = function(_, map)
+				map("i", "<CR>", enter)
+				return true
+			end,
+		}
 
-    local test = pickers.new(opts)
+		local test = pickers.new(opts)
 
-    test:find()
-  end,
-  { bang = true, desc = 'Pick and load templates based on filetype' }
+		test:find()
+	end,
+	{ bang = true, desc = 'Pick and load templates based on filetype' }
 )
 -- }}}

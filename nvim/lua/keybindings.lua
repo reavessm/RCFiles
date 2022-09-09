@@ -63,8 +63,14 @@ Map("o", "ic", "<Plug>(coc-classobj-i)")
 Map("x", "ac", "<Plug>(coc-classobj-a)")
 Map("o", "ac", "<Plug>(coc-classobj-a)")
 
-vim.g.coc_snippet_prev = '<leader>h'
-vim.g.coc_snippet_next = '<leader>l'
+vim.g.coc_snippet_prev = '<C-h>'
+vim.g.coc_snippet_next = '<C-l>'
+
+-- Rewrite input mode mappings
+--Map("i", "<space>h", " h")
+--Map("i", "<space>l", " l")
+--vim.cmd [[iu "<leader>h"]]
+--vim.cmd [[iu "<leader>l"]]
 
 -- Copy & Paste
 Map("v", "<C-c>", ":w! ~/.vimbuffer<CR>")
@@ -75,7 +81,7 @@ Map("i", "((", "()<++><Esc>F)i")
 Map("i", "[[", "[]<++><Esc>F]i")
 
 Map("i", "<C-l>", "<Esc>/<++><CR>:noh<CR>ca<")
-Map("n", "<C-l>", "/<++><CR>:noh<CR>ca<")
+--Map("n", "<C-l>", "/<++><CR>:noh<CR>ca<")
 
 
 -- Move lines
@@ -89,9 +95,9 @@ vim.api.nvim_command("autocmd FileType sh inoremap {{ ${}<++><Esc>F{a")
 Map("n", "<C-h>", ":GitGutterLineHighlightsToggle<CR>")
 Map("n", "<C-h>", "<Esc>:GitGutterLineHighlightsToggle<CR>i")
 
-Map("n", "<leader>t", ":call ToggleTransparency()<CR>")
+Map("n", "<C-t>", ":ToggleTransparency<CR>")
 
-Map("n", "<leader>u", ":GitGutterUndoHunk<CR>")
+Map("n", "<leader>u", ":CocCommand git.chunkUndo<CR>")
 
 Map("n", "gF", "99[{0")
 Map("n", "gD", "99[{0z<CR>")

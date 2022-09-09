@@ -29,4 +29,10 @@ return require('packer').startup(function(use)
   -- Markdown folding
   use { 'masukomi/vim-markdown-folding' }
 
+  -- Status line
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
+
 end)
