@@ -6,7 +6,8 @@ set $mon0 eDP-1
 set $menu rofi -show drun -monitor $primary | xargs swaymsg exec
 set $ssh rofi -show ssh -monitor $primary
 set $lock swaylock
-set $wallpaper1 ~/Pictures/jotaroDISCs.jpeg
+#set $wallpaper1 ~/Pictures/jotaroDISCs.jpeg
+set $wallpaper1 ~/Pictures/jotaroDISCs-flipped.jpeg
 set $left h
 set $up j
 set $down k
@@ -16,7 +17,13 @@ set $right l
 output $mon0 {
   resolution 2560x1440@60.048Hz
   background $wallpaper1 fill
+  scale 1
 }
+
+assign [app_id="firefox"] 1
+assign [app_id="Alacritty"] 2
+assign [class="Spotify"] 3
+assign [class="Steam"] 4
 
 gaps outer 10
 gaps inner 5
@@ -153,6 +160,17 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     swaybar_command waybar
+}
+
+#input {
+  #natural_scroll enabled
+#}
+
+input * {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
 }
 
 exec gentoo-pipewire-launcher
