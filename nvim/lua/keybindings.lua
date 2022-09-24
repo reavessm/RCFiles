@@ -44,8 +44,8 @@ Map("x", "<leader>f>", "<Plug>(coc-format-selected)")
 
 -- Apply code action to current buffer
 -- Example: `<leader>aap` for current paragraph
-Map("x", "<leader>a", "<Plug>(coc-codeaction-selected)")
-Map("n", "<leader>a", "<Plug>(coc-codeaction-selected)")
+Map("x", "<leader>a", "<Plug>(coc-codeaction-selected)<CR>")
+Map("n", "<leader>a", "<Plug>(coc-codeaction-selected)<CR>")
 
 -- Quickfix
 Map("n", "<leader>qf", "<Plug>(coc-fix-current)")

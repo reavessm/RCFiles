@@ -22,5 +22,6 @@
   "git.enableGlobalStatus": true,
   "git.addGBlameToVirtualText": true,
   "git.addGBlameToBufferVar": true,
-  "git.enableGutters": true
+  "git.enableGutters": true,
+  "clangd.fallbackFlags": ["-xc", "-fblocks", "-D_POSIX_C_SOURCE=200809L"]
 }

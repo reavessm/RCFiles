@@ -175,6 +175,7 @@
 {
     "height": 30, // Waybar height (to be removed for auto height)
     "spacing": 3, // Gaps between modules (3px)
+    "modules-center": ["clock"],
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "output": ["DP-2", "HDMI-A-1"],
      "sway/workspaces": {
