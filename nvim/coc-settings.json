@@ -15,7 +15,6 @@
   "coc.preferences.formatOnSaveFiletypes": [
       "go",
       "rust",
-      "markdown",
       "c",
       "lua"
   ],
