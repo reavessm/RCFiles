@@ -2,10 +2,11 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  labels:
+  annotations:
     createdBy: {{_author_}}
     createdOn: {{_date_}}
-    description: <++>
+    description: Service account for {{_base_name_}}
+  labels:
     app: {{_base_name_}}
     app.kubernetes.io/component: {{_base_name_}}
     app.kubernetes.io/instance: {{_base_name_}}

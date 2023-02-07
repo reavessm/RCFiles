@@ -2,10 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
+  annotations:
     createdBy: {{_author_}}
     createdOn: {{_date_}}
-    description: <++>
+    description: Service for {{_base_name_}}
+  labels:
     app: {{_base_name_}}
     app.kubernetes.io/component: {{_base_name_}}
     app.kubernetes.io/instance: {{_base_name_}}
@@ -20,6 +21,6 @@ spec:
     protocol: TCP
     targetPort: <++>
   selector:
-    app: {{_base_name}}
+    app: {{_base_name_}}
   sessionAffinity: None
   type: ClusterIP

@@ -5,10 +5,11 @@ metadata:
   # Uncomment these to enable TLS
   #annotations:
     #kubernetes.io/tls-acme: "true"
-  labels:
+  annotations:
     createdBy: {{_author_}}
     createdOn: {{_date_}}
-    description: <++>
+    description: Route for {{_base_name_}}
+  labels:
     app: {{_base_name_}}
     app.kubernetes.io/component: {{_base_name_}}
     app.kubernetes.io/instance: {{_base_name_}}

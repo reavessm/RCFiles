@@ -2,10 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
+  annotations:
     createdBy: {{_author_}}
     createdOn: {{_date_}}
-    description: <++>
+    description: Storage for {{_base_name_}}
+  labels:
     app: {{_base_name_}}
     app.kubernetes.io/component: {{_base_name_}}
     app.kubernetes.io/instance: {{_base_name_}}
