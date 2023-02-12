@@ -123,4 +123,5 @@ alias workVPN='nmcli --ask connection up "1 - Red Hat Global VPN"'
 alias stripColors='sed -r "s/[[:cntrl:]]\[[0-9]{1,3}m//g"'
 alias golint='podman run --rm -v '"$(pwd)"':/app -w /app docker.io/golangci/golangci-lint golangci-lint run -v'
 alias open='xdg-open'
+alias decompile='_JAVA_AWT_WM_NONREPARENTING=1 ghidra'
 # }}}

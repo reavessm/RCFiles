@@ -1,0 +1,27 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    createdBy: {{_author_}}
+    createdOn: {{_date_}}
+    description: Image stream for {{_base_name_}}
+  labels:
+    app: {{_base_name_}}
+    app.kubernetes.io/component: {{_base_name_}}
+    app.kubernetes.io/instance: {{_base_name_}}
+    app.kubernetes.io/name: {{_base_name_}}
+    app.kubernetes.io/part-of: {{_base_name_}}
+  name: {{_base_name_}}
+  namespace: <++>
+spec:
+  tags:
+  - annotations: null
+    from:
+      kind: DockerImage
+      name: <++>
+    importPolicy:
+      scheduled: true
+    name: latest
+    referencePolicy:
+      type: Source

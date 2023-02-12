@@ -1,0 +1,15 @@
+%% File: client-server.mmd
+%% Written by: Stephen M. Reaves
+%% Created on: Feb  5, 2023
+sequenceDiagram
+  loop
+    Client-->>+Server: Makes Request
+    Server-->>+AMOApplication: Execute (Client,Request01)
+    critical Check cache for result
+      AMOApplication-->>-Server: Return result from cache
+    option Result not in cache
+      AMOApplication-->AMOApplication: Execute action and store result
+      AMOApplication-->>-Server: Return result
+    end
+    Server-->>Client: Return Result
+  end

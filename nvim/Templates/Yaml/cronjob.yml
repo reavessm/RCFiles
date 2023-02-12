@@ -1,0 +1,31 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations:
+    createdBy: {{_author_}}
+    createdOn: {{_date_}}
+    description: Cron job for {{_base_name_}}
+  labels:
+    app: {{_base_name_}}
+    app.kubernetes.io/component: {{_base_name_}}
+    app.kubernetes.io/instance: {{_base_name_}}
+    app.kubernetes.io/name: {{_base_name_}}
+    app.kubernetes.io/part-of: {{_base_name_}}
+  name: {{_base_name_}}
+  namespace: <++>
+spec:
+  schedule: '@daily'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: hello
+              image: busybox
+              args:
+                - /bin/sh
+                - '-c'
+                - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+

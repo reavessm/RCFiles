@@ -40,6 +40,7 @@ output $mon1 {
 
 workspace 2 output $mon1
 assign [app_id="Alacritty"] 2
+assign [app_id="term"] 2
 
 output $mon2 {
   transform 180
@@ -199,6 +200,10 @@ bar {
         #inactive_workspace #32323200 #32323200 #5c5c5c
     #}
     swaybar_command waybar
+}
+
+input * {
+  natural_scroll enabled
 }
 
 exec gentoo-pipewire-launcher

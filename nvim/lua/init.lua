@@ -1,26 +1,46 @@
 vim.cmd [[command! -range=% -nargs=1 Align lua require'align'.align(<f-args>)]]
 require('keybindings')
 require('dapui').setup({
-	layouts = {
-		{
-			elements = {
-				{ id = 'scopes', size = 0.25 },
-				"breakpoints",
-				"stacks",
-				"watches",
-			},
-			size = 40, --columns
-			position = "right",
-		},
-		{
-			elements = {
-				"repl",
-				"console",
-			},
-			size = 0.25, -- 25%
-			position = "bottom",
-		}
-	}
+    layouts = {
+        {
+            elements = {
+                { id = 'scopes', size = 0.25 },
+                "breakpoints",
+                "stacks",
+                "watches",
+            },
+            size = 40, --columns
+            position = "right",
+        },
+        {
+            elements = {
+                "repl",
+                "console",
+            },
+            size = 0.25, -- 25%
+            position = "bottom",
+        }
+    }
+})
+require('dap-go').setup()
+local dap, dapui = require("dap"), require("dapui")
+dap.listeners.after.event_initialized["dapui_config"] = function()
+	dapui.open()
+end
+dap.listeners.after.event_terminated["dapui_config"] = function()
+	dapui.close()
+end
+dap.listeners.after.event_exited["dapui_config"] = function()
+	dapui.close()
+end
+
+require('nvim-treesitter.configs').setup({
+    ensure_installed = { "c", "lua", "rust", "go" },
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+        enable = true,
+    },
 })
 
 
@@ -38,27 +58,22 @@ require("telescope").setup({
 -- {{{
 vim.g.catpuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 require("catppuccin").setup({
-	transparent_background = true,
-	integrations = {
-		coc_nvim = true,
-		--coc_nvim = false,
-		telescope = true,
-		--    nvimtree = {
-		--      enabled = true,
-		--      show_root = true,
-		--      transparent_panel = true,
-		--    },
-		gitgutter = true,
-		markdown = true,
-		notify = true,
-	}
+    transparent_background = true,
+    integrations = {
+        coc_nvim = true,
+        --coc_nvim = false,
+        telescope = true,
+        --    nvimtree = {
+        --      enabled = true,
+        --      show_root = true,
+        --      transparent_panel = true,
+        --    },
+        gitgutter = true,
+        markdown = true,
+        notify = true,
+    }
 })
 vim.cmd [[colorscheme catppuccin]]
--- }}}
-
--- Status line
--- {{{
-require('lualine').setup()
 -- }}}
 
 -- FileTypes
@@ -68,10 +83,12 @@ require('lualine').setup()
 -- @param p file type pattern to match on
 local function autocmdOnStart(p, c)
 	vim.api.nvim_create_autocmd(
-		{ "BufNew", "BufRead", "BufNewFile", "BufEnter", "BufWinEnter" },
-		{
-			pattern = { p }, command = c
-		}
+	--{ "BufNew", "BufReadPre", "BufRead", "BufNewFile", "BufEnter", "BufWinEnter" },
+	--{ "BufNew", "BufRead", "BufNewFile", "CursorHold" },
+	    { "BufNew", "BufRead", "BufNewFile" },
+	    {
+	        pattern = { p }, command = c
+	    }
 	)
 end
 
@@ -80,8 +97,10 @@ autocmdOnStart("*.cc", "set filetype=cc syntax=cpp")
 autocmdOnStart("*.h", "set filetype=h syntax=c")
 autocmdOnStart("*.md", "set filetype=markdown")
 autocmdOnStart("*.slide", "set filetype=markdown")
+autocmdOnStart("*.mmd", "set filetype=mermaid")
 autocmdOnStart("*.service", "set filetype=systemd")
 autocmdOnStart("*.sh", "set filetype=sh")
+autocmdOnStart("*.go", "set filetype=go")
 -- }}}
 
 -- Must Haves
@@ -198,7 +217,8 @@ vim.api.nvim_command("autocmd FileType make set noexpandtab shiftwidth=4 softtab
 -- Textwrap
 vim.api.nvim_command("set wrap")
 vim.api.nvim_command("set textwidth=0")
-vim.api.nvim_command("autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,*.css,*.php,*.go,*.rs setlocal textwidth=79")
+vim.api.nvim_command(
+    "autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,*.css,*.php,*.go,*.rs setlocal textwidth=79")
 
 -- Folding
 vim.api.nvim_command("set foldmethod=marker")
@@ -206,8 +226,20 @@ vim.api.nvim_command("autocmd FileType yaml set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType html set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType gohtmltmpl set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType go set foldmethod=syntax")
+vim.api.nvim_command("autocmd FileType c set foldmethod=syntax")
 vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
 vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")
+---WORKAROUND
+--vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
+--vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter', 'CursorHold' }, {
+--vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'CursorHold' }, {
+--  group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+--  callback = function()
+--    vim.opt.foldmethod = 'expr'
+--    vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
+--  end
+--})
+---ENDWORKAROUND
 
 -- Toggle transparency
 vim.g.transparency = 1
@@ -215,24 +247,29 @@ vim.api.nvim_set_hl(0, "Normal", { bg = None })
 vim.api.nvim_set_hl(0, "Folded", { bg = None, fg = '#45475A' })
 
 vim.api.nvim_create_user_command(
-	"ToggleTransparency",
-	function()
-		if (vim.g.transparency == 0)
-		then
-			vim.g.transparency = 1
-			vim.api.nvim_set_hl(0, "Normal", { bg = None })
-			vim.api.nvim_set_hl(0, "Folded", { bg = None, fg = '#45475A' })
-			-- idk why I need this but I do
-			vim.api.nvim_command("hi Folded ctermbg=None guibg=None")
-			print("Transparency on")
-		else
-			vim.g.transparency = 0
-			vim.api.nvim_set_hl(0, "Normal", { bg = '#11111b' })
-			vim.api.nvim_set_hl(0, "Folded", { bg = '#11111b', fg = '#BAC2DE' })
-			print("Transparency off")
-		end
-	end,
-	{ bang = true, desc = 'Turns transparency on or off' }
+    "ToggleTransparency",
+    function()
+	    if (vim.g.transparency == 0)
+	    then
+		    vim.g.transparency = 1
+		    vim.api.nvim_set_hl(0, "Normal", { bg = None })
+		    vim.api.nvim_set_hl(0, "Folded", { bg = None, fg = '#45475A' })
+		    --vim.api.nvim_set_hl(0, "ColorColumn", { bg = 'DarkGray', fg = 'White' })
+		    --vim.api.nvim_command("highlight ColorColumn ctermfg=white ctermbg=darkgray guifg=white guibg=darkgray")
+		    -- idk why I need this but I do
+		    vim.api.nvim_command("hi Folded ctermbg=None guibg=None")
+		    --vim.cmd [[ call matchadd('ColorColumn', '\%81v', 100) ]]
+		    print("Transparency on")
+	    else
+		    vim.g.transparency = 0
+		    vim.api.nvim_set_hl(0, "Normal", { bg = '#11111b' })
+		    vim.api.nvim_set_hl(0, "Folded", { bg = '#11111b', fg = '#BAC2DE' })
+		    --vim.api.nvim_set_hl(0, "ColorColumn", { bg = '#11111b', fg = '#BAC2DE' })
+		    vim.cmd [[ call matchadd('ColorColumn', '\%0v', 100) ]]
+		    print("Transparency off")
+	    end
+    end,
+    { bang = true, desc = 'Turns transparency on or off' }
 )
 -- }}}
 
@@ -261,6 +298,7 @@ local function paste_file(fileName)
 	contents = contents:gsub("{{_author_}}", "Stephen M. Reaves")
 	contents = contents:gsub("{{_date_}}", os.date("%b %e, %Y"))
 	contents = contents:gsub("{{_file_name_}}", vim.fn.expand('%:t'))
+	contents = contents:gsub("{{_base_name_}}", base)
 	contents = contents:gsub("{{_header_name_}}", headerName)
 	contents = contents:gsub("{{_header_name_caps_}}", string.upper(base))
 
@@ -283,98 +321,167 @@ local function scandir(directory)
 end
 
 vim.api.nvim_create_user_command(
-	"LoadTemplate",
-	function()
-		local actions = require "telescope.actions"
-		local actions_state = require "telescope.actions.state"
-		local pickers = require "telescope.pickers"
-    --local previewers = require "telescope.previewers"
-    local config = require "telescope.config"
-		local finders = require "telescope.finders"
-		local sorters = require "telescope.sorters"
+    "LoadTemplate",
+    function()
+	    local actions = require "telescope.actions"
+	    local actions_state = require "telescope.actions.state"
+	    local pickers = require "telescope.pickers"
+	    local finders = require "telescope.finders"
+	    local sorters = require "telescope.sorters"
 
-    local builtin = require "telescope.builtin"
-    --local make_entry = require "telescope.make_entry"
+	    local templateDir = os.getenv("HOME") .. "/.config/nvim/Templates"
+	    local file_table = {
+	        ["c"] = {
+	            dir = templateDir .. "/C/",
+	            files = scandir(templateDir .. "/C/")
+	        },
+	        ["mermaid"] = {
+	            dir = templateDir .. "/Mermaid/",
+	            files = scandir(templateDir .. "/Mermaid/")
+	        },
+	        ["h"] = {
+	            dir = templateDir .. "/H/",
+	            files = scandir(templateDir .. "/H/")
+	        },
+	        ["go"] = {
+	            dir = templateDir .. "/Go/",
+	            files = scandir(templateDir .. "/Go/")
+	        },
+	        ["rust"] = {
+	            dir = templateDir .. "/Rust/",
+	            files = scandir(templateDir .. "/Rust/")
+	        },
+	        ["markdown"] = {
+	            dir = templateDir .. "/Markdown/",
+	            files = scandir(templateDir .. "/Markdown/")
+	        },
+	        ["yaml"] = {
+	            dir = templateDir .. "/Yaml/",
+	            files = scandir(templateDir .. "/Yaml/")
+	        }
+	    }
+	    local ft = vim.bo.filetype
 
-		local templateDir = "/home/reavessm/.config/nvim/Templates"
-		local file_table = {
-			["c"] = {
-				dir = templateDir .. "/C/",
-				files = scandir(templateDir .. "/C/")
-			},
-			["h"] = {
-				dir = templateDir .. "/H/",
-				files = scandir(templateDir .. "/H/")
-			},
-			["go"] = {
-				dir = templateDir .. "/Go/",
-				files = scandir(templateDir .. "/Go/")
-			},
-			["rust"] = {
-				dir = templateDir .. "/Rust/",
-				files = scandir(templateDir .. "/Rust/")
-			}
-		}
+	    local f = file_table[ft]
+	    if f == nil
+	    then
+		    if ft == nil or ft == '' then ft = "N/A" end
+		    print("No templates for filetype of: " .. ft)
+		    return
+	    end
 
-		local ft = vim.bo.filetype
-		local f = file_table[ft]
+	    local function enter(prompt_buf_num)
+		    local selected = actions_state.get_selected_entry()
+		    actions.close(prompt_buf_num)
+		    paste_file(f.dir .. selected[1])
+	    end
 
-		if f == nil
-		then
-			if ft == nil or ft == '' then ft = "N/A" end
-			print("No templates for filetype of: " .. ft)
-			return
-		end
+	    local opts = {
+	        finder = finders.new_table {
+	            results = f.files or { "None" }
+	        },
+	        results_title = "Template files in " .. f.dir,
+	        prompt_title = "Please enter a template name",
+	        preview_title = "Template preview",
+	        sorter = sorters.get_generic_fuzzy_sorter({}),
+	        attach_mappings = function(_, map)
+		        map("i", "<CR>", enter)
+		        return true
+	        end,
+	    }
 
-		local function enter(prompt_buf_num)
-			local selected = actions_state.get_selected_entry()
-			actions.close(prompt_buf_num)
-			paste_file(f.dir .. selected[1])
-		end
+	    local test = pickers.new(opts)
 
-		local opts = {
-			finder = finders.new_table {
-				results = f.files or { "None" },
-      cwd = f.dir,
-        --entry_maker = make_entry.gen_from_picker({}),
-			},
-      --finder = builtin.find_files({
-        --cwd = f.dir,
-        --preview = true,
-      --}),
-      --preview = true,
-      cwd = f.dir,
-      --filename = "/home/sreaves/.config/nvim/Templates/Go/cli.go",
-      --filename = "/home/reavessm/.config/nvim/Templates/Go/cli.go",
-      --path = "/home/reavessm/.config/nvim/Templates/Go",
-      --previewer = previewers.vim_buffer_cat.new({filename = "/home/sreaves/.config/nvim/Templates/Go/cli.go"}),
-      --previewer = previewers.vim_buffer_cat.new({"/home/sreaves/.config/nvim/Templates/Go/cli.go", 0, 0, 0}),
-      --previewer = previewers.vim_buffer_cat.new({filename = "/home/sreaves/.config/nvim/Templates/Go/" .. (actions_state.get_selected_entry() or "None")}),
-      --previewer = previewers.cat.new({filename = f.dir .. "cli.go"}),
-      --previewer = previewers.cat.new({}),
-      --previewer = previewers.buffer_previewer_maker(f.dir .. "cli.go", 0, {}),
-      --previewer = config.values.cat_previewer,
-			results_title = "Template files in " .. f.dir,
-			prompt_title = "Please enter a template name",
-			preview_title = "Template preview",
-			sorter = sorters.get_generic_fuzzy_sorter({}),
-			attach_mappings = function(_, map)
-				map("i", "<CR>", enter)
-				return true
-			end,
-		}
-    --vim.api.nvim_paste(opts.cwd, true, 1)
-
---		local test = pickers.new(opts, {
---      previewer = config.values.file_previewer(opts),
---      --previewer = builtin.find_files({cwd =  "/home/reavessm/.config/nvim/Templates/Go"})
---      --previewer = previewers.vim_buffer_cat.new(opts),
---      --previewer = previewers.vim_buffer_cat.new("cli.go", 0, opts),
---    })
---		test:find()
-	builtin.find_files(opts)
-
-	end,
-	{ bang = true, desc = 'Pick and load templates based on filetype' }
+	    test:find()
+    end,
+    { bang = true, desc = 'Pick and load templates based on filetype' }
 )
 -- }}}
+
+-- Status line
+-- {{{
+--require('lualine').setup()
+-- Bubbles config for lualine
+-- Author: lokesh-krishna
+-- Edited by: Stephen Reaves
+-- MIT license, see LICENSE for more details.
+
+-- stylua: ignore
+local colors = {
+    blue   = '#80a0ff',
+    cyan   = '#79dac8',
+    black  = '#080808',
+    white  = '#c6c6c6',
+    red    = '#ff5189',
+    violet = '#d183e8',
+    grey   = '#303030',
+    pink   = '#f5c2e7',
+    yellow = '#f9e2af',
+}
+
+local bubbles_theme = {
+    normal = {
+        a = { fg = colors.black, bg = colors.pink },
+        b = { fg = colors.black, bg = colors.yellow },
+        c = { fg = colors.black, bg = 'none' },
+        x = { fg = colors.black, bg = colors.yellow },
+    },
+    insert = { a = { fg = colors.black, bg = colors.blue } },
+    visual = { a = { fg = colors.black, bg = colors.cyan } },
+    replace = { a = { fg = colors.black, bg = colors.red } },
+    inactive = {
+        a = { fg = colors.white, bg = 'none' },
+        b = { fg = colors.white, bg = 'none' },
+        c = { fg = colors.white, bg = 'none' },
+    },
+}
+
+require('lualine').setup {
+    options = {
+        theme = bubbles_theme,
+        component_separators = '|',
+        section_separators = { left = '', right = '' },
+    },
+    sections = {
+        lualine_a = {
+            { 'mode', separator = { left = '' }, right_padding = 2 },
+        },
+        lualine_b = { 'filename', 'branch' },
+        lualine_c = { 'fileformat' },
+        --lualine_x = { vim.api.nvim_buf_get_var(0, 'coc_current_function') },
+        lualine_x = {
+            { separator = { left = '', right = '|' }, right_padding = 0, 'b:coc_current_function', ' ' }
+            --{ 'b:coc_current_function', ' ' }
+        },
+        --lualine_x = {},
+        lualine_y = { 'filetype', 'progress' },
+        lualine_z = {
+            { 'location', separator = { right = '' }, left_padding = 2 },
+        },
+    },
+    inactive_sections = {
+        lualine_a = { 'filename' },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { 'location' },
+    },
+    tabline = {
+        --lualine_a = { 'diff', colored = false },
+        lualine_a = {
+            {
+                'diff',
+                colored = false,
+            }
+        },
+    },
+    extensions = {},
+}
+-- }}}
+
+-- Variables
+-- {{{
+vim.g["mkdp_browser"] = "firefox"
+-- }}}
+require('colorizer').setup()

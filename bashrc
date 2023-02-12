@@ -275,5 +275,7 @@ export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/pgsql-13/bin
 export PATH=$PATH:/home/$(whoami)/bin
 export PATH=$PATH:/home/$(whoami)/.cargo/bin
+[ -d "$HOME/.local/bin" ] && export PATH=$PATH:$HOME/.local/bin
 
-complete -C /usr/bin/terraform terraform
+#complete -C /usr/bin/terraform terraform
+#. "$HOME/.cargo/env"
