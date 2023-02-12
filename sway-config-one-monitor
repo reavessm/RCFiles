@@ -22,6 +22,7 @@ output $mon0 {
 
 assign [app_id="firefox"] 1
 assign [app_id="Alacritty"] 2
+assign [app_id="term"] 2
 assign [class="Spotify"] 3
 assign [class="Steam"] 4
 

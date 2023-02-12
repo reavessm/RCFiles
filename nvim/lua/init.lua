@@ -25,8 +25,14 @@ require('dapui').setup({
 
 
 --require("telescope").load_extension "packer"
-require("telescope")
-
+--require("telescope")
+require("telescope").setup({
+  previewer = true,
+  --file_previewer = require("telescope.previewers").cat.new,
+  file_previewer = require("telescope.builtin").find_files,
+  grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+  qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+})
 
 -- Color
 -- {{{
@@ -62,16 +68,18 @@ require('lualine').setup()
 -- @param p file type pattern to match on
 local function autocmdOnStart(p, c)
 	vim.api.nvim_create_autocmd(
-		{ "BufNew", "BufRead", "BufNewFile" },
+		{ "BufNew", "BufRead", "BufNewFile", "BufEnter", "BufWinEnter" },
 		{
 			pattern = { p }, command = c
 		}
 	)
 end
 
+autocmdOnStart("*.c", "set filetype=c syntax=c")
 autocmdOnStart("*.cc", "set filetype=cc syntax=cpp")
 autocmdOnStart("*.h", "set filetype=h syntax=c")
 autocmdOnStart("*.md", "set filetype=markdown")
+autocmdOnStart("*.slide", "set filetype=markdown")
 autocmdOnStart("*.service", "set filetype=systemd")
 autocmdOnStart("*.sh", "set filetype=sh")
 -- }}}
@@ -280,8 +288,13 @@ vim.api.nvim_create_user_command(
 		local actions = require "telescope.actions"
 		local actions_state = require "telescope.actions.state"
 		local pickers = require "telescope.pickers"
+    --local previewers = require "telescope.previewers"
+    local config = require "telescope.config"
 		local finders = require "telescope.finders"
 		local sorters = require "telescope.sorters"
+
+    local builtin = require "telescope.builtin"
+    --local make_entry = require "telescope.make_entry"
 
 		local templateDir = "/home/reavessm/.config/nvim/Templates"
 		local file_table = {
@@ -302,9 +315,10 @@ vim.api.nvim_create_user_command(
 				files = scandir(templateDir .. "/Rust/")
 			}
 		}
-		local ft = vim.bo.filetype
 
+		local ft = vim.bo.filetype
 		local f = file_table[ft]
+
 		if f == nil
 		then
 			if ft == nil or ft == '' then ft = "N/A" end
@@ -320,8 +334,26 @@ vim.api.nvim_create_user_command(
 
 		local opts = {
 			finder = finders.new_table {
-				results = f.files or { "None" }
+				results = f.files or { "None" },
+      cwd = f.dir,
+        --entry_maker = make_entry.gen_from_picker({}),
 			},
+      --finder = builtin.find_files({
+        --cwd = f.dir,
+        --preview = true,
+      --}),
+      --preview = true,
+      cwd = f.dir,
+      --filename = "/home/sreaves/.config/nvim/Templates/Go/cli.go",
+      --filename = "/home/reavessm/.config/nvim/Templates/Go/cli.go",
+      --path = "/home/reavessm/.config/nvim/Templates/Go",
+      --previewer = previewers.vim_buffer_cat.new({filename = "/home/sreaves/.config/nvim/Templates/Go/cli.go"}),
+      --previewer = previewers.vim_buffer_cat.new({"/home/sreaves/.config/nvim/Templates/Go/cli.go", 0, 0, 0}),
+      --previewer = previewers.vim_buffer_cat.new({filename = "/home/sreaves/.config/nvim/Templates/Go/" .. (actions_state.get_selected_entry() or "None")}),
+      --previewer = previewers.cat.new({filename = f.dir .. "cli.go"}),
+      --previewer = previewers.cat.new({}),
+      --previewer = previewers.buffer_previewer_maker(f.dir .. "cli.go", 0, {}),
+      --previewer = config.values.cat_previewer,
 			results_title = "Template files in " .. f.dir,
 			prompt_title = "Please enter a template name",
 			preview_title = "Template preview",
@@ -331,10 +363,17 @@ vim.api.nvim_create_user_command(
 				return true
 			end,
 		}
+    --vim.api.nvim_paste(opts.cwd, true, 1)
 
-		local test = pickers.new(opts)
+--		local test = pickers.new(opts, {
+--      previewer = config.values.file_previewer(opts),
+--      --previewer = builtin.find_files({cwd =  "/home/reavessm/.config/nvim/Templates/Go"})
+--      --previewer = previewers.vim_buffer_cat.new(opts),
+--      --previewer = previewers.vim_buffer_cat.new("cli.go", 0, opts),
+--    })
+--		test:find()
+	builtin.find_files(opts)
 
-		test:find()
 	end,
 	{ bang = true, desc = 'Pick and load templates based on filetype' }
 )
