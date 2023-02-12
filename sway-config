@@ -202,4 +202,8 @@ bar {
     swaybar_command waybar
 }
 
+input * {
+  natural_scroll enabled
+}
+
 exec gentoo-pipewire-launcher

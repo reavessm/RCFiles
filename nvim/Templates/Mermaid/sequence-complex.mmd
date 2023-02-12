@@ -1,0 +1,35 @@
+%% File: {{_file_name_}}
+%% Written by: {{_author_}}
+%% Created on: {{_date_}}
+sequenceDiagram
+    participant ServerThreadPool
+    participant Server
+
+    participant ClientThreadPool
+    participant Client
+
+    Server -->> Server: Parse Arguments
+    Client -->> Client: Parse Arguments
+    Server -->> ServerThreadPool: Build thread pool
+    Client -->> ClientThreadPool: Build thread pool
+
+    Client ->> ClientThreadPool: Enqueue Request
+
+    loop while request queue is not empty
+
+        ClientThreadPool ->> Server: Request File
+
+        Server ->> ServerThreadPool: Enqueue Request
+        ServerThreadPool -->> ServerThreadPool: Check requested file with content map
+        ServerThreadPool ->> ClientThreadPool: Send Header
+
+        loop until all data is sent
+            ServerThreadPool ->> ClientThreadPool: Send file data
+            ServerThreadPool -->> ServerThreadPool: Enqueue remaining data
+        end
+
+    end
+
+    ServerThreadPool -->> Server: Free on exit
+
+    ClientThreadPool -->> Client: Free on exit

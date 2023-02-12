@@ -10,18 +10,18 @@ return require('packer').startup(function(use)
   --use 'nvim-lua/plenary.nvim'
 
   -- requires luajit
-   use {
-     'nvim-telescope/telescope.nvim', tag = '0.1.0',
-     requires = {
-       { 'nvim-lua/plenary.nvim' },
-       { 'BurntSushi/ripgrep' }
-     }
-   }
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    requires = {
+      { 'nvim-lua/plenary.nvim' },
+      { 'BurntSushi/ripgrep' }
+    }
+  }
 
-   use { 'neoclide/coc.nvim', branch = 'release' }
+  use { 'neoclide/coc.nvim', branch = 'release' }
 
-   -- Debugger Attachment Protocol
-   use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
+  -- Debugger Attachment Protocol
+  use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
 
   -- Color
   use { "catppuccin/nvim", as = "catppuccin" }
@@ -34,5 +34,17 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
+
+  -- Mermaid
+  use { 'mracos/mermaid.vim' }
+
+  -- install without yarn or npm
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
+
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install",
+    setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
 end)

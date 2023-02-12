@@ -273,3 +273,7 @@ function cleanAfterPatch() {
     ')' -delete
     #-name \*-merge -o \
 }
+
+function buildRefs() {
+  find $1 -type f -exec sh -c "awk -F '-' '/@REF/ { printf \"- [%s](%s) -> %s\n\",\$2,\$3,\$3}' {} | sed 's/\\[ /\\[/;s/( /(/;s/ \\]/\\]/;s/\%2D/-/g' | sort -u" \;
+}

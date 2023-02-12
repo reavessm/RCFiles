@@ -17,11 +17,19 @@
       "rust",
       "markdown",
       "c",
-      "lua"
+      "lua",
+      "java"
   ],
   "git.enableGlobalStatus": true,
   "git.addGBlameToVirtualText": true,
   "git.addGBlameToBufferVar": true,
   "git.enableGutters": true,
-  "clangd.fallbackFlags": ["-xc", "-fblocks", "-D_POSIX_C_SOURCE=200809L"]
+  "clangd.fallbackFlags": ["-xc", "-fblocks", "-D_POSIX_C_SOURCE=200809L"],
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "workspace.ignoredFolders": [
+    "$HOME",
+    "$HOME/Src/OMSCS/DistComp/PR02"
+  ],
+  "workspace.bottomUpFiletypes": ["java"],
+  "java.errors.incompleteClasspath.severity": "ignore"
 }
