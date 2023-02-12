@@ -278,3 +278,4 @@ export PATH=$PATH:/home/$(whoami)/.cargo/bin
 [ -d "$HOME/.local/bin" ] && export PATH=$PATH:$HOME/.local/bin
 
 #complete -C /usr/bin/terraform terraform
+#. "$HOME/.cargo/env"

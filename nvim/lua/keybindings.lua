@@ -48,8 +48,8 @@ Map("x", "<leader>a", "<Plug>(coc-codeaction-selected)<CR>")
 Map("n", "<leader>a", "<Plug>(coc-codeaction-selected)<CR>")
 
 -- Quickfix
-Map("n", "<leader>qf", "<Plug>(coc-fix-current)")
-Map("n", "<leader>cl", "<Plug>(coc-codelens-action)")
+Map("n", "<leader>qf", "<Plug>(coc-fix-current)<CR>")
+Map("n", "<leader>cl", "<Plug>(coc-codelens-action)<CR>")
 
 
 -- Map function and class text objects
@@ -89,7 +89,7 @@ Map("n", "<c-j>", "ddp")
 Map("n", "<c-k>", "ddkP")
 
 -- Bash vim closing
-vim.api.nvim_command("autocmd FileType sh inoremap {{ ${}<++><Esc>F{a")
+vim.api.nvim_command("autocmd FileType sh inoremap <silent> <buffer> {{ ${}<++><Esc>F{a")
 
 -- Toggle GitGutter Highlighting
 Map("n", "<C-h>", ":GitGutterLineHighlightsToggle<CR>")
@@ -106,3 +106,20 @@ vim.cmd [[inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"]]
 
 
 Map("n", "<leader>lt", "<cmd>LoadTemplate<CR>")
+
+-- Find files using Telescope
+Map("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
+-- Requires ripgrep
+Map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>")
+Map("n", "<leader>fb", "<cmd>Telescope buffers<CR>")
+Map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>")
+
+-- Debugger
+Map("n", "<leader>do", "<cmd>lua require('dapui').open()<CR>")
+Map("n", "<leader>dc", "<cmd>lua require('dapui').close()<CR>")
+Map("n", "<leader>db", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
+Map("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>")
+Map("n", "<leader>ds", "<cmd>lua require('dap').continue()<CR>")
+Map("n", "<leader>di", "<cmd>lua require('dap').step_into()<CR>")
+Map("n", "<leader>do", "<cmd>lua require('dap').step_over()<CR>")
+Map("n", "<leader>dr", "<cmd>lua require('dap').repl.open()<CR>")
