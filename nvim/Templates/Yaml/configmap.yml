@@ -5,7 +5,7 @@ metadata:
   annotations:
     createdBy: {{_author_}}
     createdOn: {{_date_}}
-    description: Database for {{_base_name_}}
+    description: ConfigMap for {{_base_name_}}
   labels:
     app: {{_base_name_}}
     app.kubernetes.io/component: {{_base_name_}}
