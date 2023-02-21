@@ -123,3 +123,11 @@ Map("n", "<leader>ds", "<cmd>lua require('dap').continue()<CR>")
 Map("n", "<leader>di", "<cmd>lua require('dap').step_into()<CR>")
 Map("n", "<leader>do", "<cmd>lua require('dap').step_over()<CR>")
 Map("n", "<leader>dr", "<cmd>lua require('dap').repl.open()<CR>")
+
+-- Spellcheck
+Map("n", "<leader>ss", "<cmd>set spell spelllang=en_us<CR>")
+Map("n", "<leader>so", "<cmd>set nospell<CR>")
+Map("n", "<leader>sa", "zg")
+Map("n", "<leader>sc", "z=")
+Map("n", "<leader>sn", "]s")
+Map("n", "<leader>sp", "[s")
