@@ -176,7 +176,7 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Run tmux only if tmux is installed and not currently running
-StartDir="/home/$(whoami)/Src/web-rca"
+StartDir="/home/$(whoami)/Src/ServiceDashboard"
 [[ `which tmux` && -z $TMUX && -z $TERM_PROGRAM ]] && (tmux attach || ( [ -d "${StartDir}" ] && cd "${StartDir}" ; tmux) )
 
 # Cool stuff on login
