@@ -284,6 +284,31 @@ vim.cmd [[autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.
 
 vim.cmd [[set shortmess=A]]
 
+vim.api.nvim_create_user_command(
+  "BuildSummary",
+  function()
+  -- Find all
+    local row, column = unpack(vim.api.nvim_win_get_cursor(0))
+    local lines = vim.api.nvim_buf_get_lines(0, row, -1, false)
+    local titles = ""
+
+    --for title in string.gmatch(table.concat(lines, "\n"), "##.+\n") do
+    for k,v in pairs(lines) do
+      --print(k,v)
+      -- TODO: Figure out how to block ###+
+      for title in string.gmatch(v, "## .+$") do
+        title = title:gsub("## ", "")
+        titles = titles .. "- [" .. title .. "](#" .. title:lower():gsub(" ", "-"):gsub(":", "") .. ")" .. "\n"
+      end
+    end
+
+    vim.api.nvim_paste(titles, true, 1)
+
+    --local lines_as_strings = table.concat(lines, "\n")
+  end,
+  { bang = true, desc = 'Build summary for markdown blogs' }
+)
+
 -- Templates
 -- {{{
 local function paste_file(fileName)
