@@ -31,7 +31,17 @@ mvcd() {
 
 mdtopdf() {
 # {{{
-  pandoc -V geometry:margin=1in -f markdown "$1" -o "`echo $1 | cut -d "." -f1`".pdf
+  #pandoc \
+  pandoc --pdf-engine=xelatex \
+    -V geometry:margin=1in \
+    -V 'mainfont:Fira Sans UltraLight' \
+    -V 'sansfont:Fira Sans UltraLight' \
+    -V 'monofont:Fira Code' \
+    -V 'mathfont:Fira Code' \
+    -V 'fontsize:11pt' \
+    --toc \
+    --toc-depth=2 \
+    -f markdown "$1" -o "`echo $1 | cut -d "." -f1`".pdf
 # }}}
 }
 
