@@ -155,6 +155,8 @@ bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
 
+    bindsym $mod+Shift+f exec /usr/bin/nautilus
+
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
 

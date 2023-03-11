@@ -99,6 +99,11 @@ _G.packer_plugins = {
     path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/mermaid.vim",
     url = "https://github.com/mracos/mermaid.vim"
   },
+  ["mini.nvim"] = {
+    loaded = true,
+    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/mini.nvim",
+    url = "https://github.com/echasnovski/mini.nvim"
+  },
   ["nvim-colorizer.lua"] = {
     loaded = true,
     path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",

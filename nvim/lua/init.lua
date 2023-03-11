@@ -1,4 +1,3 @@
-vim.cmd [[command! -range=% -nargs=1 Align lua require'align'.align(<f-args>)]]
 require('keybindings')
 require('dapui').setup({
   layouts = {
@@ -53,6 +52,10 @@ require("telescope").setup({
   grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
   qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 })
+
+-- More modules
+-- https://github.com/echasnovski/mini.nvim#modules
+require('mini.align').setup()
 
 -- Color
 -- {{{
@@ -300,7 +303,8 @@ vim.api.nvim_create_user_command(
       -- TODO: Figure out how to block ###+
       for title in string.gmatch(v, "## .+$") do
         title = title:gsub("## ", "")
-        titles = titles .. "- [" .. title .. "](#" .. title:lower():gsub(" ", "-"):gsub(":", "") .. ")" .. "\n"
+        titles = titles ..
+            "- [" .. title .. "](#" .. title:lower():gsub(" ", "-"):gsub(":", "") .. ")" .. "\n"
       end
     end
 
