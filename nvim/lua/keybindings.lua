@@ -131,3 +131,7 @@ Map("n", "<leader>sa", "zg")
 Map("n", "<leader>sc", "z=")
 Map("n", "<leader>sn", "]s")
 Map("n", "<leader>sp", "[s")
+
+-- Fold Tags
+Map("n", "<leader>fto", "I<CR><Esc>k0i#{{{<Esc>0Eld$")
+Map("n", "<leader>ftc", "A<CR><Esc>0i#}}}<Esc>0Eld$")

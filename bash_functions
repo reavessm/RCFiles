@@ -1,6 +1,6 @@
 #!/bin/bash
 
-reader() {
+function reader() {
 # {{{
   if [ $# -eq 0 ]
     then
@@ -23,17 +23,18 @@ reader() {
 # }}}
 }
 
-mvcd() {
+function mvcd() {
 # {{{
   mv $1 $2 && cd $2;
 # }}}
 }
 
-mdtopdf() {
+function mdtopdf() {
 # {{{
   #pandoc \
   pandoc --pdf-engine=xelatex \
     -V geometry:margin=1in \
+    --filter=mermaid-filter \
     -V 'mainfont:Fira Sans UltraLight' \
     -V 'sansfont:Fira Sans UltraLight' \
     -V 'monofont:Fira Code' \
@@ -45,7 +46,7 @@ mdtopdf() {
 # }}}
 }
 
-geolocate() {
+function geolocate() {
 # {{{
 if [[ "$#" != "1" ]]
 then
@@ -58,7 +59,7 @@ echo # Needed to add blank line
 # }}}
 }
 
-sshmount() {
+function sshmount() {
 # {{{
   # Must have one additional argument
   if [[ "$#" != "1" ]]
@@ -74,7 +75,7 @@ sshmount() {
 # }}}
 }
 
-htmldiff() {
+function htmldiff() {
 # {{{
   if [[ $# != 2 ]]
   then
@@ -86,7 +87,7 @@ htmldiff() {
 # }}}
 }
 
-htmlvim() {
+function htmlvim() {
 # {{{
   if [[ $# != 1 ]]
   then
@@ -98,7 +99,7 @@ htmlvim() {
 # }}}
 }
 
-virt() {
+function virt() {
 # {{{
   echo This has not been implemented yet.  Wait till the virt-server and KVM are installed
   return 1
@@ -111,7 +112,7 @@ virt() {
 # }}}
 }
 
-kubemanage() {
+function kubemanage() {
 # {{{
   echo This has not been implemented yet.  Wait until Kubernetes is installed on hydra0
   #sudo scp reavessm@hydra0:/etc/kubernetes/admin.conf /etc/kubernetes/admin.conf
@@ -120,7 +121,7 @@ kubemanage() {
 # }}}
 }
 
-kubejoin() {
+function kubejoin() {
 # {{{
   echo This has not been implemented yet.  Wait until Kubernetes is installed on hydra0
   #return 1
@@ -131,7 +132,7 @@ kubejoin() {
 # }}}
 }
 
-lorem() {
+function lorem() {
 #{{{
 AMOUNT=5
 WHAT=paras
@@ -167,20 +168,25 @@ curl -s -X POST https://lipsum.com/feed/json -d "amount=$AMOUNT" -d "what=$WHAT"
 #}}}
 }
 
-fixConflicts() {
+function fixConflicts() {
+#{{{
   for file in $(git diff --name-only --diff-filter=U)
   do
     grep -i "DO NOT EDIT" ${file} &> /dev/null || tmux new-window -n "${file} conflicts" vim ${file}
   done
+#}}}
 }
 
-gitCleanBeforeMR() {
+function gitCleanBeforeMR() {
+#{{{
   git rebase -i main
   #git rebase -i HEAD~$(echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) )) )
   #echo $(( $(git rev-list --count HEAD) - $(git rev-list --count main) ))
+#}}}
 }
 
-populateJiraSecrets() {
+function populateJiraSecrets() {
+#{{{
   gpg --decrypt ~/Documents/WebRCA/jira-sa-only-stage.gpg | tee \
     >(awk '/login/ {print $2}' > secrets/jira.username) \
     >(awk '/email/ {print $2}' > secrets/jira.email) \
@@ -188,19 +194,25 @@ populateJiraSecrets() {
     >(echo "https://issues.stage.redhat.com" > secrets/jira.endpoint) \
     >/dev/null
   true
+#}}}
 }
 
 # Pulls code exerpts from markdown files
-pullCode() {
+function pullCode() {
+#{{{
   sed -n '/^`\{3\}'"$2"'/,/^`\{3\}/p' $1 | sed '/^`\{3\}/d'
+#}}}
 }
 
-pullFunction() {
+function pullFunction() {
+#{{{
   sed -n '/func.*'"$2"'.*{/,/^}/p' $1
+#}}}
 }
 
 # Checks git history pre stand up meetings
-whatDidIDo() {
+function whatDidIDo() {
+#{{{
   val=$(git status &>/dev/null ; echo $?)
 
   if (( ${val} != 0 ))
@@ -238,43 +250,57 @@ whatDidIDo() {
     | column -t -s '|' -o '|' \
     | sed 's/]$//' \
     | awk -F '|' 'BEGIN{OFS="|"}{$2="\033[37m"$2"\033[0m"; $3="\033[33m"$3"\033[0m"; print $0}'
+#}}}
 }
 
 function gitBranchLog() {
+#{{{
   git log main..HEAD --pretty=oneline
+#}}}
 }
 
 function lsfuncs() {
-  # TODO: Find max size of each column using something like https://stackoverflow.com/questions/24653785/how-to-get-max-length-of-each-column-in-unix, then align based off that instead of 25 and 110
+#{{{
+  ### TODO: Find max size of each column using something like https://stackoverflow.com/questions/24653785/how-to-get-max-length-of-each-column-in-unix, then align based off that instead of 25 and 110
   printf "$(tput bold)"'     %-25s %-110s %s\n\e[0m' 'Receiver' 'Method' 'Output'
   sed -n 's/{//g; s/func \([^(]\)/func\;\;\1/; s/func (\([[:alpha:]] [^)]*\)) /func\;(\1)\;/; s/ (\([^)]*\)) $/\;(\1)/; s/ \([[:alpha:].\*]*[^)]\)$/\;\1/; /^func/p' $1 \
     | awk -F ';' 'BEGIN {OFS="\t"}; {printf "%s %-25s %-110s %s\n", $1, $2, $3, $4}'
+#}}}
 }
 
 function sshPortForward() {
+#{{{
   ssh -L $1:127.0.0.1:$1 $2
+#}}}
 }
 
 function sshSocksHomelab() {
+#{{{
   ssh -fN -D 8123 ssh@reaves.dev
   echo "To access something run 'PROXYCHAINS_SOCKS5=8123 proxychains <program>'"
   PROXYCHAINS_SOCKS5=8123 proxychains firefox --new-instance
+#}}}
 }
 
 function findSuffix() {
+#{{{
   if [[ $1 != "" ]]
   then
     find . -name *.$1
   else
     echo "Please enter a file suffix"
   fi
+#}}}
 }
 
 function dlvWebRca() {
+#{{{
   dlv attach "$(ps aux | awk '/web-rca serve/ && !/awk/ {print $2}')"
+#}}}
 }
 
 function cleanAfterPatch() {
+#{{{
   find . '(' \
     -name \*-baseline -o \
     -name \*-original -o \
@@ -282,8 +308,11 @@ function cleanAfterPatch() {
     -name \*.rej \
     ')' -delete
     #-name \*-merge -o \
+#}}}
 }
 
 function buildRefs() {
-  find $1 -type f -exec sh -c "awk -F '-' '/@REF/ { printf \"- [%s](%s) -> %s\n\",\$2,\$3,\$3}' {} | sed 's/\\[ /\\[/;s/( /(/;s/ \\]/\\]/;s/\%2D/-/g' | sort -u" \;
+#{{{
+  find $1 -type f -exec sh -c "awk '/@REF/ {printf \"- \"; for(i=3;i<=NF;++i)printf \$i\"\"FS ; print \"\"}' {} | sort -u" \; 2>/dev/null
+#}}}
 }

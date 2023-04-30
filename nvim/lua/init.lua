@@ -330,7 +330,7 @@ vim.api.nvim_create_user_command(
     --vim.api.nvim_put(curline, "l", false, true)
     vim.api.nvim_set_current_line(curline)
   end,
-  { bang = true, desc = 'Build summary for markdown blogs' }
+  { bang = true, desc = 'Change text to title spacing for blog' }
 )
 
 -- Templates
