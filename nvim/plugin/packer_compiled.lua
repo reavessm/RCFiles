@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/reavessm/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/reavessm/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/reavessm/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/reavessm/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/reavessm/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/sreaves/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -76,88 +76,88 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   catppuccin = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/catppuccin",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/catppuccin",
     url = "https://github.com/catppuccin/nvim"
   },
   ["coc.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/coc.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/coc.nvim",
     url = "https://github.com/neoclide/coc.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["markdown-preview.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
   ["mermaid.vim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/mermaid.vim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/mermaid.vim",
     url = "https://github.com/mracos/mermaid.vim"
   },
   ["mini.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/mini.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/mini.nvim",
     url = "https://github.com/echasnovski/mini.nvim"
   },
   ["nvim-colorizer.lua"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-dap"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
   ["nvim-dap-go"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
     url = "https://github.com/leoluz/nvim-dap-go"
   },
   ["nvim-dap-ui"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
     url = "https://github.com/rcarriga/nvim-dap-ui"
   },
   ["nvim-treesitter"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["nvim-web-devicons"] = {
     loaded = false,
     needs_bufread = false,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/opt/nvim-web-devicons",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/opt/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
   ripgrep = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/ripgrep",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
   },
   ["telescope.nvim"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["vim-markdown-folding"] = {
     loaded = true,
-    path = "/home/reavessm/.local/share/nvim/site/pack/packer/start/vim-markdown-folding",
+    path = "/home/sreaves/.local/share/nvim/site/pack/packer/start/vim-markdown-folding",
     url = "https://github.com/masukomi/vim-markdown-folding"
   }
 }

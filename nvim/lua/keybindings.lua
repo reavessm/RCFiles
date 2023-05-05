@@ -14,6 +14,7 @@ Map("n", "<leader>ee", ":CocCommand explorer<CR>")
 Map("n", "<leader>ed", ":CocCommand explorer --root-uri ~/.config/nvim<CR>")
 Map("n", "<leader>ec", ":CocCommand explorer --root-uri ~/.config/coc<CR>")
 Map("n", "<leader>ef", ":CocCommand explorer --position floating --open-action-strategy sourceWindow<CR>")
+Map("n", "<leader>nn", ":CocCommand explorer --root-uri ~/Src/NeoNotes<CR>")
 
 -- List all presets
 Map("n", "<leader>el", ":CocList explPresets<CR>")

@@ -45,6 +45,8 @@ return require('packer').startup(function(use)
 
   -- Mermaid
   use { 'mracos/mermaid.vim' }
+  -- General stuff
+  use 'echasnovski/mini.nvim'
 
   -- install without yarn or npm
   use({
@@ -52,13 +54,12 @@ return require('packer').startup(function(use)
     run = function() vim.fn["mkdp#util#install"]() end,
   })
 
-  -- General stuff
-  use 'echasnovski/mini.nvim'
-
   --	    use({
   --	        "iamcco/markdown-preview.nvim",
   --	        run = "cd app && npm install",
   --	        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
   --	        ft = { "markdown" },
   --	    })
+
+  --use { "Pocco81/HighStr.nvim" }
 end)
