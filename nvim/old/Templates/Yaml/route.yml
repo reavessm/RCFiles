@@ -1,0 +1,31 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  # Uncomment these to enable TLS
+  #annotations:
+    #kubernetes.io/tls-acme: "true"
+  annotations:
+    createdBy: {{_author_}}
+    createdOn: {{_date_}}
+    description: Route for {{_base_name_}}
+  labels:
+    app: {{_base_name_}}
+    app.kubernetes.io/component: {{_base_name_}}
+    app.kubernetes.io/instance: {{_base_name_}}
+    app.kubernetes.io/name: {{_base_name_}}
+    app.kubernetes.io/part-of: {{_base_name_}}
+  name: {{_base_name_}}
+  namespace: <++>
+spec:
+  host: {{_base_name_}}.reaves.dev
+  port:
+    targetPort: <++>
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: {{_base_name_}}
+    weight: 100
+  wildcardPolicy: None
