@@ -262,9 +262,9 @@ export GOPATH="/home/$(whoami)/go"
 export GOBIN="/home/$(whoami)/go/bin"
 #export GOROOT="/usr/local/go"
 
-[ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
-[ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"
-[ -f ~/Src/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/Src/Openshift/auth/kubeconfig
+#[ -f ~/workspace/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/workspace/Openshift/auth/kubeconfig
+#[ -d ~/workspace/Openshift/bin ] && export PATH="$PATH:~/workspace/Openshift/bin"
+#[ -f ~/Src/Openshift/auth/kubeconfig ] && export KUBECONFIG=~/Src/Openshift/auth/kubeconfig
 [ -d ~/Src/Openshift/bin ] && export PATH=$PATH:~/Src/Openshift/bin
 [ -f ~/.auth/jira-cli-pat ] && export JIRA_AUTH_TYPE=bearer && export JIRA_API_TOKEN="$(cat ~/.auth/jira-cli-pat)"
 

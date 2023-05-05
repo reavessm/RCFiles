@@ -316,3 +316,7 @@ function buildRefs() {
   find $1 -type f -exec sh -c "awk '/@REF/ {printf \"- \"; for(i=3;i<=NF;++i)printf \$i\"\"FS ; print \"\"}' {} | sort -u" \; 2>/dev/null
 #}}}
 }
+
+function obs_tenants() {
+  rg observatorium-production /home/sreaves/Src/app-interface/resources/observability/grafana/grafana-datasources.secret.yaml | awk '{print $2}' | sed 's/"\(.*\)".*/\1/' | awk -F '-' '{print $1}' | sort
+}
