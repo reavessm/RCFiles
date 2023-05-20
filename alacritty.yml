@@ -116,9 +116,9 @@ font:
     #   - (Windows) Consolas
     #family: monospace
     #family: Fira Code
-    #family: FiraCode NFM
-    #family: CodeNewRoman NFM
-    family: DaddyTimeMono NerdFont
+    #family: Fira Code NF
+    family: DaddyTimeMono NF
+    #family: SauceCodePro NF
     #family: Source Code Pro
     #family: Hack
     #family: HeavyData
@@ -161,9 +161,8 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 10.0
-  #size: 15
-  #size: 17
+  #size: 10.0
+  size: 16
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.

@@ -184,12 +184,9 @@ StartDir="/home/$(whoami)/Src/ServiceDashboard"
 fileName="${HOME}/.ascii"
 if [ -f "${fileName}" ]
 then
-  /usr/bin/neofetch \
-    --config ~/.neofetch.conf \
-    --ascii "${fileName}" 2> /dev/null
+  /usr/bin/neofetch --config ~/.RCFiles/neofetch.conf --ascii "${fileName}"
 else
-  /usr/bin/neofetch \
-    --config ~/.neofetch.conf 2> /dev/null
+  /usr/bin/neofetch --config ~/.RCFiles/neofetch.conf
 fi
 
 # }}}
@@ -275,6 +272,7 @@ export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/pgsql-13/bin
 export PATH=$PATH:/home/$(whoami)/bin
 export PATH=$PATH:/home/$(whoami)/.cargo/bin
+export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share/applications"
 [ -d "$HOME/.local/bin" ] && export PATH=$PATH:$HOME/.local/bin
 
 #complete -C /usr/bin/terraform terraform

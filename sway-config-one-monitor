@@ -6,8 +6,9 @@ set $mon0 eDP-1
 set $menu rofi -show drun -monitor $primary | xargs swaymsg exec
 set $ssh rofi -show ssh -monitor $primary
 set $lock swaylock
+set $wallpaper1 ~/Pictures/Wallpapers/4kTCoop.png
 #set $wallpaper1 ~/Pictures/jotaroDISCs.jpeg
-set $wallpaper1 ~/Pictures/jotaroDISCs-flipped.jpeg
+#set $wallpaper1 ~/Pictures/jotaroDISCs-flipped.jpeg
 set $left h
 set $up j
 set $down k
@@ -47,7 +48,14 @@ bindsym $mod+Return exec $term
 # Rofi
 bindsym $mod+d exec $menu
 
+# SSH
 bindsym $mod+Shift+s exec $ssh
+
+# Thunderbird
+bindsym $mod+t exec 'thunderbird-wayland'
+
+# IntelliJ
+bindsym $mod+Shift+i exec '/home/reavessm/Src/IntelliJ/idea-IU-223.8836.41/bin/idea.sh'
 
 # Sound
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
@@ -172,6 +180,14 @@ input * {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
+}
+
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Catppuccin-Mocha-Standard-Pink-Dark'
+    gsettings set $gnome-schema icon-theme 'Numix'
+    gsettings set $gnome-schema font-name 'DaddyTimeMono NF'
 }
 
 exec gentoo-pipewire-launcher
