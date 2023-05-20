@@ -181,3 +181,7 @@ OpenShift
 redhat
 gitlab
 repo
+DBMSs
+hoc
+varchar
+datetime

@@ -105,6 +105,7 @@ autocmdOnStart("*.mmd", "set filetype=mermaid")
 autocmdOnStart("*.service", "set filetype=systemd")
 autocmdOnStart("*.sh", "set filetype=sh")
 autocmdOnStart("*.go", "set filetype=go")
+autocmdOnStart("*.Containerfile", "set filetype=dockerfile")
 -- }}}
 
 -- Must Haves

@@ -4,7 +4,7 @@
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
 
-Kickstart.nvim is *not* a distribution.
+kickstart.nvim is *not* a distribution.
 
 Kickstart.nvim is a template for your own configuration.
   The goal is that you can read every line of code, top-to-bottom, and understand
@@ -35,7 +35,6 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now :)
 --]]
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -75,7 +74,8 @@ require('lazy').setup({
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
-  { -- LSP Configuration & Plugins
+  {
+    -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
@@ -84,21 +84,23 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
 
-  { -- Autocompletion
+  {
+    -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
-  { -- Adds git releated signs to the gutter, as well as utilities for managing changes
+  { 'folke/which-key.nvim',   opts = {} },
+  {
+    -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
       -- See `:help gitsigns.txt`
@@ -111,13 +113,19 @@ require('lazy').setup({
       },
     },
   },
-  
-  { -- catppuccin theme
+
+  {
+    -- catppuccin theme
     "catppuccin/nvim",
     name = "catppuccin",
   },
 
-  { -- Set lualine as statusline
+  { "windwp/nvim-autopairs" },
+
+  { 'f-person/git-blame.nvim' },
+
+  {
+    -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
@@ -130,7 +138,8 @@ require('lazy').setup({
     },
   },
 
-  { -- Add indentation guides even on blank lines
+  {
+    -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
@@ -141,7 +150,7 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -159,13 +168,17 @@ require('lazy').setup({
     end,
   },
 
-  { -- Highlight, edit, and navigate code
+  {
+    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ":TSUpdate",
   },
+
+  "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+  "MunifTanjim/nui.nvim",
 
   { 'onsails/lspkind.nvim' },
 
@@ -184,6 +197,7 @@ require('lazy').setup({
   --    An additional note is that if you only copied in the `init.lua`, you can just comment this line
   --    to get rid of the warning telling you that there are not plugins in `lua/custom/plugins/`.
   { import = 'custom.plugins' },
+  { import = 'kickstart.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -396,8 +410,8 @@ local on_attach = function(_, bufnr)
     }
   )
 
-  vim.diagnostic.config{
-    float={border=_border}
+  vim.diagnostic.config {
+    float = { border = _border }
   }
 
   -- See `:help K` for why this keymap
@@ -424,10 +438,24 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
+  clangd = {},
+  gopls = {
+    cmd = { "gopls", "serve" },
+    filetypes = { "go", "gomod" },
+    root_pattern = { "go.work", "go.mod", ".git" },
+    --root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        --lin
+        staticcheck = true,
+      },
+    },
+  },
   -- pyright = {},
-  -- rust_analyzer = {},
+  rust_analyzer = {},
   -- tsserver = {},
 
   lua_ls = {
@@ -437,6 +465,14 @@ local servers = {
     },
   },
 }
+
+-- @REF [Remove unused imports on save](https://github.com/golang/tools/blob/master/gopls/doc/vim.md#imports)
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
+  callback = function()
+    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+  end
+})
 
 -- Setup neovim lua configuration
 require('neodev').setup()
@@ -510,53 +546,53 @@ cmp.setup {
 }
 
 require('lspkind').init({
-    -- DEPRECATED (use mode instead): enables text annotations
-    --
-    -- default: true
-    -- with_text = true,
+  -- DEPRECATED (use mode instead): enables text annotations
+  --
+  -- default: true
+  -- with_text = true,
 
-    -- defines how annotations are shown
-    -- default: symbol
-    -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-    mode = 'symbol_text',
+  -- defines how annotations are shown
+  -- default: symbol
+  -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+  mode = 'symbol_text',
 
-    -- default symbol map
-    -- can be either 'default' (requires nerd-fonts font) or
-    -- 'codicons' for codicon preset (requires vscode-codicons font)
-    --
-    -- default: 'default'
-    preset = 'codicons',
+  -- default symbol map
+  -- can be either 'default' (requires nerd-fonts font) or
+  -- 'codicons' for codicon preset (requires vscode-codicons font)
+  --
+  -- default: 'default'
+  preset = 'codicons',
 
-    -- override preset symbols
-    --
-    -- default: {}
-    symbol_map = {
-      Text = "",
-      Method = "",
-      Function = "",
-      Constructor = "",
-      Field = "ﰠ",
-      Variable = "",
-      Class = "ﴯ",
-      Interface = "",
-      Module = "",
-      Property = "ﰠ",
-      Unit = "塞",
-      Value = "",
-      Enum = "",
-      Keyword = "",
-      Snippet = "",
-      Color = "",
-      File = "",
-      Reference = "",
-      Folder = "",
-      EnumMember = "",
-      Constant = "",
-      Struct = "פּ",
-      Event = "",
-      Operator = "",
-      TypeParameter = ""
-    },
+  -- override preset symbols
+  --
+  -- default: {}
+  symbol_map = {
+    Text = "",
+    Method = "",
+    Function = "",
+    Constructor = "",
+    Field = "ﰠ",
+    Variable = "",
+    Class = "ﴯ",
+    Interface = "",
+    Module = "",
+    Property = "ﰠ",
+    Unit = "塞",
+    Value = "",
+    Enum = "",
+    Keyword = "",
+    Snippet = "",
+    Color = "",
+    File = "",
+    Reference = "",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "פּ",
+    Event = "",
+    Operator = "",
+    TypeParameter = ""
+  },
 })
 
 require("catppuccin").setup({
@@ -565,6 +601,8 @@ require("catppuccin").setup({
 })
 
 vim.cmd.colorscheme "catppuccin"
+
+require("nvim-autopairs").setup {}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

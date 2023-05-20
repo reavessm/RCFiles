@@ -25,6 +25,25 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
 
+    dap.configurations.golang = {
+      --name = "foo"
+    }
+
+    dap.configurations.rust = {
+      {
+        name = "Rust debug",
+        type = "codelldb",
+        request = "launch",
+        showDisassembly = "never",
+        program = function()
+          vim.fn.jobstart('cargo build')
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = true,
+      },
+    }
+
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
@@ -75,7 +94,7 @@ return {
     }
     -- toggle to see last session result. Without this ,you can't see session output in case of unhandled exception.
     vim.keymap.set("n", "<F7>", dapui.toggle)
-    
+
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close

@@ -116,9 +116,9 @@ font:
     #   - (Windows) Consolas
     #family: monospace
     #family: Fira Code
-    #family: Fira Code NF
-    family: DaddyTimeMono NF
-    #family: SauceCodePro NF
+    #family: FiraCode NerdFont
+    #family: CodeNewRoman NFM
+    family: DaddyTimeMono Nerd Font
     #family: Source Code Pro
     #family: Hack
     #family: HeavyData
@@ -1988,7 +1988,9 @@ mouse:
 # binding with the same triggers is defined. To unset a default binding, it can
 # be mapped to the `ReceiveChar` action. Alternatively, you can use `None` for
 # a no-op if you do not wish to receive input characters for that binding.
-#key_bindings:
+key_bindings:
+  - { key: Key8, mods: Control, command: { program: "alacritty", args: ["msg", "config", "font.size=25"] }, }
+  - { key: Key9, mods: Control, command: { program: "alacritty", args: ["msg", "config", "font.size=10"] }, }
   # (Windows/Linux only)
   #- { key: V,        mods: Control|Shift, action: Paste            }
   #- { key: C,        mods: Control|Shift, action: Copy             }

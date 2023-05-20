@@ -23,6 +23,7 @@ autocmdOnStart("*.mmd", "set filetype=mermaid")
 autocmdOnStart("*.service", "set filetype=systemd")
 autocmdOnStart("*.sh", "set filetype=sh")
 autocmdOnStart("*.go", "set filetype=go")
+autocmdOnStart("*.Containerfile", "set filetype=dockerfile")
 -- }}}
 
 -- Must Haves
@@ -147,10 +148,15 @@ vim.api.nvim_command("set foldmethod=marker")
 vim.api.nvim_command("autocmd FileType yaml set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType html set foldmethod=indent")
 vim.api.nvim_command("autocmd FileType gohtmltmpl set foldmethod=indent")
-vim.api.nvim_command("autocmd FileType go set foldmethod=syntax")
 vim.api.nvim_command("autocmd FileType c set foldmethod=syntax")
+vim.api.nvim_command("autocmd FileType rust set foldmethod=syntax")
+vim.api.nvim_command("autocmd FileType go set foldmethod=expr")
+vim.api.nvim_command("autocmd FileType go set foldexpr=nvim_treesitter#foldexpr()")
 vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
-vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")
+vim.api.nvim_command("autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()")
+--vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
+--vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
+--vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")
 -- }}}
 
 vim.cmd [[set shortmess=A]]

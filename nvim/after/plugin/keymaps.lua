@@ -1,5 +1,5 @@
-vim.keymap.set('n', '<leader>nt', ':Neotree<CR>', { desc = '[N]eo[T]ree' })
-vim.keymap.set('n', '<leader>nv', ':Neotree<CR> --dir ~/.config/nvim<CR>', { desc = '[N]eotree n[V]im' })
+vim.keymap.set('n', '<leader>nt', ':Neotree filesystem reveal<CR>)', { desc = '[N]eo[T]ree' })
+vim.keymap.set('n', '<leader>nv', ':Neotree --dir ~/.config/nvim<CR>', { desc = '[N]eotree n[V]im' })
 
 --Map("n", "<leader>rn", "<Plug>(coc-rename)")
 --Map("n", "<leader>f>", "<Plug>(coc-format-selected)")
@@ -40,11 +40,12 @@ vim.keymap.set("v", "<C-c>", ":w! ~/.vimbuffer<CR>", { desc = '[C]opy' })
 vim.keymap.set("n", "<C-v>", ":read ~/.vimbuffer<CR>", { desc = 'Paste' })
 
 -- Auto close
-vim.keymap.set("i", "{{", "{<CR>}<Esc>ko")
-vim.keymap.set("i", "((", "()<++><Esc>F)i")
-vim.keymap.set("i", "[[", "[]<++><Esc>F]i")
+--vim.keymap.set("i", "<C-{>", "{<CR>}<Esc>ko")
+--vim.keymap.set("i", "<C-(>", "()<++><Esc>F)i")
+--vim.keymap.set("i", "<C-[>", "[]<++><Esc>F]i")
 vim.keymap.set("i", "<C-l>", "<Esc>/<++><CR>:noh<CR>ca<")
 --Map("n", "<C-l>", "/<++><CR>:noh<CR>ca<")
+
 
 
 -- Move lines
@@ -58,9 +59,10 @@ vim.api.nvim_command("autocmd FileType sh inoremap <silent> <buffer> {{ ${}<++><
 --Map("n", "<C-h>", ":GitGutterLineHighlightsToggle<CR>")
 --Map("n", "<C-h>", "<Esc>:GitGutterLineHighlightsToggle<CR>i")
 
-vim.keymap.set("n", "<C-t>", ":ToggleTransparency<CR>", { desc = "toggle [T]ransparency" })
+vim.keymap.set("n", "<C-t>", "<cmd>ToggleTransparency<CR>", { desc = "toggle [T]ransparency" })
 
 --Map("n", "<leader>u", ":CocCommand git.chunkUndo<CR>")
+vim.keymap.set("n", "<leader>hu", "<cmd>Gitsigns reset_hunk<CR>", { desc = "[H]unk [U]ndo" })
 
 vim.keymap.set("n", "gF", "99[{0")
 --vim.keymap.set("n", "gD", "99[{0z<CR>")
@@ -103,3 +105,20 @@ vim.keymap.set("n", "<leader>bs", "<cmd>BuildSummary<CR>", { desc = "[B]uild [S]
 vim.keymap.set("n", "<leader>ts", "<cmd>TitleSpace<CR>", { desc = "[T]itle [S]pace" })
 
 vim.keymap.set('n', '<leader>at', '<cmd>AerialToggle!<CR>', { desc = "[A]erial [T]oggle" })
+
+vim.keymap.set("n", "<leader>tf", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+  { silent = true, noremap = true, desc = "[T]rouble [F]ind" }
+)
+
+vim.keymap.set("n", "<leader>td", "<cmd>TodoTelescope<cr>",
+  { silent = true, noremap = true, desc = "[T]o[D]o" }
+)
+
+vim.keymap.set("n", "<leader>zm", "<cmd>ZenMode<cr>", { desc = "[Z]en [M]ode" })
+
+vim.keymap.set("n", "<leader>rs", "<cmd>source $MYVIMRC<CR>", { desc = "[R]e[S]tart neovim" })
+
+vim.keymap.set("n", "<leader>rf", "<cmd>%SnipRun<cr>", { desc = "[R]un [F]ile" })
+vim.keymap.set("n", "<leader>rl", "V<Plug>SnipRun", { desc = "[R]un [L]ine" })
+vim.keymap.set("n", "<leader>ri", "vif<Plug>SnipRun", { desc = "[R]un [I]nside function" })
+vim.keymap.set("x", "<leader>ri", "<Plug>SnipRun", { desc = "[R]un [I]nside selection" })
