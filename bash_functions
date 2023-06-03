@@ -320,3 +320,9 @@ function buildRefs() {
 function obs_tenants() {
   rg observatorium-production /home/sreaves/Src/app-interface/resources/observability/grafana/grafana-datasources.secret.yaml | awk '{print $2}' | sed 's/"\(.*\)".*/\1/' | awk -F '-' '{print $1}' | sort
 }
+
+function buildImages() {
+#{{{
+  dot -Tpng $1.dot > $1.png
+#}}}
+}
