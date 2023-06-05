@@ -326,3 +326,14 @@ function buildImages() {
   dot -Tpng $1.dot > $1.png
 #}}}
 }
+
+function removeNewLine() {
+#{{{
+  if [[ $1 != "" ]]
+  then
+    tr -d '\n' < $1 > $1.trimmed
+  else
+    echo "Please enter a file name"
+  fi
+#}}}
+}
