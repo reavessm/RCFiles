@@ -41,6 +41,9 @@ return {
         end,
         cwd = '${workspaceFolder}',
         stopOnEntry = true,
+        arg = function ()
+          return vim.fn.input("Args: ")
+        end,
       },
     }
 
