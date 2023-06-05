@@ -164,7 +164,7 @@ set_bash_prompt() {
   parse_git_branch
   git_color
   parse_load_average
-  getOCProject
+  #getOCProject
   path="$(pwd | sed 's#\(/\.\?[[:alpha:]]\)[[:alnum:][:space:]+_.-]*#\1#g; s#.$##')"
   dir="$(basename $(pwd))"
   PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:${path}${dir} [\d]$GIT$BLINK$BRANCH$RES$oc_ps1$ERR\n$OS_COLOR> $DEF_COLOR"
