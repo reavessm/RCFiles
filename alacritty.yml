@@ -1991,6 +1991,8 @@ mouse:
 key_bindings:
   - { key: Key8, mods: Control, command: { program: "alacritty", args: ["msg", "config", "font.size=25"] }, }
   - { key: Key9, mods: Control, command: { program: "alacritty", args: ["msg", "config", "font.size=10"] }, }
+  - { key: Key1, mods: Control, command: { program: "alacritty", args: ["msg", "config", "window.opacity=.9"] }, }
+  - { key: Key2, mods: Control, command: { program: "alacritty", args: ["msg", "config", "window.opacity=1"] }, }
   # (Windows/Linux only)
   #- { key: V,        mods: Control|Shift, action: Paste            }
   #- { key: C,        mods: Control|Shift, action: Copy             }
