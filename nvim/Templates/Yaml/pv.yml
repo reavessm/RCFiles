@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    createdBy: {{_author_}}
+    createdOn: {{_date_}}
+    description: Storage for {{_base_name_}}
+  labels:
+    app: {{_base_name_}}
+    app.kubernetes.io/component: {{_base_name_}}
+    app.kubernetes.io/instance: {{_base_name_}}
+    app.kubernetes.io/name: {{_base_name_}}
+    app.kubernetes.io/part-of: {{_base_name_}}
+  name: {{_base_name_}}
+  namespace: <++>
+spec:
+  capacity:
+    storage: 10Ti
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs-manual
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /mnt/DataVolume/Movies
+    server: 192.168.0.5
