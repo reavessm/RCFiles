@@ -122,3 +122,5 @@ vim.keymap.set("n", "<leader>rf", "<cmd>%SnipRun<cr>", { desc = "[R]un [F]ile" }
 vim.keymap.set("n", "<leader>rl", "V<Plug>SnipRun", { desc = "[R]un [L]ine" })
 vim.keymap.set("n", "<leader>ri", "vif<Plug>SnipRun", { desc = "[R]un [I]nside function" })
 vim.keymap.set("x", "<leader>ri", "<Plug>SnipRun", { desc = "[R]un [I]nside selection" })
+
+vim.keymap.set("n", "<leader>mp", "<Plug>MarkdownPreviewToggle", { desc = "[M]arkdown [P]review" })
