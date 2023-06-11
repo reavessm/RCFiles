@@ -98,7 +98,8 @@ parse_git_branch() {
 
 error_test() {
 # {{{
-  [[ $? != "0" ]] && ERR=' \e[91mX' || ERR=''
+  ERR_NUM=$?
+  [[ ${ERR_NUM} != "0" ]] && ERR=' \e[91m'"${ERR_NUM}" || ERR=''
 # }}}
 }
 
@@ -277,3 +278,6 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share/applicatio
 
 #complete -C /usr/bin/terraform terraform
 #. "$HOME/.cargo/env"
+
+
+true
