@@ -1,0 +1,5 @@
+font:
+  size: 10.0
+
+key_bindings:
+  - { key: Key9, mods: Control, command: { program: "alacritty", args: ["msg", "config", "font.size=10"] }, }
