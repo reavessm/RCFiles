@@ -160,3 +160,4 @@ vim.api.nvim_command("autocmd FileType markdown set foldexpr=nvim_treesitter#fol
 -- }}}
 
 vim.cmd [[set shortmess=A]]
+vim.opt.termguicolors = true
