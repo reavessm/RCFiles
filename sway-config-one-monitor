@@ -3,12 +3,13 @@ set $mod Mod4
 set $term alacritty
 set $primary 'XWAYLAND0'
 set $mon0 eDP-1
+set $mon1 HDMI-A-1
 set $menu rofi -show drun -monitor $primary | xargs swaymsg exec
 set $ssh rofi -show ssh -monitor $primary
 set $lock swaylock
 set $wallpaper1 ~/Pictures/Wallpapers/4kTCoop.png
 #set $wallpaper1 ~/Pictures/jotaroDISCs.jpeg
-#set $wallpaper1 ~/Pictures/jotaroDISCs-flipped.jpeg
+set $wallpaper1 ~/Pictures/Wallpapers/4kTCoop.png
 set $left h
 set $up j
 set $down k
@@ -19,6 +20,10 @@ output $mon0 {
   resolution 2560x1440@60.048Hz
   background $wallpaper1 fill
   scale 1
+}
+
+output $mon1 {
+  background $wallpaper1 fill
 }
 
 assign [app_id="firefox"] 1
@@ -190,4 +195,5 @@ exec_always {
     gsettings set $gnome-schema font-name 'DaddyTimeMono NF'
 }
 
-exec gentoo-pipewire-launcher
+exec gentoo-pipewire-launcher || true
+#exec systemctl --user import-environment
