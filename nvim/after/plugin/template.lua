@@ -1,5 +1,5 @@
 local function paste_file(fileName)
---{{{
+  --{{{
   local file = io.open(fileName)
   if not file then return nil end
   local contents = file:read "*a"
@@ -8,19 +8,25 @@ local function paste_file(fileName)
   local base = vim.fn.expand('%:t:r') or "__default_file"
   local headerName = base .. ".h"
 
+  local title = base:gsub("([A-Z])", " %1")
+  title = title:gsub('" ', '"')
+  title = title:gsub("^%l", string.upper)
+
   contents = contents:gsub("{{_author_}}", "Stephen M. Reaves")
   contents = contents:gsub("{{_date_}}", os.date("%b %e, %Y"))
+  contents = contents:gsub("{{_date_str_}}", os.date("%Y-%m-%d"))
   contents = contents:gsub("{{_file_name_}}", vim.fn.expand('%:t'))
   contents = contents:gsub("{{_base_name_}}", base)
+  contents = contents:gsub("{{_title_name_}}", title)
   contents = contents:gsub("{{_header_name_}}", headerName)
   contents = contents:gsub("{{_header_name_caps_}}", string.upper(base))
 
   vim.api.nvim_paste(contents, true, 1)
---}}}
+  --}}}
 end
 
 local function scandir(directory)
---{{{
+  --{{{
   local i = 0
   local t = {}
   local pFile = io.popen('ls "' .. directory .. '"')
@@ -33,13 +39,13 @@ local function scandir(directory)
   pFile:close()
 
   return t
---}}}
+  --}}}
 end
 
 vim.api.nvim_create_user_command(
   "LoadTemplate",
   function()
---{{{
+    --{{{
     local actions = require "telescope.actions"
     local actions_state = require "telescope.actions.state"
     local pickers = require "telescope.pickers"
@@ -52,10 +58,6 @@ vim.api.nvim_create_user_command(
         dir = templateDir .. "/C/",
         files = scandir(templateDir .. "/C/")
       },
-      ["mermaid"] = {
-        dir = templateDir .. "/Mermaid/",
-        files = scandir(templateDir .. "/Mermaid/")
-      },
       ["h"] = {
         dir = templateDir .. "/H/",
         files = scandir(templateDir .. "/H/")
@@ -64,13 +66,21 @@ vim.api.nvim_create_user_command(
         dir = templateDir .. "/Go/",
         files = scandir(templateDir .. "/Go/")
       },
-      ["rust"] = {
-        dir = templateDir .. "/Rust/",
-        files = scandir(templateDir .. "/Rust/")
+      ["lua"] = {
+        dir = templateDir .. "/Lua/",
+        files = scandir(templateDir .. "/Lua/")
       },
       ["markdown"] = {
         dir = templateDir .. "/Markdown/",
         files = scandir(templateDir .. "/Markdown/")
+      },
+      ["mermaid"] = {
+        dir = templateDir .. "/Mermaid/",
+        files = scandir(templateDir .. "/Mermaid/")
+      },
+      ["rust"] = {
+        dir = templateDir .. "/Rust/",
+        files = scandir(templateDir .. "/Rust/")
       },
       ["yaml"] = {
         dir = templateDir .. "/Yaml/",
@@ -110,7 +120,7 @@ vim.api.nvim_create_user_command(
     local test = pickers.new(opts)
 
     test:find()
---}}}
+    --}}}
   end,
   { bang = true, desc = 'Pick and load templates based on filetype' }
 )
