@@ -337,3 +337,14 @@ function removeNewLine() {
   fi
 #}}}
 }
+
+function encryptFiles() {
+  # @REF [Encrypt using GPG](https://www.howtogeek.com/427982/how-to-encrypt-and-decrypt-files-with-gpg-on-linux/)
+  [[ $# != "2" ]] && echo "Usage: encryptFiles <filename> <recipient>" && return 1
+
+  file=$1
+  recipient=$2
+  recipient_user=$(echo ${recipient} | sed 's/\(.*\)@.*/\1/')
+
+  gpg --encrypt --sign --armor -r ${recipient} -o "${file}.${recipient_user}.asc" ${file}
+}
