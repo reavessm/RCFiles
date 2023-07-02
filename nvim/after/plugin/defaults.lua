@@ -154,6 +154,7 @@ vim.api.nvim_command("autocmd FileType go set foldmethod=expr")
 vim.api.nvim_command("autocmd FileType go set foldexpr=nvim_treesitter#foldexpr()")
 vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
 vim.api.nvim_command("autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()")
+vim.api.nvim_command("autocmd FileType dbout set foldmethod=marker")
 --vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
 --vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
 --vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")
