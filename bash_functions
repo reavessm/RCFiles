@@ -348,3 +348,9 @@ function encryptFiles() {
 
   gpg --encrypt --sign --armor -r ${recipient} -o "${file}.${recipient_user}.asc" ${file}
 }
+
+function zipFix() {
+  [[ $# != "1" ]] && echo "Usage: zipFix <filename>" && return 1
+
+  zip -FFv $1 --out ${1%'.zip'}_fixed.zip
+}
