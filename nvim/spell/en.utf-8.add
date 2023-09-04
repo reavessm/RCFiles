@@ -181,12 +181,10 @@ OpenShift
 redhat
 gitlab
 repo
-<<<<<<< HEAD
 DBMSs
 hoc
 varchar
 datetime
-=======
 schemas
 SPARC
 MySQL
@@ -194,4 +192,24 @@ PHP
 IFD
 EER
 varchar
->>>>>>> 3b73400 (:alembic: Behemoth updates)
+graphviz
+bgcolor
+invis
+polyline
+subgraph
+node
+bitstream
+title
+Dev
+Lifecycle
+lifecycle
+RFE
+RFEs
+Perfective
+Subcomponents
+Parameterization
+cs6300
+omscs
+rapscallionreaves
+rpscln
+title
