@@ -37,7 +37,7 @@ vim.g.coc_snippet_next = '<C-l>'
 
 -- Copy & Paste
 vim.keymap.set("v", "<C-c>", ":w! ~/.vimbuffer<CR>", { desc = '[C]opy' })
-vim.keymap.set("n", "<C-v>", ":read ~/.vimbuffer<CR>", { desc = 'Paste' })
+vim.keymap.set("n", "<C-p>", ":read ~/.vimbuffer<CR>", { desc = '[P]aste' })
 
 -- Auto close
 --vim.keymap.set("i", "<C-{>", "{<CR>}<Esc>ko")

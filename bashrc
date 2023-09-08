@@ -277,7 +277,6 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share/applicatio
 [ -d "$HOME/.local/bin" ] && export PATH=$PATH:$HOME/.local/bin
 
 #complete -C /usr/bin/terraform terraform
-#. "$HOME/.cargo/env"
-
+#
 
 true

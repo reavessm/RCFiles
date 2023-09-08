@@ -32,16 +32,16 @@ function mvcd() {
 function mdtopdf() {
 # {{{
   #pandoc \
+    # --filter=mermaid-filter \
+    # -V 'mainfont:Fira Sans UltraLight' \
+    # -V 'sansfont:Fira Sans UltraLight' \
+    # -V 'monofont:Fira Code' \
+    # -V 'mathfont:Fira Code' \
+    # -V 'fontsize:11pt' \
   pandoc --pdf-engine=xelatex \
     -V geometry:margin=1in \
-    --filter=mermaid-filter \
-    -V 'mainfont:Fira Sans UltraLight' \
-    -V 'sansfont:Fira Sans UltraLight' \
-    -V 'monofont:Fira Code' \
-    -V 'mathfont:Fira Code' \
-    -V 'fontsize:11pt' \
     --toc \
-    --toc-depth=2 \
+    --toc-depth=3 \
     -f markdown "$1" -o "`echo $1 | cut -d "." -f1`".pdf
 # }}}
 }
