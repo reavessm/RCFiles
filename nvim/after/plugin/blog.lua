@@ -15,7 +15,7 @@ vim.api.nvim_create_user_command(
           prefix = prefix .. "  "
         end
         titles = titles ..
-            prefix .. "- [" .. t .. "](#" .. t:lower():gsub(" ", "-"):gsub(":", "") .. ")" .. "\n"
+            prefix .. "- [" .. t .. "](#" .. t:lower():gsub(" ", "-"):gsub(":", ""):gsub("?", "") .. ")" .. "\n"
       end
     end
 
