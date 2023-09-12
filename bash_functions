@@ -38,10 +38,10 @@ function mdtopdf() {
     # -V 'monofont:Fira Code' \
     # -V 'mathfont:Fira Code' \
     # -V 'fontsize:11pt' \
+    # --toc \
+    # --toc-depth=3 \
   pandoc --pdf-engine=xelatex \
     -V geometry:margin=1in \
-    --toc \
-    --toc-depth=3 \
     -f markdown "$1" -o "`echo $1 | cut -d "." -f1`".pdf
 # }}}
 }
