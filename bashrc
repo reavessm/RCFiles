@@ -15,12 +15,12 @@ TERM=xterm
 
 MY_OS=`awk -F "=" '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release 2> /dev/null`
 [ -z "$MY_OS" ] && MY_OS=`uname`
-DEF_COLOR='\e[39m'
-NORM_COLOR='\033[1;30m'
-BLINK='\e[5m'
-RES='\e[0m'
-GIT='\e[0m'
-BACK='\e[49m'
+DEF_COLOR='\[\e[39m\]'
+NORM_COLOR='\[\033[1;30m\]'
+BLINK='\[\e[5m\]'
+RES='\[\e[0m\]'
+GIT='\[\e[0m\]'
+BACK='\[\e[49m\]'
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -36,27 +36,27 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # {{{
 case $MY_OS in
   Ubuntu)
-    OS_COLOR='\e[032m' # Green
+    OS_COLOR='\[\e[032m\]' # Green
     ;;
   Fedora|'Fedora Linux')
-    OS_COLOR='\e[094m' # Blue
+    OS_COLOR='\[\e[094m\]' # Blue
     ;;
   Arch)
-    OS_COLOR='\e[31m'  # Red
+    OS_COLOR='\[\e[31m\]'  # Red
     ;;
   *BSD)
-    OS_COLOR='\e[93m'  # Light Yellow
+    OS_COLOR='\[\e[93m\]'  # Light Yellow
     ;;
   *SUSE*)
-    OS_COLOR='\e[95m'  # Light Magenta
+    OS_COLOR='\[\e[95m\]'  # Light Magenta
     ;;
   Gentoo|Calculate)
     #OS_COLOR='\e[96m'  # Light Cyan
     #OS_COLOR='\e[38;2;R;G;Bm'
-    OS_COLOR='\e[38;2;245;194;231m'
+    OS_COLOR='\[\e[38;2;245;194;231m\]'
     ;;
   Alpine*)
-    OS_COLOR='\e[91m'
+    OS_COLOR='\[\e[91m\]'
     ;;
   *) ;;
 esac
@@ -70,21 +70,21 @@ parse_load_average() {
   then
     # Gray
     #LOAD_COLOR='\033[1;30m'
-    LOAD_COLOR='\e[90m'
+    LOAD_COLOR='\[\e[90m\]'
   elif [[ ${AVG} < "$(( $(nproc) / 2 ))" ]]
   then
     # Green
     #LOAD_COLOR='\033[40;1;32m'
-    LOAD_COLOR='\e[49m\e[92m'
+    LOAD_COLOR='\[\e[49m\]\[\e[92m\]'
   elif [[ ${AVG} < $(( 3 * $(nproc) / 4)) ]]
   then
     # Yellow
     #LOAD_COLOR='\033[1;33m'
-    LOAD_COLOR='\e[93m'
+    LOAD_COLOR='\[\e[93m\]'
   else
     # Red
     #LOAD_COLOR='\033[1;31m'
-    LOAD_COLOR='\e[91m'
+    LOAD_COLOR='\[\e[91m\]'
   fi
 # }}}
 }
@@ -99,7 +99,7 @@ parse_git_branch() {
 error_test() {
 # {{{
   ERR_NUM=$?
-  [[ ${ERR_NUM} != "0" ]] && ERR=' \e[91m'"${ERR_NUM}" || ERR=''
+  [[ ${ERR_NUM} != "0" ]] && ERR=' \[\e[91m\]'"${ERR_NUM}" || ERR=''
 # }}}
 }
 
@@ -108,21 +108,21 @@ git_color() {
   local git_status=`git status 2> /dev/null`
   if [[ "`echo $git_status | grep 'Your branch is ahead'`" ]]
   then
-    GIT='\e[91m committed -' # Light Red
+    GIT='\[\e[91m\] committed -' # Light Red
   elif [[ "`echo $git_status | grep 'Your branch is behind'`" ]]
   then
-    GIT='\e[91m X needs pull -'
+    GIT='\[\e[91m\] X needs pull -'
   elif [[ "`echo $git_status | grep 'Changes to be committed:'`" ]]
   then
-    GIT='\e[92m staged -' # Light Green
+    GIT='\[\e[92m\] staged -' # Light Green
   elif [[ "`echo $git_status | grep 'Untracked files:'`" || "`echo $git_status | grep 'Changes not staged for commit:'`" || "`echo $git_status | grep 'modified'`" ]]
   then
-    GIT='\e[96m untracked -' # Cyan
+    GIT='\[\e[96m\] untracked -' # Cyan
   elif [[ "`echo $git_status | grep 'nothing to commit'`" ]]
   then
-    GIT='\e[97m' # White
+    GIT='\[\e[97m\]' # White
   else
-    GIT='\e[0m'
+    GIT='\[\e[0m\]'
   fi
 # }}}
 }
