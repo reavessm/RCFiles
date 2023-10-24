@@ -24,6 +24,7 @@ autocmdOnStart("*.service", "set filetype=systemd")
 autocmdOnStart("*.sh", "set filetype=sh")
 autocmdOnStart("*.go", "set filetype=go")
 autocmdOnStart("*.Containerfile", "set filetype=dockerfile")
+autocmdOnStart("*.http", "set filetype=http")
 -- }}}
 
 -- Must Haves
@@ -123,8 +124,8 @@ vim.api.nvim_command("highlight ColorColumn ctermfg=white ctermbg=darkgray guifg
 vim.cmd [[ call matchadd('ColorColumn', '\%81v', 100) ]]
 
 -- Highlight unneeded spaces
---vim.api.nvim_command("set listchars=tab:>~,nbsp:_,trail:.")
---vim.api.nvim_command("set list")
+vim.api.nvim_command("set listchars=tab:>~,nbsp:_,trail:.,extends:>")
+vim.api.nvim_command("set list")
 
 -- }}}
 
@@ -138,7 +139,8 @@ vim.api.nvim_command("autocmd FileType markdown set shiftwidth=2 softtabstop=2 t
 vim.api.nvim_command("autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0")
 
 -- Textwrap
-vim.api.nvim_command("set wrap")
+-- vim.api.nvim_command("set wrap")
+vim.api.nvim_command("set nowrap")
 vim.api.nvim_command("set textwidth=0")
 vim.api.nvim_command(
   "autocmd BufNew,BufRead *.cc,*.h,*.cpp,*.c,*.java,*.sh,*.python,*.py,*.html,*.js,*.css,*.php,*.go,*.rs setlocal textwidth=79")

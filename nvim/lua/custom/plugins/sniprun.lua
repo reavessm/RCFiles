@@ -2,17 +2,18 @@
 return {
   "michaelb/sniprun",
   version = "*",
-  build = "bash ./install.sh",
+  build = "bash ./install.sh build",
   config = function()
     require("sniprun").setup({
-      --display = { "NvimNotify" },
+      -- display = { "NvimNotify" },
+      display = { "Terminal" },
       --[[
       display = { "Classic" },
       display_options = {
         notification_timeout = 5
       },
       ]]
-      display = { "TempFloatingWindow" },
+      -- display = { "TempFloatingWindow" },
       borders = 'double',
     })
   end
