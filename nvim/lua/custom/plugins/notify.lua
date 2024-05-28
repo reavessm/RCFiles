@@ -4,6 +4,8 @@ return {
   version = "*",
   --build = "bash ./install.sh",
   config = function()
-    require("notify").setup({})
+    require("notify").setup({
+      background_colour = "#000000",
+    })
   end
 }

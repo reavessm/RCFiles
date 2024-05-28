@@ -14,6 +14,9 @@ return {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
+    -- async I/O
+    'nvim-neotest/nvim-nio',
+
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
@@ -25,6 +28,11 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    -- dap.adapters.codelldb = {
+    --   type = 'server',
+    --   host = '127.0.0.1',
+    --   port = 13000,
+    -- }
 
     dap.configurations.golang = {
       --name = "foo"
@@ -48,6 +56,24 @@ return {
       },
     }
 
+    dap.configurations.c = {
+      {
+        name = "C Debug",
+        type = "codelldb",
+        request = "launch",
+        showDisassembly = "never",
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd(), 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        args = function()
+          return { vim.fn.input("Args: ") }
+        end,
+
+      }
+    }
+
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
@@ -61,7 +87,11 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
+        -- @REF [Available Options](https://github.com/jay-babu/mason-nvim-dap.nvim/blob/main/lua/mason-nvim-dap/mappings/source.lua)
         'delve',
+        'codelldb',
+        'elixir-ls',
+        'firefox-debug-adapter',
       },
     }
 

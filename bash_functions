@@ -42,6 +42,8 @@ function mdtopdf() {
     # --toc-depth=3 \
   pandoc --pdf-engine=xelatex \
     -V geometry:margin=1in \
+    --toc \
+    --toc-depth=3 \
     -f markdown "$1" -o "`echo $1 | cut -d "." -f1`".pdf
 # }}}
 }
@@ -402,4 +404,22 @@ function open_healthy() {
   wait_health $1
   xdg-open $1
 #}}}
+}
+
+function gtvpn() {
+  read -sp "Enter password: " -e pass
+
+  echo -e "${pass}\npush1" \
+    | sudo \
+      openconnect vpn.gatech.edu \
+      --protocol gp \
+      --authgroup 'DC Gateway' \
+      -u sreaves31 \
+      -b
+}
+
+function gtvpndown() {
+  ps aux \
+    | awk '/openconnect/ && !/awk/ {print $2}' \
+    | xargs sudo kill
 }

@@ -13,5 +13,7 @@ return {
     require("mini.starter").setup({
       header = "Hello, Stephen"
     })
+    require("mini.indentscope").setup({})
+    require("mini.bracketed").setup({})
   end
 }

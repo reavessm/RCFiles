@@ -7,7 +7,7 @@ local function autocmdOnStart(p, c)
   vim.api.nvim_create_autocmd(
   --{ "BufNew", "BufReadPre", "BufRead", "BufNewFile", "BufEnter", "BufWinEnter" },
   --{ "BufNew", "BufRead", "BufNewFile", "CursorHold" },
-    { "BufNew", "BufRead", "BufNewFile" },
+    { "BufNew", "BufRead", "BufNewFile", "BufEnter", "BufWinEnter" },
     {
       pattern = { p }, command = c
     }
@@ -16,7 +16,9 @@ end
 
 autocmdOnStart("*.c", "set filetype=c syntax=c")
 autocmdOnStart("*.cc", "set filetype=cc syntax=cpp")
+autocmdOnStart("*.cpp", "set filetype=cpp syntax=cpp")
 autocmdOnStart("*.h", "set filetype=h syntax=c")
+autocmdOnStart("*.hpp", "set filetype=h syntax=cpp")
 autocmdOnStart("*.md", "set filetype=markdown")
 autocmdOnStart("*.slide", "set filetype=markdown")
 autocmdOnStart("*.mmd", "set filetype=mermaid")

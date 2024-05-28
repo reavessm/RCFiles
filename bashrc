@@ -180,18 +180,6 @@ PROMPT_COMMAND=set_bash_prompt
 StartDir="${HOME}/Src/backstage-plugins"
 [[ `which tmux` && -z $TMUX && -z $TERM_PROGRAM ]] && (tmux attach || ( [ -d "${StartDir}" ] && cd "${StartDir}" ; tmux) )
 
-# Cool stuff on login
-#/usr/bin/neofetch --config ~/.neofetch.conf 2> /dev/null
-fileName="${HOME}/.ascii"
-if [ -f "${fileName}" ]
-then
-  /usr/bin/fastfetch -l "${fileName}"
-  #/usr/bin/neofetch --config ~/.RCFiles/neofetch.conf --ascii "${fileName}"
-else
-  /usr/bin/fastfetch
-  #/usr/bin/neofetch --config ~/.RCFiles/neofetch.conf
-fi
-
 # }}}
 
 # Settings
@@ -281,4 +269,7 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share/applicatio
 #complete -C /usr/bin/terraform terraform
 #
 
-true
+[ -f "/home/reavessm/.ghcup/env" ] && source "/home/reavessm/.ghcup/env" # ghcup-env
+
+# Cool stuff on login
+fastfetch

@@ -60,6 +60,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local indent_highlight = {
+  "CursorColumn",
+  "Whitespace",
+}
+
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
 --
@@ -143,18 +148,26 @@ require('lazy').setup({
     },
   },
 
+  --[[
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
+    -- See `:help ibl
     main = "ibl",
-    opts = {},
-    -- opts = {
-    --   char = '┊',
-    --   show_trailing_blankline_indent = false,
-    -- },
+    opts = {
+      -- char = '┊',
+      -- show_trailing_blankline_indent = false,
+      indent = { char = "┊" },
+      -- whitespace = {
+      --   highlight = indent_highlight,
+      --   remove_blankline_trail = false,
+      -- },
+      -- scope = { enabled = false },
+      scope = { enabled = true },
+    },
   },
+  --]]
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim',         opts = {} },
@@ -447,7 +460,9 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  clangd = {},
+  clangd = {
+    filetypes = { "c", "cpp", "rust", "h", "hpp" }
+  },
   gopls = {
     cmd = { "gopls", "serve" },
     filetypes = { "go", "gomod" },

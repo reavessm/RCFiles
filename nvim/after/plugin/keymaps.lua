@@ -25,9 +25,9 @@ vim.keymap.set('n', '<leader>nv', ':Neotree --dir ~/.config/nvim<CR>', { desc = 
 --Map("o", "ic", "<Plug>(coc-classobj-i)")
 --Map("x", "ac", "<Plug>(coc-classobj-a)")
 --Map("o", "ac", "<Plug>(coc-classobj-a)")
-
-vim.g.coc_snippet_prev = '<C-h>'
-vim.g.coc_snippet_next = '<C-l>'
+--
+-- vim.g.coc_snippet_prev = '<C-h>'
+-- vim.g.coc_snippet_next = '<C-l>'
 
 -- Rewrite input mode mappings
 --Map("i", "<space>h", " h")
@@ -124,3 +124,6 @@ vim.keymap.set("n", "<leader>ri", "vif<Plug>SnipRun", { desc = "[R]un [I]nside f
 vim.keymap.set("x", "<leader>ri", "<Plug>SnipRun", { desc = "[R]un [I]nside selection" })
 
 vim.keymap.set("n", "<leader>mp", "<Plug>MarkdownPreviewToggle", { desc = "[M]arkdown [P]review" })
+
+vim.keymap.set("n", "<leader>css", "<cmd>Freeze<CR>", { desc = "[C]ode [S]creen [S]hot" })
+vim.keymap.set("v", "<leader>css", ":Freeze<CR>", { desc = "[C]ode [S]creen [S]hot" })

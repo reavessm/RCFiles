@@ -2,8 +2,9 @@
 $graphviz
 digraph G {
   bgcolor=invis;
+  rankdir=LR;
   graph [labelloc="t"];
-  node [shape=plain; style=filled; fillcolor=gray95];
+  node [shape=oval; style="filled,rounded"; fillcolor=gray95];
 
 }
 graphviz$
