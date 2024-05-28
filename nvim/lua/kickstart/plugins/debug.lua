@@ -17,6 +17,7 @@ return {
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
+    'nvim-neotest/nvim-nio',
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
@@ -41,7 +42,7 @@ return {
         end,
         cwd = '${workspaceFolder}',
         stopOnEntry = true,
-        arg = function ()
+        arg = function()
           return vim.fn.input("Args: ")
         end,
       },

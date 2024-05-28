@@ -166,8 +166,8 @@ set_bash_prompt() {
   git_color
   parse_load_average
   #getOCProject
-  path="$(pwd | sed 's#\(/\.\?[[:alpha:]]\)[[:alnum:][:space:]+_.-]*#\1#g; s#.$##')"
-  dir="$(basename $(pwd))"
+  path="$(pwd | sed 's#\(/\.\?[[:alnum:]]\)[^/]*#\1#g; s#.$##')"
+  dir="$(pwd | xargs -I{} basename "{}")"
   PS1="$BACK$LOAD_COLOR\u$NORM_COLOR@$OS_COLOR\h$NORM_COLOR:${path}${dir} [\d]$GIT$BLINK$BRANCH$RES$oc_ps1$ERR\n$OS_COLOR> $DEF_COLOR"
 # }}}
 }
@@ -177,7 +177,7 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 # Run tmux only if tmux is installed and not currently running
-StartDir="/home/$(whoami)/Src/web-rca"
+StartDir="${HOME}/Src/backstage-plugins"
 [[ `which tmux` && -z $TMUX && -z $TERM_PROGRAM ]] && (tmux attach || ( [ -d "${StartDir}" ] && cd "${StartDir}" ; tmux) )
 
 # Cool stuff on login
@@ -185,9 +185,11 @@ StartDir="/home/$(whoami)/Src/web-rca"
 fileName="${HOME}/.ascii"
 if [ -f "${fileName}" ]
 then
-  /usr/bin/neofetch --config ~/.RCFiles/neofetch.conf --ascii "${fileName}"
+  /usr/bin/fastfetch -l "${fileName}"
+  #/usr/bin/neofetch --config ~/.RCFiles/neofetch.conf --ascii "${fileName}"
 else
-  /usr/bin/neofetch --config ~/.RCFiles/neofetch.conf
+  /usr/bin/fastfetch
+  #/usr/bin/neofetch --config ~/.RCFiles/neofetch.conf
 fi
 
 # }}}

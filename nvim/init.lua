@@ -42,6 +42,8 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.termguicolors = true
 
+vim.env.CC = ''
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -471,15 +473,23 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  yamlls = {
+    yaml = {
+      schemas = {
+        -- [require('kubernetes').yamlls_schema()] = require('kubernetes').yamlls_filetypes()
+        -- [require('kubernetes').yamlls_schema()] = { "*.yml", "*.yaml" }
+      }
+    }
+  }
 }
 
 -- @REF [Remove unused imports on save](https://github.com/golang/tools/blob/master/gopls/doc/vim.md#imports)
-vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = '*.go',
-  callback = function()
-    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
-  end
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   pattern = '*.go',
+--   callback = function()
+--     vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+--   end
+-- })
 
 -- Setup neovim lua configuration
 require('neodev').setup()

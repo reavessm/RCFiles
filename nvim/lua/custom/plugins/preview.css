@@ -1,0 +1,10 @@
+@import ~/.local/share/nvim/lazy/markdown-preview.nvim/app/_static/markdown.css
+
+/* For some reason, removing this also removes page-ctn */
+body {
+  background-color: pink;
+}
+
+#page-ctn{
+  max-width: 75% !important;
+}

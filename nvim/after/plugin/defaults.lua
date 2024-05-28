@@ -95,7 +95,8 @@ vim.cmd [[set mouse=a]]
 vim.cmd [[set cmdheight=2]]
 
 -- Display line numbers to the left
-vim.cmd [[set number]]
+--vim.cmd [[set number]]
+vim.cmd [[set relativenumber]]
 
 -- Encoding
 vim.cmd [[set encoding=utf-8]]
@@ -125,7 +126,8 @@ vim.cmd [[ call matchadd('ColorColumn', '\%81v', 100) ]]
 
 -- Highlight unneeded spaces
 vim.api.nvim_command("set listchars=tab:>~,nbsp:_,trail:.,extends:>")
-vim.api.nvim_command("set list")
+--vim.api.nvim_command("set list")
+vim.api.nvim_command("set nolist")
 
 -- }}}
 
@@ -156,6 +158,8 @@ vim.api.nvim_command("autocmd FileType go set foldmethod=expr")
 vim.api.nvim_command("autocmd FileType go set foldexpr=nvim_treesitter#foldexpr()")
 vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
 vim.api.nvim_command("autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()")
+vim.api.nvim_command("autocmd FileType Telescope* set foldlevel=99")
+vim.api.nvim_command("autocmd FileType Telescope* set foldlevelstart=99")
 --vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
 --vim.api.nvim_command("autocmd FileType markdown set foldmethod=expr")
 --vim.api.nvim_command("autocmd FileType markdown set foldexpr=NestedMarkdownFolds()")

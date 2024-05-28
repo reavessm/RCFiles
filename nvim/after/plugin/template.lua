@@ -5,7 +5,7 @@ local function paste_file(fileName)
   local contents = file:read "*a"
   file:close()
 
-  local base = vim.fn.expand('%:t:r') or "__default_file"
+  local base = vim.fn.expand('%:t:r:r') or "__default_file"
   local headerName = base .. ".h"
 
   local title = base:gsub("([A-Z])", " %1")

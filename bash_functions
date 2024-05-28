@@ -262,9 +262,9 @@ function gitBranchLog() {
 function lsfuncs() {
 #{{{
   ### TODO: Find max size of each column using something like https://stackoverflow.com/questions/24653785/how-to-get-max-length-of-each-column-in-unix, then align based off that instead of 25 and 110
-  printf "$(tput bold)"'     %-25s %-110s %s\n\e[0m' 'Receiver' 'Method' 'Output'
+  printf "$(tput bold)"'     %-50s %-110s %s\n\e[0m' 'Receiver' 'Method' 'Output'
   sed -n 's/{//g; s/func \([^(]\)/func\;\;\1/; s/func (\([[:alpha:]] [^)]*\)) /func\;(\1)\;/; s/ (\([^)]*\)) $/\;(\1)/; s/ \([[:alpha:].\*]*[^)]\)$/\;\1/; /^func/p' $1 \
-    | awk -F ';' 'BEGIN {OFS="\t"}; {printf "%s %-25s %-110s %s\n", $1, $2, $3, $4}'
+    | awk -F ';' 'BEGIN {OFS="\t"}; {printf "%s %-50s %-110s %s\n", $1, $2, $3, $4}'
 #}}}
 }
 
@@ -339,6 +339,7 @@ function removeNewLine() {
 }
 
 function encryptFiles() {
+#{{{
   # @REF [Encrypt using GPG](https://www.howtogeek.com/427982/how-to-encrypt-and-decrypt-files-with-gpg-on-linux/)
   [[ $# != "2" ]] && echo "Usage: encryptFiles <filename> <recipient>" && return 1
 
@@ -347,10 +348,58 @@ function encryptFiles() {
   recipient_user=$(echo ${recipient} | sed 's/\(.*\)@.*/\1/')
 
   gpg --encrypt --sign --armor -r ${recipient} -o "${file}.${recipient_user}.asc" ${file}
+#}}}
 }
 
 function zipFix() {
+#{{{
   [[ $# != "1" ]] && echo "Usage: zipFix <filename>" && return 1
 
   zip -FFv $1 --out ${1%'.zip'}_fixed.zip
+#}}}
+}
+
+function emote() {
+#{{{
+  case $1 in 
+    "shrug")
+      echo "¯\_(ツ)_/¯";;
+    "pika")
+      echo "(o^-^o)";;
+    "lenny")
+      echo "( ͡° ͜ʖ ͡°)";;
+    "gude")
+      echo "(⊃◜⌓◝⊂)";;
+    "peep")
+      echo "┴┬┴┤( ͡° ͜ʖ├┬┴┬";;
+    "weedle")
+      echo "<(:o)OOOooo>";;
+    "flip")
+      echo "(╯°□°）╯︵ ┻━┻";;
+    "monocle")
+      echo "(╭ರᴥ•́)";;
+    *)
+      echo "Invalid emote" >&2
+      return 1
+  esac
+#}}}
+}
+
+function wait_health() {
+#{{{
+  [[ $# < 1 ]] && echo "Please provide a url" && return 1
+  until curl --output /dev/null --silent --head --fail -- $1; do
+      printf '.'
+      sleep 5
+  done
+  printf '\n'
+#}}}
+}
+
+function open_healthy() {
+#{{{
+  [[ $# < 1 ]] && echo "Please provide a url" && return 1
+  wait_health $1
+  xdg-open $1
+#}}}
 }
