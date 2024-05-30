@@ -125,4 +125,5 @@ alias golint='podman run --rm -v '"$(pwd)"':/app -w /app docker.io/golangci/gola
 alias open='xdg-open'
 alias decompile='_JAVA_AWT_WM_NONREPARENTING=1 ghidra'
 alias nn="nvim ${HOME}/Src/NeoNotes/index.md"
+alias full-web-rca="CMD_OPTS_SB='--enable-sentry false' CMD_OPTS_WRCA='--disable-github --disable-jira --disable-bugzilla --slack-conf-file /home/sreaves/Documents/Slack/slack.json' LT_SITE='web-rca-smr' ~/Src/status-board/scripts/full-web-rca ~/Src/status-board ~/Src/web-rca ~/Src/web-rca-ui"
 # }}}
