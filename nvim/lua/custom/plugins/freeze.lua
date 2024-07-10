@@ -3,7 +3,7 @@
 return {
   "isabelroses/charm-freeze.nvim",
   config = function()
-    require('charm-freeze').setup({
+    require('freeze').setup({
       command = "freeze",
       output = function()
         return "./" .. os.date("%Y-%m-%d") .. "-freeze.svg"
