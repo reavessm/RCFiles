@@ -1,0 +1,108 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  annotations:
+    createdBy: {{_author_}}
+    createdOn: {{_date_}}
+    description: Database for {{_base_name_}}
+  labels:
+    app: {{_base_name_}}
+    app.kubernetes.io/component: {{_base_name_}}
+    app.kubernetes.io/instance: {{_base_name_}}
+    app.kubernetes.io/name: {{_base_name_}}
+    app.kubernetes.io/part-of: {{_base_name_}}
+  name: {{_base_name_}}-db
+  namespace: <++>
+spec:
+  description: "Database cluster for {{_base_name_}}"
+  # imageName: ghcr.io/cloudnative-pg/postgresql:17.4
+  # imagePullSecret is only required if the images are located in a private registry
+  # imagePullSecrets:
+  #   - name: private_registry_access
+  instances: 2
+  # startDelay: 300
+  # stopDelay: 300
+  primaryUpdateStrategy: unsupervised
+
+  postgresql:
+    parameters:
+      shared_buffers: 512MB
+  #     pg_stat_statements.max: '10000'
+  #     pg_stat_statements.track: all
+  #     auto_explain.log_min_duration: '10s'
+  #   pg_hba:
+  #     - host all all 10.244.0.0/16 md5
+
+  bootstrap:
+    initdb:
+      database: {{_base_name_}}
+      owner: {{_base_name_}}
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cluster-example-superuser
+
+  storage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: <++>Gi
+      volumeMode: Filesystem
+      storageClassName: nfs-client-db
+  # walStorage:
+  #   pvcTemplate:
+  #     accessModes:
+  #       - ReadWriteOnce
+  #     resources:
+  #       requests:
+  #         storage: 10Gi
+  #     volumeMode: Filesystem
+  #     storageClassName: nfs-client-db
+
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "1"
+    limits:
+      memory: "4Gi"
+      cpu: "2"
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  annotations:
+    createdBy: {{_author_}}
+    createdOn: {{_date_}}
+    description: Database for {{_base_name_}}
+  labels:
+    app: {{_base_name_}}
+    app.kubernetes.io/component: {{_base_name_}}
+    app.kubernetes.io/instance: {{_base_name_}}
+    app.kubernetes.io/name: {{_base_name_}}
+    app.kubernetes.io/part-of: {{_base_name_}}
+  name: {{_base_name_}}-pooler
+  namespace: <++>
+spec:
+  cluster:
+    name: cluster-example-full
+  instances: 2
+  type: rw
+  serviceTemplate:
+    metadata:
+      labels:
+        app: pooler
+      spec:
+        type: LoadBalancer
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"
